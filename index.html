@@ -4,30 +4,89 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>oroboros</title>
-    <link
-      rel="stylesheet"
-      href="node_modules/bootstrap/dist/css/bootstrap.css"
-    />
+
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <link rel="apple-touch-icon" sizes="120x120" href="img/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="img/favicon/site.webmanifest" />
+    <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+
     <style>
-      [class*="col"] {
-        padding: 1rem;
+      body {
+        background-color: #ffffff;
+      }
+      /* [class*="col"] {
         background-color: blue;
         border: 2px solid #fff;
         color: #fff;
+      } */
+      .nav1 {
+        padding: 1rem;
       }
+      .nav-icons {
+        text-align: end;
+        color:black;
+        letter-spacing: 2px
+      }
+      #banner {
+        height: 12rem;
+      }
+      #banner-cont {
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+
+      }
+}
+
     </style>
+
   </head>
   <body>
-    <div class="container border" id="nav">
+
+    <!-- cabeçalho -->
+    <div class="container-fluid" >
       <div class="row">
-        <div class="col-12">col 1</div>
+        <div class="col-6 nav1">
+          <img src="img/logo/logo-escuro.png" height="30" alt="" />
+        </div>
+        <div class="col-6 nav1">
+          <div class="container text-left">
+            <div class="row justify-content-end">
+              <div class="col nav-icons">
+                <i class="bi bi-cart"></i>
+                <i class="bi bi-heart"></i> 
+                <i class="bi bi-person"></i> 
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
       </div>
     </div>
-    <div class="container border" id="banner">
-      <div class="row">
-        <div class="col-12">col 1</div>
+
+    <!-- banner -->
+    <div class="container-fluid text-center" id="banner-cont">
+      <div class="row align-items-center">
+        <div class="col-12" id="banner">
+          <img src="img/banners/banner1.png" alt="oroboros" width="100%" >
+        </div>
       </div>
     </div>
+
+
+
+
+
+
+
+
+
     <div class="container border" id="landing">
       <div class="row">
         <div class="col-12">col 1</div>
