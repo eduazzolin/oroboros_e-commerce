@@ -4,7 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>oroboros</title>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="node_modules/bootstrap/dist/css/bootstrap.css"
@@ -43,6 +48,7 @@
     <style>
       body {
         background-color: #ffffff;
+        font-family: "Poppins", sans-serif;
       }
       .nav1 {
         padding: 1rem;
@@ -65,13 +71,6 @@
       .corpo-row {
         border: 1px solid black;
       }
-      .produto-col-container {
-        border: 1px solid black;
-        padding: 1.5rem;
-      }
-      .produto-content {
-        background-color: aquamarine;
-      }
       .filtro-div {
         border: 1px solid black;
         padding: 1rem;
@@ -80,6 +79,35 @@
       .filtro-content {
         background-color: rgb(229, 255, 127);
         height: 100%;
+      }
+      .produto-col-container {
+        border: 1px solid black;
+        padding: 1.5rem;
+      }
+      .produto-content {
+        background-color: aquamarine;
+      }
+      .produto-desc > p{
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+      }
+      .prod-autor {
+        font-size: 10pt;
+        color: #272624;
+      }
+      .prod-nome {
+        font-size: 12pt;
+        font-weight: 600;
+        line-height: 1;
+      }
+      .prod-preco {
+        align-items: end;
+        min-height: 40px;
+        font-size: 16pt;
+        font-weight: 700;
       }
     </style>
   </head>
@@ -118,7 +146,6 @@
 
     <!-- corpo -->
     <div class="container mt-4" id="landing">
-
       <!-- categorias -->
       <div class="row corpo-row">
         <div class="col-lg-3 corpo-row">
@@ -141,47 +168,189 @@
               <div class="col-12 filtro-div">
                 <div class="filtro-content">filtros</div>
               </div>
+
               <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
                 <img
-                  class="produto-content produto-img"
+                  class="produto-img"
                   src="img/prod/pint-1.jpg"
                   width="100%"
                 />
-                <div class="produto-content">esse é o container para os três divs textuais</div>
+                <div class="produto-desc">
+                  <p class="prod-autor"> Fulano Ciclano de tal </p>
+                  <p class="prod-nome"> O gato não sei o que não sei o que lá com as patas na tela </p>
+                  <p class="prod-preco"> R$ 120,00 </p>
+                </div>
               </div>
+
               <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
-                <div class="produto-content">produto</div>
+                <img
+                  class="produto-img"
+                  src="img/prod/pint-2.jpg"
+                  width="100%"
+                />
+                <div class="produto-desc">
+                  <p class="prod-autor"> Fulano Ciclano de tal </p>
+                  <p class="prod-nome"> O gato não sei o que não sei o que lá com as patas na tela </p>
+                  <p class="prod-preco"> R$ 120,00 </p>
+                </div>
               </div>
+
               <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
-                <div class="produto-content">produto</div>
+                <img
+                  class="produto-img"
+                  src="img/prod/pint-3.jpg"
+                  width="100%"
+                />
+                <div class="produto-desc">
+                  <p class="prod-autor"> Fulano Ciclano de tal </p>
+                  <p class="prod-nome"> O gato não sei o que não sei o que lá com as patas na tela </p>
+                  <p class="prod-preco"> R$ 120,00 </p>
+                </div>
               </div>
+              
               <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
-                <div class="produto-content">produto</div>
+                <img
+                  class="produto-img"
+                  src="img/prod/pint-4.jpg"
+                  width="100%"
+                />
+                <div class="produto-desc">
+                  <p class="prod-autor"> Fulano Ciclano de tal </p>
+                  <p class="prod-nome"> O gato não sei o que não sei o que lá com as patas na tela </p>
+                  <p class="prod-preco"> R$ 120,00 </p>
+                </div>
               </div>
+              
               <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
-                <div class="produto-content">produto</div>
+                <img
+                  class="produto-img"
+                  src="img/prod/pint-5.jpg"
+                  width="100%"
+                />
+                <div class="produto-desc">
+                  <p class="prod-autor"> Fulano Ciclano de tal </p>
+                  <p class="prod-nome"> O gato não sei o que não sei o que lá com as patas na tela </p>
+                  <p class="prod-preco"> R$ 120,00 </p>
+                </div>
               </div>
+              
               <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
-                <div class="produto-content">produto</div>
+                <img
+                  class="produto-img"
+                  src="img/prod/pint-6.jpg"
+                  width="100%"
+                />
+                <div class="produto-desc">
+                  <p class="prod-autor"> Fulano Ciclano de tal </p>
+                  <p class="prod-nome"> O gato não sei o que não sei o que lá com as patas na tela </p>
+                  <p class="prod-preco"> R$ 120,00 </p>
+                </div>
               </div>
+              
               <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
-                <div class="produto-content">produto</div>
+                <img
+                  class="produto-img"
+                  src="img/prod/pint-7.jpg"
+                  width="100%"
+                />
+                <div class="produto-desc">
+                  <p class="prod-autor"> Fulano Ciclano de tal </p>
+                  <p class="prod-nome"> O gato não sei o que não sei o que lá com as patas na tela </p>
+                  <p class="prod-preco"> R$ 120,00 </p>
+                </div>
               </div>
+              
               <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
-                <div class="produto-content">produto</div>
+                <img
+                  class="produto-img"
+                  src="img/prod/esc-1.jpg"
+                  width="100%"
+                />
+                <div class="produto-desc">
+                  <p class="prod-autor"> Fulano Ciclano de tal </p>
+                  <p class="prod-nome"> O gato não sei o que não sei o que lá com as patas na tela </p>
+                  <p class="prod-preco"> R$ 120,00 </p>
+                </div>
               </div>
+              
               <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
-                <div class="produto-content">produto</div>
+                <img
+                  class="produto-img"
+                  src="img/prod/esc-2.jpg"
+                  width="100%"
+                />
+                <div class="produto-desc">
+                  <p class="prod-autor"> Fulano Ciclano de tal </p>
+                  <p class="prod-nome"> O gato não sei o que não sei o que lá com as patas na tela </p>
+                  <p class="prod-preco"> R$ 120,00 </p>
+                </div>
               </div>
+              
               <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
-                <div class="produto-content">produto</div>
+                <img
+                  class="produto-img"
+                  src="img/prod/esc-3.jpg"
+                  width="100%"
+                />
+                <div class="produto-desc">
+                  <p class="prod-autor"> Fulano Ciclano de tal </p>
+                  <p class="prod-nome"> O gato não sei o que não sei o que lá com as patas na tela </p>
+                  <p class="prod-preco"> R$ 120,00 </p>
+                </div>
               </div>
+              
               <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
-                <div class="produto-content">produto</div>
+                <img
+                  class="produto-img"
+                  src="img/prod/esc-4.jpg"
+                  width="100%"
+                />
+                <div class="produto-desc">
+                  <p class="prod-autor"> Fulano Ciclano de tal </p>
+                  <p class="prod-nome"> O gato não sei o que não sei o que lá com as patas na tela </p>
+                  <p class="prod-preco"> R$ 120,00 </p>
+                </div>
               </div>
+              
               <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
-                <div class="produto-content">produto</div>
+                <img
+                  class="produto-img"
+                  src="img/prod/phot-1.jpg"
+                  width="100%"
+                />
+                <div class="produto-desc">
+                  <p class="prod-autor"> Fulano Ciclano de tal </p>
+                  <p class="prod-nome"> O gato não sei o que não sei o que lá com as patas na tela </p>
+                  <p class="prod-preco"> R$ 120,00 </p>
+                </div>
               </div>
+              
+              <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
+                <img
+                  class="produto-img"
+                  src="img/prod/phot-2.jpg"
+                  width="100%"
+                />
+                <div class="produto-desc">
+                  <p class="prod-autor"> Fulano Ciclano de tal </p>
+                  <p class="prod-nome"> O gato não sei o que não sei o que lá com as patas na tela </p>
+                  <p class="prod-preco"> R$ 120,00 </p>
+                </div>
+              </div>
+              
+              <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
+                <img
+                  class="produto-img"
+                  src="img/prod/phot-3.jpg"
+                  width="100%"
+                />
+                <div class="produto-desc">
+                  <p class="prod-autor"> Fulano Ciclano de tal </p>
+                  <p class="prod-nome"> O gato não sei o que não sei o que lá com as patas na tela </p>
+                  <p class="prod-preco"> R$ 120,00 </p>
+                </div>
+              </div>
+              
             </div>
           </div>
         </div>
