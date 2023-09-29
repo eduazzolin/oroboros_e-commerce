@@ -46,6 +46,7 @@
       }
       .nav1 {
         padding: 1rem;
+        padding-left: 2rem;
       }
       .nav-icons {
         font-size: 1.5rem;
@@ -64,14 +65,12 @@
       .corpo-row {
         border: 1px solid black;
       }
-      .produto-div {
+      .produto-col-container {
         border: 1px solid black;
-        padding: 1rem;
-        height: 300px;
+        padding: 1.5rem;
       }
       .produto-content {
         background-color: aquamarine;
-        height: 100%;
       }
       .filtro-div {
         border: 1px solid black;
@@ -87,9 +86,9 @@
   <body>
     <!-- cabeçalho -->
     <div class="container-fluid">
-      <div class="row">
+      <div class="row nav-row">
         <div class="col-6 nav1">
-          <img src="img/logo/logo-escuro.png" height="40" alt="" />
+          <img src="img/logo/logo-escuro.png" height="30" alt="" />
         </div>
         <div class="col-6 nav1">
           <div class="container text-left">
@@ -118,7 +117,9 @@
     </div>
 
     <!-- corpo -->
-    <div class="container" id="landing">
+    <div class="container mt-4" id="landing">
+
+      <!-- categorias -->
       <div class="row corpo-row">
         <div class="col-lg-3 corpo-row">
           <div>
@@ -133,46 +134,52 @@
           </div>
         </div>
 
+        <!-- produtos -->
         <div class="col-lg-9 corpo-row">
           <div class="container border">
             <div class="row">
               <div class="col-12 filtro-div">
                 <div class="filtro-content">filtros</div>
               </div>
-              <div class="col-lg-4 col-md-6 col-sm-12 produto-div">
+              <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
+                <img
+                  class="produto-content produto-img"
+                  src="img/prod/pint-1.jpg"
+                  width="100%"
+                />
+                <div class="produto-content">esse é o container para os três divs textuais</div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
                 <div class="produto-content">produto</div>
               </div>
-              <div class="col-lg-4 col-md-6 col-sm-12 produto-div">
+              <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
                 <div class="produto-content">produto</div>
               </div>
-              <div class="col-lg-4 col-md-6 col-sm-12 produto-div">
+              <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
                 <div class="produto-content">produto</div>
               </div>
-              <div class="col-lg-4 col-md-6 col-sm-12 produto-div">
+              <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
                 <div class="produto-content">produto</div>
               </div>
-              <div class="col-lg-4 col-md-6 col-sm-12 produto-div">
+              <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
                 <div class="produto-content">produto</div>
               </div>
-              <div class="col-lg-4 col-md-6 col-sm-12 produto-div">
+              <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
                 <div class="produto-content">produto</div>
               </div>
-              <div class="col-lg-4 col-md-6 col-sm-12 produto-div">
+              <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
                 <div class="produto-content">produto</div>
               </div>
-              <div class="col-lg-4 col-md-6 col-sm-12 produto-div">
+              <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
                 <div class="produto-content">produto</div>
               </div>
-              <div class="col-lg-4 col-md-6 col-sm-12 produto-div">
+              <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
                 <div class="produto-content">produto</div>
               </div>
-              <div class="col-lg-4 col-md-6 col-sm-12 produto-div">
+              <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
                 <div class="produto-content">produto</div>
               </div>
-              <div class="col-lg-4 col-md-6 col-sm-12 produto-div">
-                <div class="produto-content">produto</div>
-              </div>
-              <div class="col-lg-4 col-md-6 col-sm-12 produto-div">
+              <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
                 <div class="produto-content">produto</div>
               </div>
             </div>
