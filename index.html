@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>oroboros</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-      rel="stylesheet"
-    />
+
+    <!-- fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
     <link
       rel="stylesheet"
       href="node_modules/bootstrap/dist/css/bootstrap.css"
@@ -44,72 +44,8 @@
     />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
-
-    <style>
-      body {
-        background-color: #ffffff;
-        font-family: "Poppins", sans-serif;
-      }
-      .nav1 {
-        padding: 1rem;
-        padding-left: 2rem;
-      }
-      .nav-icons {
-        font-size: 1.5rem;
-        text-align: end;
-        color: black;
-        letter-spacing: 5px;
-      }
-      #banner {
-        max-height: 200px;
-      }
-      #banner-cont {
-        padding: 0;
-        margin: 0;
-        overflow: hidden;
-      }
-      .corpo-row {
-        border: 1px solid black;
-      }
-      .filtro-div {
-        border: 1px solid black;
-        padding: 1rem;
-        height: 50px;
-      }
-      .filtro-content {
-        background-color: rgb(229, 255, 127);
-        height: 100%;
-      }
-      .produto-col-container {
-        border: 1px solid black;
-        padding: 1.5rem;
-      }
-      .produto-content {
-        background-color: aquamarine;
-      }
-      .produto-desc > p{
-        display: flex;
-        text-align: center;
-        justify-content: center;
-        padding: 0;
-        margin: 0;
-      }
-      .prod-autor {
-        font-size: 10pt;
-        color: #272624;
-      }
-      .prod-nome {
-        font-size: 12pt;
-        font-weight: 600;
-        line-height: 1;
-      }
-      .prod-preco {
-        align-items: end;
-        min-height: 40px;
-        font-size: 16pt;
-        font-weight: 700;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css">
+  
   </head>
   <body>
     <!-- cabeçalho -->
@@ -136,7 +72,8 @@
     <div class="container-fluid text-center" id="banner-cont">
       <div class="row">
         <div class="col-12 position-relative" id="banner">
-          <img class="img-fluid" src="img/banners/banner1.png" alt="oroboros" />
+          <!-- <img class="img-fluid" src="img/banners/banner1.png" alt="oroboros" /> -->
+          <img class="img-fluid" src="img/banners/banner2.png" alt="oroboros" />
           <div class="position-absolute top-0">
             <p></p>
           </div>
@@ -146,29 +83,33 @@
 
     <!-- corpo -->
     <div class="container mt-4" id="landing">
-      <!-- categorias -->
       <div class="row corpo-row">
-        <div class="col-lg-3 corpo-row">
-          <div>
-            <h3>Categorias</h3>
-            <ul>
-              <li>Categoria 1</li>
-              <li>Categoria 2</li>
-              <li>Categoria 3</li>
-              <li>Categoria 4</li>
-              <li>Categoria 5</li>
-            </ul>
-          </div>
+
+        <!-- categorias -->
+        <div class="col-lg-2 d-none d-lg-block corpo-row categoria-col-container">
+            <button type="button" class="btn btn-outline-danger my-1" data-bs-toggle="button">#pintura</button>
+            <button type="button" class="btn btn-outline-danger my-1" data-bs-toggle="button">#arte-digital</button>
+            <button type="button" class="btn btn-outline-danger my-1" data-bs-toggle="button">#escultura</button>
+            <button type="button" class="btn btn-outline-danger my-1" data-bs-toggle="button">#fotografia</button>
+        </div>
+        <div class="col-12 corpo-row text-center d-lg-none categoria-col-container">
+          <button type="button" class="btn btn-outline-danger mx-1" data-bs-toggle="button" >#pintura</button>
+          <button type="button" class="btn btn-outline-danger mx-1" data-bs-toggle="button" >#arte-digital</button>
+          <button type="button" class="btn btn-outline-danger mx-1" data-bs-toggle="button" >#escultura</button>
+          <button type="button" class="btn btn-outline-danger mx-1" data-bs-toggle="button" >#fotografia</button>
         </div>
 
         <!-- produtos -->
-        <div class="col-lg-9 corpo-row">
-          <div class="container border">
+        <div class="col-lg-10 corpo-row">
+          <div class="container">
             <div class="row">
+
+              <!-- filtros -->
               <div class="col-12 filtro-div">
                 <div class="filtro-content">filtros</div>
               </div>
 
+              <!-- lista de produtos -->
               <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
                 <img
                   class="produto-img"
@@ -203,8 +144,8 @@
                 />
                 <div class="produto-desc">
                   <p class="prod-autor"> Fulano Ciclano de tal </p>
-                  <p class="prod-nome"> O gato não sei o que não sei o que lá com as patas na tela </p>
-                  <p class="prod-preco"> R$ 120,00 </p>
+                  <p class="prod-nome"> O gato não sei o que  </p>
+                  <p class="prod-preco"> R$ 50,00 </p>
                 </div>
               </div>
               
@@ -238,19 +179,6 @@
                 <img
                   class="produto-img"
                   src="img/prod/pint-6.jpg"
-                  width="100%"
-                />
-                <div class="produto-desc">
-                  <p class="prod-autor"> Fulano Ciclano de tal </p>
-                  <p class="prod-nome"> O gato não sei o que não sei o que lá com as patas na tela </p>
-                  <p class="prod-preco"> R$ 120,00 </p>
-                </div>
-              </div>
-              
-              <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
-                <img
-                  class="produto-img"
-                  src="img/prod/pint-7.jpg"
                   width="100%"
                 />
                 <div class="produto-desc">
@@ -351,6 +279,21 @@
                 </div>
               </div>
               
+              <!-- paginação -->
+              <div class="col-12 pages-div">
+                <div class="pages-content">
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center ">
+                      <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                      <li class="page-item"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
