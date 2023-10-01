@@ -23,12 +23,12 @@ body {
 .corpo-row {
   /* border: 1px solid black; */
 }
-.filtro-div {
+.filtro-col-container {
   /* border: 1px solid black; */
-  padding: 1rem;
-  height: 50px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
-.filtro-content {
+.row-filtro {
   /* background-color: rgb(229, 255, 127); */
   height: 100%;
 }
@@ -67,4 +67,58 @@ body {
   /* border: 1px solid black; */
   padding: 1rem;
 }
-
+#pesquisa-produtos::placeholder{
+  color: #212529;
+  opacity: 1;
+}
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(246, 75, 32, 0.25);
+}
+.form-form-select:focus {
+  box-shadow: 0 0 0 0.2rem rgba(246, 75, 32, 0.25);
+}
+.sobre-paragrafo{
+  text-align: justify;
+  line-height: 1.2;
+  font-weight: 300;
+}
+.sobre-frase{
+  text-align: right;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.sobre-pics-container{
+  margin-top: 30px;
+}
+.copyright{
+  font-size: 8pt;
+  color: rgb(82, 82, 82) 
+}
+.container-rodape{
+  margin-top: 50px;
+  background-color: #f2f2f2;
+  background-image: url('img/rodape/marca-dagua.png'); 
+  background-size: cover;
+  background-position: center;
+}
+.rodape-esquerda{
+  padding-left: 2rem;
+  align-items: center;
+}
+.rodape-direita{
+  padding-right: 2rem;
+  font-size: 10pt;
+  color: #272624;
+  align-items: center;
+  justify-content: end;
+}
+.rodape-direita a{
+  margin-left: 15px;
+}
+.rodape-direita a:hover{
+  color: #f64b20;
+}
+.rodape-direita a{
+  color: #272624;
+  text-decoration: none;
+}
