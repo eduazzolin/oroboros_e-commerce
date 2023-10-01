@@ -79,13 +79,13 @@ body {
 }
 .sobre-paragrafo{
   text-align: justify;
-  line-height: 1.2;
+  /* line-height: 1.2; */
   font-weight: 300;
 }
 .sobre-frase{
   text-align: right;
   font-weight: 600;
-  line-height: 1.2;
+  /* line-height: 1.2; */
 }
 .sobre-pics-container{
   margin-top: 30px;
@@ -121,4 +121,13 @@ body {
 .rodape-direita a{
   color: #272624;
   text-decoration: none;
+}
+.row-rodape{
+  margin-right: 0;
+}
+
+.page-link:focus {
+  box-shadow: 0 0 0 0.2rem rgba(246, 75, 32, 0.25);
+  color: #f64b20;
+  background-color: #ffffff;
 }

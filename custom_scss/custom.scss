@@ -1,8 +1,9 @@
 $red: #d51c1c;
-$pagination-border-color:           $red;
-$pagination-hover-border-color:    $red;
-$pagination-color:                 $red;
-$pagination-hover-color:          $red;
+$dark: #212529;
+$pagination-border-color:           $dark;
+$pagination-hover-border-color:    $dark;
+$pagination-color:                 $dark;
+$pagination-hover-color:          $dark;
 
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
