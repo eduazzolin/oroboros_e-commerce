@@ -36,6 +36,10 @@ body {
   /* border: 1px solid black; */
   padding: 1.5rem;
 }
+.produto-col-container a {
+  text-decoration: none;
+  color: #272624;
+}
 .produto-content {
   background-color: aquamarine;
 }
@@ -100,6 +104,7 @@ body {
   background-image: url('img/rodape/marca-dagua.png'); 
   background-size: cover;
   background-position: center;
+  bottom: 0;
 }
 .rodape-esquerda{
   padding-left: 2rem;
@@ -116,7 +121,7 @@ body {
   margin-left: 15px;
 }
 .rodape-direita a:hover{
-  color: #f64b20;
+  color: #d51c1c;
 }
 .rodape-direita a{
   color: #272624;
@@ -128,6 +133,54 @@ body {
 
 .page-link:focus {
   box-shadow: 0 0 0 0.2rem rgba(246, 75, 32, 0.25);
-  color: #f64b20;
+  color:#d51c1c;
   background-color: #ffffff;
+}
+
+.col-produto-imagem{
+  text-align: right;
+  max-width: 500px;
+}
+.col-produto-desc {
+  text-align: left;
+  max-width: 500px;
+}
+.produto-desc-desc{
+  color: rgb(86, 86, 86);
+  text-align: justify;
+}
+.produto-desc-titulo{
+}
+.produto-desc-preco{
+
+  margin-top: 20px;
+}
+.produto-desc-botoes{
+  margin-top: 20px;
+  display: flex;
+}
+.produto-desc-comprar{
+}
+.produto-desc-favoritar{
+  font-size: 1.5rem;
+  margin-left: 1rem;
+  color: #d51c1c;
+}
+h1{
+  font-weight: 800;
+  font-size: 1.8rem;
+}
+h2{
+  font-weight: 700;
+  font-size: 1.6rem;
+}
+.col-sobre-artista{
+  text-align: center;
+}
+.col-sobre-artista-desc{
+  text-align: justify;
+  max-width: 500px;
+}
+.col-sobre-artista-foto{
+  max-width: 180px;
 }
