@@ -19,7 +19,7 @@ public class ProdutoImagem {
     private Long id_produto;
 
     @Column(nullable = false, length = 500)
-    private String foto;
+    private String imagem;
 
     //getters e setters
     public Long getId() {
@@ -39,11 +39,11 @@ public class ProdutoImagem {
     }
 
     public String getFoto() {
-        return foto;
+        return imagem;
     }
 
-    public void setFoto(String foto) {
-        this.foto = foto;
+    public void setFoto(String imagem) {
+        this.imagem = imagem;
     }
 
     

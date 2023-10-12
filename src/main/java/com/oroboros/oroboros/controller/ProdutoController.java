@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oroboros.oroboros.model.Produto;
@@ -21,19 +22,15 @@ public class ProdutoController {
     @Autowired
     private ProdutoRepository pr;
 
-    @RequestMapping("/listar")
-    public List<Produto> listarTodos() {
+    @GetMapping
+    public List<Produto> get(
+        @RequestParam(name = "id", required = false) Long id,
+            @RequestParam(name = "categoria", required = false) String categoria,
+            @RequestParam(name = "pagina", required = false) Integer pagina,
+            @RequestParam(name = "ordem", required = false) String ordem,
+            @RequestParam(name = "texto", required = false) String texto) {
+        
         return pr.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public Produto get(@PathVariable Long id) {
-        Produto p = null;
-        Optional<Produto> produtoOptional = pr.findById(id);
-        if (produtoOptional.isPresent()) {
-            p = produtoOptional.get();
-        } 
-        return p;
     }
 
     @PostMapping
@@ -41,9 +38,9 @@ public class ProdutoController {
         return pr.save(p);
     }
 
-    @DeleteMapping("/{id}")  // assim fica produto/6 por exemplo
+    @DeleteMapping("/{id}") // assim fica produto/6 por exemplo
     public Produto excluir(@PathVariable Long id) {
-        Produto p = this.get(id);
+        Produto p = this.get(id, null, null, null, null).get(0);
         pr.deleteById(id);
         return p;
     }

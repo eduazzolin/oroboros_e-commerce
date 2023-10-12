@@ -19,7 +19,7 @@ public class Produto {
     private Long id;
 
     @Column
-    private Long categoria_id;
+    private String categoria_id;
 
     @Column
     private Long artista_id;
@@ -39,7 +39,9 @@ public class Produto {
     @Column
     private LocalDateTime data_cadastro;
 
-
+    @Column
+    private String imagem;
+    
     // Getters e Setters:
     public Long getId() {
         return id;
@@ -53,10 +55,10 @@ public class Produto {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    public Long getCategoria_id() {
+    public String getCategoria_id() {
         return categoria_id;
     }
-    public void setCategoria_id(Long categoria_id) {
+    public void setCategoria_id(String categoria_id) {
         this.categoria_id = categoria_id;
     }
     public Long getArtista_id() {
@@ -88,5 +90,11 @@ public class Produto {
     }
     public void setData_cadastro(LocalDateTime data_cadastro) {
         this.data_cadastro = data_cadastro;
+    }
+    public String getImagem() {
+        return imagem;
+    }
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
 }

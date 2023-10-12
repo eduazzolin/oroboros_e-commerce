@@ -26,6 +26,8 @@
 
   </head>
   <body>
+    <script src="js/produto.js"></script>
+
     <!-- cabeçalho -->
     <div class="container-fluid">
       <div class="row nav-row">
@@ -65,17 +67,11 @@
       <div class="row corpo-row">
 
         <!-- categorias -->
-        <div class="col-lg-2 d-none d-lg-block corpo-row categoria-col-container text-end">
-            <button type="button" class="btn btn-outline-danger my-1" data-bs-toggle="button">#pintura</button>
-            <button type="button" class="btn btn-outline-danger my-1" data-bs-toggle="button">#arte-digital</button>
-            <button type="button" class="btn btn-outline-danger my-1" data-bs-toggle="button">#escultura</button>
-            <button type="button" class="btn btn-outline-danger my-1" data-bs-toggle="button">#fotografia</button>
-        </div>
-        <div class="col-12 corpo-row text-center d-lg-none categoria-col-container mb-3 categoria-col-container-sm">
-          <button type="button" class="btn btn-outline-danger mx-1" data-bs-toggle="button" >#pintura</button>
-          <button type="button" class="btn btn-outline-danger mx-1" data-bs-toggle="button" >#arte-digital</button>
-          <button type="button" class="btn btn-outline-danger mx-1" data-bs-toggle="button" >#escultura</button>
-          <button type="button" class="btn btn-outline-danger mx-1" data-bs-toggle="button" >#fotografia</button>
+        <div class="col-lg-2  mb-3 d-block corpo-row categoria-col-container text-center text-lg-end">
+            <button type="button" class="btn btn-outline-danger my-1 categoria" id="pintura" data-bs-toggle="button" aria-pressed="false" onclick="popularTelaInicialComProdutos()">#pintura</button>
+            <button type="button" class="btn btn-outline-danger my-1 categoria" id="arte_digital" data-bs-toggle="button" aria-pressed="false" onclick="popularTelaInicialComProdutos()">#arte-digital</button>
+            <button type="button" class="btn btn-outline-danger my-1 categoria" id="escultura" data-bs-toggle="button" aria-pressed="false" onclick="popularTelaInicialComProdutos()">#escultura</button>
+            <button type="button" class="btn btn-outline-danger my-1 categoria" id="fotografia" data-bs-toggle="button" aria-pressed="false" onclick="popularTelaInicialComProdutos()">#fotografia</button>
         </div>
 
         <!-- produtos -->
@@ -108,25 +104,27 @@
 
             </div>
 
-            <div class="row row-lista-produtos">
-              <!-- lista de produtos -->
+            <!-- lista de produtos -->
+            <div class="row" id="row-lista-produtos">
               <div class="col-lg-4 col-md-6 col-sm-12 produto-col-container">
                 <a href="produto.html">
-                <img
-                  class="produto-img"
-                  src="img/prod/pint-1.jpg"
-                  width="100%"
-                />
-                <div class="produto-desc">
-                  <p class="prod-autor"> Maria da Silva Machado </p>
-                  <p class="prod-nome"> Gato com as patas na tela </p>
-                  <p class="prod-preco"> R$ 120,00 </p>
-                </div></a>
+                  <img
+                    class="produto-img"
+                    src="img/prod/pint-1.jpg"
+                    width="100%"
+                  />
+                  <div class="produto-desc">
+                    <p class="prod-autor"> Maria da Silva Machado </p>
+                    <p class="prod-nome"> Gato com as patas na tela </p>
+                    <p class="prod-preco"> R$ 120,00 </p>
+                  </div>
+                </a>
               </div>
-
+            </div>
               
               
               <!-- paginação -->
+              <div class="row" id="row-paginacao"></div>
               <div class="col-12 pages-div">
                 <div class="pages-content">
                   <nav aria-label="Page navigation example">
@@ -167,6 +165,6 @@
 
       </div>
     </div>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   </body>
 </html>
