@@ -20,20 +20,11 @@ body {
   margin: 0;
   overflow: hidden;
 }
-.corpo-row {
-  /* border: 1px solid black; */
-}
-.filtro-col-container {
-  /* border: 1px solid black; */
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-.row-filtro {
-  /* background-color: rgb(229, 255, 127); */
-  height: 100%;
+.row-filtros-pesquisa {
+  padding-left: .9rem;
+  padding-right: .9rem;
 }
 .produto-col-container {
-  /* border: 1px solid black; */
   padding: 1.5rem;
 }
 .produto-col-container a {
