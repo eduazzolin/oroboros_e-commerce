@@ -46,53 +46,54 @@
       </div>
     </div>
 
-    <div class="container-login">
-      <div class="row justify-content-center">
-        <div class="col-sm-6 col-lg-4 col-10 border col-login-container">
-          <form class="form-signin">
-            <div class="login-centralizado">
-              <img class="mb-4 " src="img/logo/logo-resumido.png" alt="" width="72" height="72">
+    
+    <div class="container container-dados-pessoais my-5">
+        <div class="row">
+            <div class="col-12">
+                 <h1>Dados pessoais</h1>
             </div>
-            <h1 class="h3 mb-3 font-weight-normal text-center">Cadastro</h1>
-            <label for="inputNome" class="sr-only">Nome</label>
-            <input type="text" id="inputNomeCadastrar" class="form-control  input-login" placeholder="Nome" required="true" autofocus="">
-            <label for="inputCPFCNPJ" class="sr-only">CPF ou CNPJ</label>
-            <input type="text" id="inputCPFCNPJCadastrar" class="form-control  input-login" placeholder="CPF ou CPNJ" required="true" autofocus="">
-            <label for="inputEmail" class="sr-only">Email</label>
-            <input type="email" id="inputEmailCadastrar" class="form-control  input-login" placeholder="Email" required="" autofocus="">
-            <label for="inputPassword" class="sr-only">Senha</label>
-            <input type="password" id="inputPasswordCadastrar" class="form-control  input-login" placeholder="Senha" required="">
-            <div class="login-centralizado mt-5">
-              <button class="btn btn-lg btn-danger btn-block login-centralizado " type="submit">Cadastrar</button>
-            </div>
-          </form>
         </div>
-      </div>
+        <div class="row row-dados-pessoais ms-2">
+            <div class="col-sm-6 col-12">
+                <input type="text" id="inputNomeEditar" class="form-control form-editar-perfil" placeholder="Nome" required="true" autofocus="">
+                <input type="text" id="inputCPFCNPJEditar" class="form-control form-editar-perfil" placeholder="CPF ou CPNJ" required="true" autofocus="">
+            </div>
+            <div class="col-sm-6 col-12">
+                <input type="email" id="inputEmailEditar" class="form-control form-editar-perfil" placeholder="Email" required="" autofocus="">
+                <input type="password" id="inputPasswordEditar" class="form-control form-editar-perfil" placeholder="Senha" required="">
+            </div>
+            <div class="col-12 text-end">
+                <button class="btn btn-lg btn-danger btn-block login-centralizado disabled botao-salvar-alteracoes" type="submit">Salvar alterações</button>
+            </div>
+        </div>
     </div>
 
-    <div class="container-login">
-      <div class="row justify-content-center">
-        <div class="col-sm-6 col-lg-4 col-10 border col-login-container">
-          <form class="form-signin">
-            <div class="login-centralizado">
-              <img class="mb-4 " src="img/logo/logo-resumido.png" alt="" width="72" height="72">
+    <div class="container container-ultimas-compras mb-5">
+        <div class="row">
+            <div class="col-12">
+                 <h1>Últimas compras</h1>
             </div>
-            <h1 class="h3 mb-3 font-weight-normal text-center">Login</h1>
-            <label for="inputEmail" class="sr-only">Email</label>
-            <input type="email" id="inputEmailLogar" class="form-control input-login" placeholder="Email" required="" autofocus="">
-            <label for="inputPassword" class="sr-only">Senha</label>
-            <input type="password" id="inputPasswordLogar" class="form-control input-login" placeholder="Senha" required="">
-            <div class="login-centralizado mt-5">
-              <button class="btn btn-lg btn-danger btn-block login-centralizado" type="submit">Login</button>
-            </div>
-            <div class="login-centralizado mt-3">
-              <a>Cadastre-se</a>
-            </div>
-          </form>
         </div>
-      </div>
+        <div class="row row-ultimas-compras ms-2 my-4">
+            <div class="col-2 col-imagem-ultima-compra">
+                <img src="img/prod/pint-1-0.jpg" alt=""  class="img-fluid">
+            </div>
+            <div class="col-10 col-descricao-ultima-compra">
+                <h2>Pedido #351</h2>
+                <p><strong>Produto: </strong> Gato com as patas na tela </p>
+                <p><strong>Artista: </strong> Maria Da Silva Santos</p>
+                <p><strong>Valor: </strong> R$ 100,00</p>
+                <p><strong>Data: </strong> 01/01/2021</p>
+                <p><strong>Status: </strong> Concluída</p>
+                <a href="mailto:">Contato</a>
+            </div>
+        </div>
     </div>
-    
+
+
+
+
+
     <!-- rodapé -->
     <div class="container-fluid  container-rodape p-2">
       <div class="row row-rodape">

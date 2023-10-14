@@ -27,7 +27,7 @@ body {
 .produto-col-container {
   padding: 1.5rem;
 }
-.produto-col-container a {
+a {
   text-decoration: none;
   color: #272624;
 }
@@ -67,10 +67,12 @@ body {
   opacity: 1;
 }
 .form-control:focus {
-  box-shadow: 0 0 0 0.2rem rgba(246, 75, 32, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(246, 75, 32, 0.1);
+  border-color: #d51c1c;
 }
 .form-select:focus {
-  box-shadow: 0 0 0 0.2rem rgba(246, 75, 32, 0.25);
+  border-color: #d51c1c;
+  box-shadow: 0 0 0 0.2rem rgba(246, 75, 32,0.1);
 }
 .sobre-paragrafo{
   text-align: justify;
@@ -90,7 +92,6 @@ body {
   color: rgb(82, 82, 82) 
 }
 .container-rodape{
-  margin-top: 50px;
   background-color: #f2f2f2;
   background-image: url('img/rodape/marca-dagua.png'); 
   background-size: cover;
@@ -111,12 +112,8 @@ body {
 .rodape-direita a{
   margin-left: 15px;
 }
-.rodape-direita a:hover{
+a:hover{
   color: #d51c1c;
-}
-.rodape-direita a{
-  color: #272624;
-  text-decoration: none;
 }
 .row-rodape{
   margin-right: 0;
@@ -140,8 +137,6 @@ body {
   color: rgb(86, 86, 86);
   text-align: justify;
 }
-.produto-desc-titulo{
-}
 .produto-desc-preco{
 
   margin-top: 20px;
@@ -149,8 +144,6 @@ body {
 .produto-desc-botoes{
   margin-top: 20px;
   display: flex;
-}
-.produto-desc-comprar{
 }
 .produto-desc-favoritar{
   font-size: 1.5rem;
@@ -165,6 +158,10 @@ h2{
   font-weight: 700;
   font-size: 1.6rem;
 }
+h3{
+  font-weight: 700;
+  font-size: 1rem;
+}
 .col-sobre-artista{
   text-align: center;
 }
@@ -176,9 +173,8 @@ h2{
   max-width: 180px;
 }
 .form-signin {
-  width: 100%;
-  max-width: 330px;
   padding: 15px;
+  width: 100%;
   margin: 0 auto;
 }
 .form-signin .checkbox {
@@ -191,16 +187,75 @@ h2{
   padding: 10px;
   font-size: 16px;
 }
-.form-signin .form-control:focus {
-  z-index: 2;
+.input-login {
+  margin-bottom: 1.5rem;
 }
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
+.login-centralizado{
+  text-align: center;
 }
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+.col-login-container{
+  border-radius: 10px;
+  background-color: #ffffff;
+  padding: 2rem;
+}
+.container-login{
+  background-color:  rgb(239, 239, 239);
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+.form-editar-perfil{
+  margin-bottom: 0.5rem;
+}
+.botao-salvar-alteracoes{
+  font-size: small;
+  height: 30px;
+  width: 150px;
+  justify-content: center;
+  padding: 0;
+}
+.col-descricao-ultima-compra p{
+  margin: 0;
+  padding: 0;
+}
+.button-admin{
+  --font-color: #323232;
+  --bg-color: #fff;
+  --main-color: #323232;
+  min-height: 40px;
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  background-color: var(--bg-color);
+  box-shadow: 4px 4px var(--main-color);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--font-color);
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  margin-left: 0.8rem;
+  margin-right: 0.8rem;
+}
+
+.button-admin:active {
+  box-shadow: 0px 0px var(--main-color);
+  transform: translate(3px, 3px);
+}
+.botao-importado-pressinado{
+  box-shadow: 0px 0px var(--main-color);
+  transform: translate(3px, 3px);
+  background-color:  #d51c1c;
+  color: #ffffff;
+}
+.descricao-artista-adm p{
+  text-align: justify;
+  margin: 0;
+  padding: 0;
+}
+.col-selecionar-artista > *{
+  margin-bottom: 1rem;
+}
+#inputAtivoCadastrarProduto{
+  height: 20px;
+}
+#botao-cadastrar-artista{
+  margin-left: 0;
 }
