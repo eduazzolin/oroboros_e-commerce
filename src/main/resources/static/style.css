@@ -259,3 +259,6 @@ h3{
 #botao-cadastrar-artista{
   margin-left: 0;
 }
+#col-direita-adm{
+  min-height: 100vh;
+}

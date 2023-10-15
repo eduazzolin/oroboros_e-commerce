@@ -33,6 +33,11 @@ public class ProdutoController {
         return pr.findAll();
     }
 
+    @GetMapping("/ativos")
+    public List<Produto> getProdutosAtivos() {
+        return pr.findByAtivo(true);
+    }
+
     @PostMapping
     public Produto salvar(Produto p) {
         return pr.save(p);

@@ -26,6 +26,8 @@
   
   </head>
   <body>
+
+
     <!-- cabeçalho -->
     <div class="container-fluid">
       <div class="row nav-row">
@@ -50,36 +52,36 @@
         <div class="row">
             <div class="col-12 col-xl-3 d-xl-block d-flex text-xl-end text-center justify-content-center">
                 <div>
-                    <button class="button-admin botao-importado-pressinado">
+                    <button class="button-admin botao-importado-pressinado" id="botao-adm-1" onclick="admSelecaoMenu(this.id)">
                         🎨 Cadastrar produto
                       </button>
                 </div>
                 <div>
-                    <button class="button-admin" >
+                    <button class="button-admin"  id="botao-adm-2" onclick="admSelecaoMenu(this.id); admPopularTabelaEditarProdutos()" >
                         🖼️ Gerenciar produtos
                       </button>
                 </div>
                 <div>
-                    <button class="button-admin" >
+                    <button class="button-admin"   id="botao-adm-3" onclick="admSelecaoMenu(this.id)"> 
                         🧑‍🎨 Gerenciar artistas
                       </button>
                 </div>
             </div>
 
-            <div class="col-xl-9 col-12">
+            <div class="col-xl-9 col-12" id="col-direita-adm">
 
                 <!-- container de cadastrar produtos -->
-                <div class="container con-cadastrar-produto">
+                <div class="container container-admin" id = "botao-adm-1-cont">
                     <div class="row">
                         <div class="col-lg-6 col-12 mb-3 px-lg-4 col-selecionar-artista">
                             <h1>Selecionar artista</h1>
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Selecione um artista</option>
+                            <select class="form-select" onchange="admAbrirSelecaoArtista()" aria-label="Default select example" id="adm-seletor-artista-cadastrar-produto">
+                                <option value="" selected>Selecione um artista</option>
                                 <option value="1">Artista 1</option>
                                 <option value="2">Artista 2</option>
                                 <option value="3">Artista 3</option>
                             </select>
-                            <div class="artista-selecioado-adm">
+                            <div class="d-none" id = "artista-selecionado-cadastrar-produto">
                                 <div>
                                     <img src="img/artist/art-000001.png" width="100px" class="img-fluid mb-2">
                                 </div>
@@ -119,19 +121,19 @@
                                     <input class="form-check-input" type="checkbox" role="switch" id="inputAtivoCadastrarProduto" checked>
                                     <label class="form-check-label" for="inputAtivoCadastrarProduto">Ativar produto</label>
                                 </div>
+                                <div class="text-end mt-5">
+                                    <button class="btn btn-lg btn-danger btn-block login-centralizado " type="submit">Cadastrar</button>
+                                </div>
                             </form>
                         </div>
                         <div class="col-12">
-                            <div class="login-centralizado mt-5">
-                                <button class="btn btn-lg btn-danger btn-block login-centralizado " type="submit">Cadastrar</button>
-                            </div>
                         </div>
                     </div>
                 </div>
 
 
                 <!-- container de gerenciar produtos -->
-                <div class="container con-gerenciar-produtos d-none">
+                <div class="container container-admin d-none" id = "botao-adm-2-cont">
                     <div class="row">
                         <div class="col-12">
                             <h1>Gerenciar produtos</h1>
@@ -147,32 +149,30 @@
                     </div>
 
                     <div class="row row-tabela-gerenciar-produtos">
-                        <div class="col-3 border">#12331</div>
-                        <div class="col-4 border">nome do produto</div>
-                        <div class="col-3 border">artista</div>
-                        <div class="col-2 border"><a href="">editar</a></div>
+                        <div class="container" id="cont-tabela-gerenciar-prod">
+                        </div>
                     </div>
 
-                    <div class="row  border p-3 rounded mt-3" id="row-produto-selecionado-editar">
+                    <div class="row  border p-3 rounded mt-3  d-none" id="row-produto-selecionado-editar">
                         <div>
-                            <img src="img/prod/esc-1-0.jpg" width="200px" class="img-fluid input-login rounded">
+                            <img src="img/prod/esc-1-0.jpg" id="img-produto-selecionado-editar" width="200px" class="img-fluid input-login rounded">
                         </div>
                         <form class="form-cadastrar-produto ">
-                            <label for="formFileImagemProduto" class="form-label">Imagens do produto:</label>
+                            <label for="formFileImagemProduto" class="form-label">Editar imagens:</label>
                             <input class="form-control input-login" type="file" id="formFileImagemProduto" accept=".jpg, .jpeg, .png" multiple="true">
 
-                            <label for="inputNomeCadastrarProduto" class="sr-only">Nome</label>
-                            <input type="text" id="inputNomeCadastrarProduto" class="form-control  input-login" placeholder="Nome" required="true">
+                            <label for="nome-produto-selecionado-editar" class="sr-only">Nome</label>
+                            <input type="text" id="nome-produto-selecionado-editar" class="form-control  input-login" placeholder="Nome" required="true">
 
-                            <label for="inputDescricaoCadastrarProduto" class="sr-only">Descrição</label>
-                            <textarea class="form-control input-login" id="inputDescricaoCadastrarProduto" rows="4" placeholder="Descrição"></textarea>
+                            <label for="descricao-produto-selecionado-editar" class="sr-only">Descrição</label>
+                            <textarea class="form-control input-login" id="descricao-produto-selecionado-editar" rows="4" placeholder="Descrição"></textarea>
 
-                            <label for="inputPrecoCadastrarProduto" class="sr-only">Preço</label>
-                            <input type="number" id="inputPrecoCadastrarProduto" class="form-control  input-login" placeholder="R$ 0,00" required="" >
+                            <label for="preco-produto-selecionado-editar" class="sr-only">Preço</label>
+                            <input type="number" id="preco-produto-selecionado-editar" class="form-control  input-login" placeholder="R$ 0,00" required="" >
                             
-                            <label for="inputCategoriaCadastrarProduto" class="sr-only">Categoria</label>
-                            <select class="form-select input-login" id="inputCategoriaCadastrarProduto" aria-label="Default select example">
-                                <option selected>Selecione uma categoria</option>
+                            <label for="categoria-produto-selecionado-editar" class="sr-only">Categoria</label>
+                            <select class="form-select input-login" id="categoria-produto-selecionado-editar" aria-label="Default select example">
+                                <option value="" selected>Selecione uma categoria</option>
                                 <option value="1">Pintura</option>
                                 <option value="2">Arte Digital</option>
                                 <option value="3">Escultura</option>
@@ -184,8 +184,8 @@
                                 <label class="form-check-label" for="inputAtivoCadastrarProduto">Ativar produto</label>
                             </div>
                             <div class="login-centralizado mt-5">
+                                <button class="btn btn-lg btn-danger btn-block login-centralizado ms-2" >Remover</button>
                                 <button class="btn btn-lg btn-danger btn-block login-centralizado " type="submit">Salvar</button>
-                                <button class="btn btn-lg btn-danger btn-block login-centralizado ms-2" type="submit">Remover</button>
                             </div>
                         </form>
                     </div>
@@ -193,7 +193,7 @@
 
 
                 <!-- container de gerenciar artistas -->
-                <div class="container con-gerenciar-artistas d-none">
+                <div class="container container-admin d-none" id = "botao-adm-3-cont">
                     <div class="row">
                         <div class="col-12">
                             <h1>Gerenciar Artistas</h1>
@@ -216,6 +216,7 @@
                                         <label for="inputCPFCPNJCadastrarArtista" class="sr-only">CPF/CNPJ</label>
                                         <input type="text" id="inputCPFCPNJCadastrarArtista" class="form-control  input-login" placeholder="CPF/CNPJ" required="" >
                                         <div class="login-centralizado mt-5">
+                                            <button class="btn btn-lg btn-danger btn-block login-centralizado" onclick="admSairCadastrarArtista()" >Cancelar</button>
                                             <button class="btn btn-lg btn-danger btn-block login-centralizado " type="submit">Salvar</button>
                                         </div>
                                     </form>
@@ -228,7 +229,7 @@
                             <div class="container">
                                 <div class="row">
                                     <div>
-                                        <button class="button-admin" id="botao-cadastrar-artista">
+                                        <button class="button-admin" onclick="admExibirCadastrarArtista()" id="botao-cadastrar-artista">
                                             🧑‍🎨➕ Cadastrar artista
                                         </button>
                                     </div>
@@ -242,24 +243,24 @@
                                 <div class="row row-tabela-gerenciar-artistas px-3">
                                     <div class="col-3 border">#12331</div>
                                     <div class="col-6 border">nome do artista</div>
-                                    <div class="col-3 border"><a href="">editar</a></div>
+                                    <div class="col-3 border"><a  id='12331' href="javascript:void(0);" onclick="admExibirEdicaoArtista(this.id)">editar</a></div>
                                 </div>
-                                <div class="row mt-4 border rounded p-4" id="con-editar-artista">
+                                <div class="row mt-4 border rounded p-4 d-none" id="row-artista-selecionado-editar">
                                     <div>
-                                        <img src="img/artist/art-000001.png" width="200px" class="img-fluid input-login rounded">
+                                        <img src="img/artist/art-000001.png" width="200px" id="img-artista-selecionado-editar" class="img-fluid input-login rounded">
                                     </div>
                                     <form class="form-editar-artista ">
                                         <label for="formFileImagemArtistaEditar" class="form-label">Editar foto:</label>
                                         <input class="form-control input-login" type="file" id="formFileImagemArtistaEditar" accept=".jpg, .jpeg, .png">
 
-                                        <label for="inputNomeEditarArtista" class="sr-only">Nome</label>
-                                        <input type="text" id="inputNomeEditarArtista" class="form-control  input-login" placeholder="Nome" required="true">
+                                        <label for="nome-artista-selecionado-editar" class="sr-only">Nome</label>
+                                        <input type="text" id="nome-artista-selecionado-editar" class="form-control  input-login" placeholder="Nome" required="true">
 
-                                        <label for="inputDescricaoEditarArtista" class="sr-only">Descrição</label>
-                                        <textarea class="form-control input-login" id="inputDescricaoEditarArtista" rows="4" placeholder="Descrição"></textarea>
+                                        <label for="descricao-artista-selecionado-editar" class="sr-only">Descrição</label>
+                                        <textarea class="form-control input-login" id="descricao-artista-selecionado-editar" rows="4" placeholder="Descrição"></textarea>
 
-                                        <label for="inputCPFCPNJEditarArtista" class="sr-only">CPF/CNPJ</label>
-                                        <input type="text" id="inputCPFCPNJEditarArtista" class="form-control  input-login" placeholder="CPF/CNPJ" required="" >
+                                        <label for="cpf-cnpj-artista-selecionado-editar" class="sr-only">CPF/CNPJ</label>
+                                        <input type="text" id="cpf-cnpj-artista-selecionado-editar" class="form-control  input-login" placeholder="CPF/CNPJ" required="" >
                                         <div class="login-centralizado mt-5">
                                             <button class="btn btn-lg btn-danger btn-block login-centralizado " type="submit">Salvar</button>
                                             <button class="btn btn-lg btn-danger btn-block login-centralizado ms-2" type="submit">Remover</button>
@@ -279,28 +280,7 @@
 
 
 
-
-    <!-- rodapé -->
-    <div class="container-fluid  container-rodape p-2">
-      <div class="row row-rodape">
-
-        <div class="col-sm-6 col-12 rodape-esquerda d-block">
-          <a href="index.html">
-            <img src="img/logo/logo-escuro.png" height="25" alt="" />
-          </a>
-          <div class="copyright">Copyright © 2023 www.atelieroroboros.com.br, TODOS OS DIREITOS RESERVADOS. </div>
-        </div>
-
-        <div class="col-sm-6 col-12 d-block rodape-direita  d-sm-flex ">
-          <a href="">whatsapp</a>
-          <a href="">instagram</a>
-          <a href="">localização</a>
-          <a href="sobre.html">sobre nós</a>
-        </div>
-
-      </div>
-    </div>
-
+    <script src="js/oroborosjs.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   </body>
 </html>
