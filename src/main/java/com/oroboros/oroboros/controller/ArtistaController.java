@@ -1,14 +1,12 @@
 package com.oroboros.oroboros.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,7 +36,7 @@ public class ArtistaController {
     }
 
     @GetMapping("/{id}")
-    public Artista get(@PathVariable Long id) {
+    public Artista getArtista(@PathVariable Long id) {
         Artista p = null;
         Optional<Artista> artistaOptional = pr.findById(id);
         if (artistaOptional.isPresent()) {
@@ -47,6 +44,15 @@ public class ArtistaController {
         }
         return p;
     }
+
+    @GetMapping("/img/{id}")
+	public ResponseEntity<?> downloadImage(@PathVariable Long id){
+		byte[] imageData=this.getArtista(id).getImagem();
+		return ResponseEntity.status(HttpStatus.OK)
+				.contentType(MediaType.valueOf("image/png"))
+				.body(imageData);
+
+	}
 
     @PostMapping("/salvar")
     public Artista salvar(@RequestBody Artista p) {
@@ -70,36 +76,16 @@ public class ArtistaController {
         return ResponseEntity.ok(artistaAtual);
     }
 
-    private static final String UPLOAD_DIR = "./uploads/";
-
-    @PostMapping("/upload")
-    public ResponseEntity<?> uploadImage(@RequestParam("image")MultipartFile file, @RequestParam("artistaId") Long artistaId) {
-        String uploadImage = service.uploadImage(file, artistaId);
-        return ResponseEntity.status(HttpStatus.OK).body(uploadImage);
-
-
-
-    }
-        if (!file.isEmpty()) {
-            try {
-                // Verifique se o diretório de upload existe, crie-o se não existir
-                File uploadDir = new File(UPLOAD_DIR);
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdirs();
-                }
-
-                // Salve o arquivo na pasta de upload
-                Path filePath = Paths.get(UPLOAD_DIR, file.getOriginalFilename());
-                file.transferTo(filePath.toFile());
-
-                // Faça algo com o ID do artista (artistaId), por exemplo, associá-lo ao arquivo
-
-                return "Arquivo carregado com sucesso!";
-            } catch (IOException e) {
-                return "Erro ao carregar o arquivo: " + e.getMessage();
-            }
-        } else {
-            return "Arquivo vazio";
+    @PutMapping("/upload")
+    public ResponseEntity<?> uploadImageServ(@RequestParam("image") MultipartFile file, @RequestParam("id") Long id) {
+        Artista a = pr.findById(id).orElseThrow(() -> new EntidadeException("Artista", id));
+        try {
+            a.setImagem(file.getBytes());
+            pr.save(a);
+        } catch (IOException e) {
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao salvar imagem!");
         }
+        return ResponseEntity.status(HttpStatus.OK).body("Imagem salva com sucesso!");
     }
+
 }

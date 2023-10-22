@@ -5,12 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "imagem")
-public class Imagem {
+@Table(name = "imagem_produto")
+public class ImagemProduto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,10 +23,16 @@ public class Imagem {
 
     @Column
     private String tipo;
-    
+
     @Lob
     @Column(length = 1000000)
     private byte[] dados;
+
+    @ManyToOne
+    @JoinColumn(name = "produto_id")
+    private Produto produto;
+
+
 
     public Long getId() {
         return id;
@@ -56,6 +64,14 @@ public class Imagem {
 
     public void setDados(byte[] dados) {
         this.dados = dados;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
 }

@@ -82,13 +82,13 @@ const admExibirEdicaoArtista = async (id) => {
     const eCpfCnpjArtistaSelecionado = document.getElementById('cpf-cnpj-artista-selecionado-editar');
     const btSalvar = document.getElementById('bt-salvar-edicao-artista');
     const btRemover = document.getElementById('bt-remover-artista');
-
-    eImgArtistaSelecionado.src = 'img/artist/' + artistaSelecionado.foto;
+    
+    eImgArtistaSelecionado.src = 'data:image/png;base64,' + artistaSelecionado.imagem;
     eNomeArtistaSelecionado.value = artistaSelecionado.nome;
     eDescricaoArtistaSelecionado.innerText = artistaSelecionado.descricao;
     eCpfCnpjArtistaSelecionado.value = artistaSelecionado.cpf_cnpj;
-    btSalvar.setAttribute('onclick', 'admSalvarEdicaoArtista(' + artistaSelecionado.id + ')');
-    btRemover.setAttribute('onclick', 'admRemoverArtista(' + artistaSelecionado.id + ')');
+    btSalvar.setAttribute('_id', artistaSelecionado.id);
+    btRemover.setAttribute('_id', artistaSelecionado.id);
 
     if (eRowArtistaSelecionado.classList.contains('d-none')) {
         eRowArtistaSelecionado.classList.remove('d-none');
@@ -100,15 +100,29 @@ const admSalvarEdicaoArtista = async (id) => {
     const eDescricaoArtistaSelecionado = document.getElementById('descricao-artista-selecionado-editar');
     const eCpfCnpjArtistaSelecionado = document.getElementById('cpf-cnpj-artista-selecionado-editar');
     const eImgArtistaSelecionado = document.getElementById('img-artista-selecionado-editar');
-    const srcImagem = eImgArtistaSelecionado.src.split('/').pop();
-    const artista = {
-        id: id,
-        nome: eNomeArtistaSelecionado.value,
-        descricao: eDescricaoArtistaSelecionado.value,
-        cpf_cnpj: eCpfCnpjArtistaSelecionado.value,
-        foto: srcImagem
+    const eInputImagemArtistaEditar = document.getElementById('input-imagem-artista-editar');
+    
+    if (eInputImagemArtistaEditar.files[0] == null){
+        const blobImagem = eImgArtistaSelecionado.src.split(',')[1];
+        const artista = {
+            id: id,
+            nome: eNomeArtistaSelecionado.value,
+            descricao: eDescricaoArtistaSelecionado.value,
+            cpf_cnpj: eCpfCnpjArtistaSelecionado.value,
+            imagem: blobImagem
+        }
+        await admSalvarArtistaBanco(artista);
+    } else {
+        const artista = {
+            id: id,
+            nome: eNomeArtistaSelecionado.value,
+            descricao: eDescricaoArtistaSelecionado.value,
+            cpf_cnpj: eCpfCnpjArtistaSelecionado.value,
+        }
+        const imgArtista = eInputImagemArtistaEditar.files[0];
+        await admSalvarArtistaBanco(artista, imgArtista);
     }
-    await admSalvarArtistaBanco(artista);
+    location.reload();
 }
 
 const admCadastrarArtista = async (id) => {
@@ -116,13 +130,17 @@ const admCadastrarArtista = async (id) => {
     const eDescricaoArtista = document.getElementById('descricao-artista-cadastrar');
     const eCpfCnpjArtista = document.getElementById('cpf-cnpj-artista-cadastrar');
     const eImgArtista = document.getElementById('img-artista-cadastrar');
+
+
     const artista = {
         nome: eNomeArtista.value,
         descricao: eDescricaoArtista.value,
         cpf_cnpj: eCpfCnpjArtista.value,
     }
     const imgArtista = eImgArtista.files[0];
-    await admCadastrarArtistaBanco(artista, imgArtista);
+    alert(await admCadastrarArtistaBanco(artista, imgArtista));
+    location.reload();
+    
 }
 
 

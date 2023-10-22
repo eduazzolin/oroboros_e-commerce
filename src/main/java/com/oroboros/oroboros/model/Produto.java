@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,9 +19,6 @@ public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column
-    private String categoria_id;
 
     @Column
     private Long artista_id;
@@ -39,9 +38,17 @@ public class Produto {
     @Column
     private LocalDateTime data_cadastro;
 
-    @Column
-    private String imagem;
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
+
     
+    public Categoria getCategoria() {
+        return categoria;
+    }
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
     // Getters e Setters:
     public Long getId() {
         return id;
@@ -54,12 +61,6 @@ public class Produto {
     }
     public void setNome(String nome) {
         this.nome = nome;
-    }
-    public String getCategoria_id() {
-        return categoria_id;
-    }
-    public void setCategoria_id(String categoria_id) {
-        this.categoria_id = categoria_id;
     }
     public Long getArtista_id() {
         return artista_id;
@@ -90,11 +91,5 @@ public class Produto {
     }
     public void setData_cadastro(LocalDateTime data_cadastro) {
         this.data_cadastro = data_cadastro;
-    }
-    public String getImagem() {
-        return imagem;
-    }
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
     }
 }

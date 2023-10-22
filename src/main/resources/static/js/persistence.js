@@ -52,23 +52,34 @@ const admRemoverArtista = async (id) => {
         method: 'DELETE'
     });
     if (response.ok) {
-        location.reload();
         alert('Artista removido com sucesso!');
     } else {
         alert('Erro ao remover artista!');
     }
+    location.reload();
 }
-const admSalvarArtistaBanco = async (artista) => {
+const admSalvarArtistaBanco = async (artista, imgArtista) => {
     const url = 'http://127.0.0.1:8080/artista/' + artista.id;
-    const response = await fetch(url, {
-        method: 'PUT',
-        body: JSON.stringify(artista),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+    let response = null;
+    if (imgArtista == null) {
+        response = await fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(artista),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    } else {
+        const formData = new FormData();
+        formData.append('image', imgArtista);
+        formData.append('id', artista.id);
+        const urlImg = 'http://127.0.0.1:8080/artista/upload';
+        response = await fetch(urlImg, {
+            method: 'PUT',
+            body: formData
+        });
+    }
     if (response.ok) {
-        location.reload();
         alert('Artista atualizado com sucesso!');
     } else {
         alert('Erro ao atualizar artista!');
@@ -79,6 +90,7 @@ const admSalvarArtistaBanco = async (artista) => {
 const admCadastrarArtistaBanco = async (artista, imgArtista) => {
     const url = 'http://127.0.0.1:8080/artista/salvar';
     artista.data_cadastro = new Date();
+    artistaJson = JSON.stringify(artista);
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -90,17 +102,17 @@ const admCadastrarArtistaBanco = async (artista, imgArtista) => {
         if (response.ok) {
             artistaCadastrado = await response.json();
             const formData = new FormData();
-            formData.append('file', imgArtista);
+            formData.append('image', imgArtista);
             formData.append('id', artistaCadastrado.id);
             const urlImg = 'http://127.0.0.1:8080/artista/upload';
             const responseImg = await fetch(urlImg, {
-                method: 'POST',
+                method: 'PUT',
                 body: formData
             });
-            console.log(responseImg)
+            return "Artista cadastrado com sucesso!"
         }
     } catch (error) {
-        console.log(error);
+        return "Erro ao cadastrar artista!"
     }
 
 }
