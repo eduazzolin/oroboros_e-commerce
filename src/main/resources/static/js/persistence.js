@@ -28,6 +28,15 @@ const getProdutosAtivos = async () => {
     }
     return produtos;
 }
+const getTodasCategorias = async () => {
+    const url = 'http://127.0.0.1:8080/categoria/listar'
+    const response = await fetch(url);
+    categorias = [];
+    if (response.ok) {
+        categorias = await response.json();
+    }
+    return categorias;
+}
 const getTodosArtistas = async () => {
     const url = 'http://127.0.0.1:8080/artista/listar'
     const response = await fetch(url);
@@ -45,6 +54,24 @@ const getArtistaById = async (id) => {
         artista = await response.json();
     }
     return artista;
+}
+const getCategoriaById = async (id) => {
+    const url = 'http://127.0.0.1:8080/categoria/' + id;
+    const response = await fetch(url);
+    let categoria = null;
+    if (response.ok) {
+        categoria = await response.json();
+    }
+    return categoria;
+}
+const getProdutoById = async (id) => {
+    const url = 'http://127.0.0.1:8080/produto/' + id;
+    const response = await fetch(url);
+    let produto = null;
+    if (response.ok) {
+        produto = await response.json();
+    }
+    return produto;
 }
 const admRemoverArtista = async (id) => {
     const url = 'http://127.0.0.1:8080/artista/' + id;
@@ -114,5 +141,45 @@ const admCadastrarArtistaBanco = async (artista, imgArtista) => {
     } catch (error) {
         return "Erro ao cadastrar artista!"
     }
+
+}
+
+const admCadastrarProdutoPersistence = async (produto, images) => {
+    const url = 'http://127.0.0.1:8080/produto/salvar';
+    produto.data_cadastro = new Date();
+    produto.categoria = await getCategoriaById(produto.categoria);
+    try {
+        response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(produto),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.ok) {
+            const data = await response.json();
+            for (let image of images) {
+                const responseImg = await uploadImagemProduto(image, data.id);
+                if (!responseImg.ok) {
+                    return "Erro ao cadastrar produto!"
+                }
+            }
+            return "Produto cadastrado com sucesso!"
+        }
+    } catch (error) {
+        return "Erro ao cadastrar produto!"
+    }
+
+}
+
+const uploadImagemProduto = async (image, id) => {
+    const formData = new FormData();
+    formData.append('image', image);
+    formData.append('id', id);
+    const urlImg = 'http://127.0.0.1:8080/imgprod/upload';
+    return responseImg = await fetch(urlImg, {
+        method: 'PUT',
+        body: formData
+    });
 
 }

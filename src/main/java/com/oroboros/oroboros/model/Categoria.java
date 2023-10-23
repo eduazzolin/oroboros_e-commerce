@@ -16,7 +16,10 @@ public class Categoria {
 
     @Column(nullable = false)
     private String nome;
-
+    
+    @Column(length = 500)
+    private String descricao;
+    
     public Long getId() {
         return id;
     }
@@ -41,6 +44,4 @@ public class Categoria {
         this.descricao = descricao;
     }
 
-    @Column(length = 500)
-    private String descricao;
 }

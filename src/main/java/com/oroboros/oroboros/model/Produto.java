@@ -23,7 +23,7 @@ public class Produto {
     @Column
     private Long artista_id;
 
-    @Column(nullable = false)
+    @Column()
     private String nome;
 
     @Column(length = 500)

@@ -18,14 +18,8 @@ public class ImagemProduto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String nome;
-
-    @Column
-    private String tipo;
-
     @Lob
-    @Column(length = 1000000)
+    @Column(length = 10000000)
     private byte[] dados;
 
     @ManyToOne
@@ -40,22 +34,6 @@ public class ImagemProduto {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     public byte[] getDados() {
