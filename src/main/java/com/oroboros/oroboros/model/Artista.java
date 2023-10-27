@@ -33,6 +33,9 @@ public class Artista {
     @Lob
     @Column(name = "img_artista", length = 1000000)
     private byte[] imagem;
+    
+    @Column(columnDefinition = "boolean default false")
+    private boolean removed;
 
     // getters e setters
 
@@ -83,6 +86,14 @@ public class Artista {
 
     public void setImagem(byte[] imagem) {
         this.imagem = imagem;
+    }
+
+    public boolean isRemoved() {
+        return removed;
+    }
+
+    public void setRemoved(boolean removed) {
+        this.removed = removed;
     }
 
 

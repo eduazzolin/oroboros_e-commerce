@@ -74,38 +74,32 @@ const admSalvarEdicaoArtista = async (id) => {
 
 const admSalvarEdicaoProduto = async (id) => {
     
+
     const eImgProdutoSelecionado = document.getElementById('img-produto-selecionado-editar');
     const eNomeProdutoSelecionado = document.getElementById('nome-produto-selecionado-editar');
     const eDescricaoAProdutoSelecionado = document.getElementById('descricao-produto-selecionado-editar');
     const ePrecoProdutoSelecionado = document.getElementById('preco-produto-selecionado-editar');
-    const eCategoriaProdutoSelecionado = document.getElementById('categoria-produto-selecionado-editar');
-    const eAtivoProdutoSelecionado = document.getElementById('ativo-produto-selecionado-editar');
+    const eCategoriaProdutoSelecionado = document.getElementById('categoria-produto-selecionado-editar').value;
+    const eAtivoProdutoSelecionado = document.getElementById('ativo-produto-selecionado-editar').checked;
 
-    
-        /*
-        * PAREI AQUI, COPIEI DA SALVAR EDIÇÃO ARTISTA DAQUI PRA BAIXO
-        */
+    const produtoOriginal = await getProdutoById(id);
+    const imagensOriginais = await getImagensProdutoById(id);
 
+    const produto = {
+        id: id,
+        nome: eNomeProdutoSelecionado.value,
+        descricao: eDescricaoAProdutoSelecionado.value,
+        preco: ePrecoProdutoSelecionado.value,
+        categoria: eCategoriaProdutoSelecionado,
+        artista_id: produtoOriginal.artista_id,
+        ativo: eAtivoProdutoSelecionado,
+        data_cadastro: produtoOriginal.data_cadastro
+    }
 
     if (eImgProdutoSelecionado.files[0] == null) {
-        const blobImagem = eImgArtistaSelecionado.src.split(',')[1];
-        const artista = {
-            id: id,
-            nome: eNomeArtistaSelecionado.value,
-            descricao: eDescricaoArtistaSelecionado.value,
-            cpf_cnpj: eCpfCnpjArtistaSelecionado.value,
-            imagem: blobImagem
-        }
-        await admSalvarArtistaBanco(artista);
+        alert(await admSalvarProdutoPersistence(produto, imagensOriginais));
     } else {
-        const artista = {
-            id: id,
-            nome: eNomeArtistaSelecionado.value,
-            descricao: eDescricaoArtistaSelecionado.value,
-            cpf_cnpj: eCpfCnpjArtistaSelecionado.value,
-        }
-        const imgArtista = eInputImagemArtistaEditar.files[0];
-        await admSalvarArtistaBanco(artista, imgArtista);
+        alert(await admSalvarProdutoPersistence(produto, eImgProdutoSelecionado.files));
     }
     location.reload();
 }

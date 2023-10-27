@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oroboros.oroboros.model.Artista;
+import com.oroboros.oroboros.model.Produto;
 import com.oroboros.oroboros.repository.ArtistaRepository;
 import com.oroboros.oroboros.util.EntidadeException;
 
@@ -32,7 +33,7 @@ public class ArtistaController {
 
     @RequestMapping("/listar")
     public List<Artista> listarTodos() {
-        return pr.findAll();
+        return pr.findByRemoved(false);
     }
 
     @GetMapping("/{id}")
@@ -46,13 +47,13 @@ public class ArtistaController {
     }
 
     @GetMapping("/img/{id}")
-	public ResponseEntity<?> downloadImage(@PathVariable Long id){
-		byte[] imageData=this.getArtista(id).getImagem();
-		return ResponseEntity.status(HttpStatus.OK)
-				.contentType(MediaType.valueOf("image/png"))
-				.body(imageData);
+    public ResponseEntity<?> downloadImage(@PathVariable Long id) {
+        byte[] imageData = this.getArtista(id).getImagem();
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(imageData);
 
-	}
+    }
 
     @PostMapping("/salvar")
     public Artista salvar(@RequestBody Artista p) {
@@ -74,6 +75,14 @@ public class ArtistaController {
             artistaAtual = pr.save(a);
         }
         return ResponseEntity.ok(artistaAtual);
+    }
+
+    @PutMapping("/remover/{id}")
+    public ResponseEntity<?> remocaoLogica(@PathVariable Long id) {
+        Artista p = pr.findById(id).orElseThrow(() -> new EntidadeException("Artista", id));
+        p.setRemoved(true);
+        p = pr.save(p);
+        return ResponseEntity.ok(p);
     }
 
     @PutMapping("/upload")

@@ -55,6 +55,15 @@ const getArtistaById = async (id) => {
     }
     return artista;
 }
+const getImagensProdutoById = async (id) => {
+    const url = 'http://127.0.0.1:8080/imgprod/prodid/' + id;
+    const response = await fetch(url);
+    let imagens = [];
+    if (response.ok) {
+        imagens = await response.json();
+    }
+    return imagens;
+}
 const getCategoriaById = async (id) => {
     const url = 'http://127.0.0.1:8080/categoria/' + id;
     const response = await fetch(url);
@@ -74,14 +83,26 @@ const getProdutoById = async (id) => {
     return produto;
 }
 const admRemoverArtista = async (id) => {
-    const url = 'http://127.0.0.1:8080/artista/' + id;
+    const url = 'http://127.0.0.1:8080/artista/remover/' + id;
     const response = await fetch(url, {
-        method: 'DELETE'
+        method: 'PUT'
     });
     if (response.ok) {
         alert('Artista removido com sucesso!');
     } else {
         alert('Erro ao remover artista!');
+    }
+    location.reload();
+}
+const admRemoverProduto = async (id) => {
+    const url = 'http://127.0.0.1:8080/produto/remover/' + id;
+    const response = await fetch(url, {
+        method: 'PUT'
+    });
+    if (response.ok) {
+        alert('Produto removido com sucesso!');
+    } else {
+        alert('Erro ao remover produto!');
     }
     location.reload();
 }
@@ -169,7 +190,66 @@ const admCadastrarProdutoPersistence = async (produto, images) => {
     } catch (error) {
         return "Erro ao cadastrar produto!"
     }
+}
+const admSalvarProdutoPersistence = async (produto, images) => {
+    const url = 'http://127.0.0.1:8080/produto/' + produto.id;
+    produto.categoria = await getCategoriaById(produto.categoria);
+    try {
+        response = await fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(produto),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.ok) {
+            await deleteImagensProduto(produto.id);
+            const data = await response.json();
+            if (images instanceof FileList) {
+                for (let image of images) {
+                    const responseImg = await uploadImagemProduto(image, data.id);
+                    if (!responseImg.ok) {
+                        return "Erro ao cadastrar produto!"
+                    }
+                }
+            } else {
+                for (let image of images) {
+                    const imgProd = {
+                        dados: image.dados,
+                    }
+                    const responseImg = await uploadUpdateImagemProduto(imgProd, produto.id);
+                    if (!responseImg.ok) {
+                        return "Erro ao cadastrar produto!"
+                    }
+                }
+            }
+            return "Produto cadastrado com sucesso!"
+        }
+    } catch (error) {
+        return "Erro ao cadastrar produto!"
+    }
+}
+const deleteImagensProduto = async (id) => {
+    const url = 'http://127.0.0.1:8080/imgprod/deletebyprod/' + id;
+    const response = await fetch(url, {
+        method: 'DELETE'
+    });
+}
 
+const uploadUpdateImagemProduto = async (image, id) => {
+    const url = 'http://127.0.0.1:8080/imgprod/upload/' + id;
+    try {
+        response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(image),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    } catch (error) {
+        return "Erro ao cadastrar produto!"
+    }
+    return response;
 }
 
 const uploadImagemProduto = async (image, id) => {

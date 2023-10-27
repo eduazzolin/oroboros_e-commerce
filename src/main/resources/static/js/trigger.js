@@ -10,10 +10,21 @@ document.getElementById('bt-salvar-edicao-artista').addEventListener('click', (e
     const botaoSalvar = event.target;
     admSalvarEdicaoArtista(botaoSalvar.getAttribute('_id'));
 });
+document.getElementById('bt-salvar-edicao-produto').addEventListener('click', (event) => {
+    event.preventDefault();
+    const botaoSalvar = event.target;
+    admSalvarEdicaoProduto(botaoSalvar.getAttribute('_id'));
+    });
+
 document.getElementById('bt-remover-artista').addEventListener('click', (event) => {
     event.preventDefault();
     const botaoRemover = event.target;
     admRemoverArtista(botaoRemover.getAttribute('_id'));
+});
+document.getElementById('bt-remover-produto').addEventListener('click', (event) => {
+    event.preventDefault();
+    const botaoRemover = event.target;
+    admRemoverProduto(botaoRemover.getAttribute('_id'));
 });
 document.getElementById('bt-cadastrar-produto').addEventListener('click', (event) => {
     event.preventDefault();
@@ -34,15 +45,19 @@ const admPopularComboBoxArtistas = async () => {
     }
 }
 const admPopularComboBoxCategorias = async () => {
-    const eComboBox = document.getElementById('inputCategoriaCadastrarProduto');
+    const eComboBoxProd = document.getElementById('inputCategoriaCadastrarProduto');
     const eComboBoxEditar = document.getElementById('categoria-produto-selecionado-editar');
     const categorias = await getTodasCategorias();
     for (let c of categorias) {
-        const option = document.createElement('option');
-        option.setAttribute('value', c.id);
-        option.innerHTML = c.nome;
-        eComboBox.appendChild(option);
-        eComboBoxEditar.appendChild(option);
+        const optionProd = document.createElement('option');
+        optionProd.setAttribute('value', c.id);
+        optionProd.innerHTML = c.nome;
+        eComboBoxProd.appendChild(optionProd);
+    
+        const optionEditar = document.createElement('option');
+        optionEditar.setAttribute('value', c.id);
+        optionEditar.innerHTML = c.nome;
+        eComboBoxEditar.appendChild(optionEditar);
     }
 }
 

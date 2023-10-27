@@ -42,7 +42,15 @@ public class Produto {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean removed;
     
+    public boolean isRemoved() {
+        return removed;
+    }
+    public void setRemoved(boolean removed) {
+        this.removed = removed;
+    }
     public Categoria getCategoria() {
         return categoria;
     }
