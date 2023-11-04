@@ -135,36 +135,6 @@ const admSalvarArtistaBanco = async (artista, imgArtista) => {
 
 }
 
-const admCadastrarArtistaBanco = async (artista, imgArtista) => {
-    const url = 'http://127.0.0.1:8080/artista/salvar';
-    artista.data_cadastro = new Date();
-    artistaJson = JSON.stringify(artista);
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(artista),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        if (response.ok) {
-            artistaCadastrado = await response.json();
-            const formData = new FormData();
-            formData.append('image', imgArtista);
-            formData.append('id', artistaCadastrado.id);
-            const urlImg = 'http://127.0.0.1:8080/artista/upload';
-            const responseImg = await fetch(urlImg, {
-                method: 'PUT',
-                body: formData
-            });
-            return "Artista cadastrado com sucesso!"
-        }
-    } catch (error) {
-        return "Erro ao cadastrar artista!"
-    }
-
-}
-
 const admCadastrarProdutoPersistence = async (produto, images) => {
     const url = 'http://127.0.0.1:8080/produto/salvar';
     produto.data_cadastro = new Date();
@@ -191,6 +161,7 @@ const admCadastrarProdutoPersistence = async (produto, images) => {
         return "Erro ao cadastrar produto!"
     }
 }
+
 const admSalvarProdutoPersistence = async (produto, images) => {
     const url = 'http://127.0.0.1:8080/produto/' + produto.id;
     produto.categoria = await getCategoriaById(produto.categoria);
@@ -235,7 +206,6 @@ const deleteImagensProduto = async (id) => {
         method: 'DELETE'
     });
 }
-
 const uploadUpdateImagemProduto = async (image, id) => {
     const url = 'http://127.0.0.1:8080/imgprod/upload/' + id;
     try {
@@ -262,4 +232,80 @@ const uploadImagemProduto = async (image, id) => {
         body: formData
     });
 
+}
+
+const admCadastrarArtistaBanco = async (artista, imgArtista) => {
+    const url = 'http://127.0.0.1:8080/artista/salvar';
+    artista.data_cadastro = new Date();
+    artistaJson = JSON.stringify(artista);
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(artista),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.ok) {
+            artistaCadastrado = await response.json();
+            const formData = new FormData();
+            formData.append('image', imgArtista);
+            formData.append('id', artistaCadastrado.id);
+            const urlImg = 'http://127.0.0.1:8080/artista/upload';
+            const responseImg = await fetch(urlImg, {
+                method: 'PUT',
+                body: formData
+            });
+            return "Artista cadastrado com sucesso!"
+        }
+    } catch (error) {
+        return "Erro ao cadastrar artista!"
+    }
+
+}
+
+const cadastrarUsuarioPersistence = async (usuario) => {
+    const url = 'http://127.0.0.1:8080/usuario/cadastrar';
+    usuario.senha = await stringToHash(usuario.senha);
+    return await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(usuario),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+}
+const fazerLoginPersistence = async (usuario) => {
+    const url = 'http://127.0.0.1:8080/usuario/login';
+    usuario.senha = await stringToHash(usuario.senha);
+    return await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(usuario),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+}
+
+
+async function stringToHash(inputString) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(inputString);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+}
+
+const checkLoginFrontEnd = async () => {
+    const url = 'http://127.0.0.1:8080/usuario/check';
+    const response = await fetch(url);
+    return response.ok;
+}
+
+const checkRoleFrontEnd = async () => {
+    const url = 'http://127.0.0.1:8080/usuario/checkRole';
+    const response = await fetch(url);
+    const role = await response.json();
+    return role;
 }

@@ -1,4 +1,4 @@
-
+let usuarioLogado = null;
 
 /* Funções de CADASTRO */
 const admCadastrarProduto = async () => {
@@ -39,7 +39,51 @@ const admCadastrarArtista = async (id) => {
     location.reload();
 }
 
+const cadastrarUsuario = async () => {
+    const eNome = document.getElementById("inputNomeCadUser");
+    const eEmail = document.getElementById("inputEmailCadUser");
+    const eCpfCnpj = document.getElementById("inputCpfCnpjCadUser");
+    const eSenha = document.getElementById("inputSenhaCadUser");
 
+    const usuario = {
+        nome: eNome.value,
+        email: eEmail.value,
+        cpf_cnpj: eCpfCnpj.value,
+        senha: eSenha.value
+    }
+
+    const response = await cadastrarUsuarioPersistence(usuario);
+    if (response.ok) {
+        alert('Usuário cadastrado com sucesso!');
+        usuarioLogado = await response.json();
+        // TODO - salvar usuarioLogado na sessão e redirecionar
+    } else {
+        alert('Erro ao cadastrar usuário!');
+    }
+    location.reload();
+}
+
+const fazerLogin = async () => {
+    const eEmail = document.getElementById("inputEmailLoginUser");
+    const eSenha = document.getElementById("inputSenhaLoginUser");
+
+    const usuario = {
+        email: eEmail.value,
+        senha: eSenha.value
+    }
+    const response = await fazerLoginPersistence(usuario);
+    if (response.ok) {
+        try {
+            usuarioLogado = await response.json();
+        } catch (error) {
+            alert('Email ou senha incorretos!');
+        }
+
+    } else {
+        alert('Erro ao fazer login!');
+    }
+    location.reload();
+}
 
 /* Funções de EDIÇÃO */
 const admSalvarEdicaoArtista = async (id) => {
@@ -73,7 +117,7 @@ const admSalvarEdicaoArtista = async (id) => {
 }
 
 const admSalvarEdicaoProduto = async (id) => {
-    
+
 
     const eImgProdutoSelecionado = document.getElementById('img-produto-selecionado-editar');
     const eNomeProdutoSelecionado = document.getElementById('nome-produto-selecionado-editar');
@@ -103,7 +147,6 @@ const admSalvarEdicaoProduto = async (id) => {
     }
     location.reload();
 }
-
 
 
 /* Funções de PÁGINA */
@@ -215,44 +258,7 @@ const admSairCadastrarArtista = () => {
 
 
 /* Funções de POPULAÇÃO */
-const popularTelaInicialComProdutos = async () => {
-    const categoriasSelecionadas = getCategoriasSelecionadas();
-    produtos = await getProdutos();
-    let rowListaProdutos = document.getElementById("row-lista-produtos");
-    produtos.forEach(produto => {
-        const divProdutoColConainer = document.createElement("div")
-        divProdutoColConainer.classList.add("col-lg-4", "col-md-6", "col-sm-12", "produto-col-container");
-        const aLink = document.createElement("a")
-        aLink.href = "produto.html";
-        const img = document.createElement("img")
-        img.src = "img/prod/" + produto.imagem
-        img.setAttribute("width", "100%")
-        img.classList.add("produto-img");
-        const divProdutoDesc = document.createElement("div")
-        divProdutoDesc.classList.add("produto-desc");
-        const pProdAutor = document.createElement("p")
-        pProdAutor.classList.add("prod-autor");
-        pProdAutor.innerHTML = produto.artista_id;
-        const pProdNome = document.createElement("p")
-        pProdNome.classList.add("prod-nome");
-        pProdNome.innerHTML = produto.nome;
-        const pProdPreco = document.createElement("p")
-        pProdPreco.classList.add("prod-preco");
-        pProdPreco.innerHTML = "R$ " + produto.preco;
 
-        divProdutoDesc.appendChild(pProdAutor);
-        divProdutoDesc.appendChild(pProdNome);
-        divProdutoDesc.appendChild(pProdPreco);
-        aLink.appendChild(img);
-        aLink.appendChild(divProdutoDesc);
-        divProdutoColConainer.appendChild(aLink);
-        rowListaProdutos.appendChild(divProdutoColConainer);
-    });
-}
-
-// document.addEventListener("DOMContentLoaded", function () {
-//     popularTelaInicialComProdutos();
-// });
 
 const admPopularTabelaEditarProdutos = async () => {
     const cTabela = document.getElementById('cont-tabela-gerenciar-prod');

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>oroboros</title>
+    <title>oroboros login</title>
 
     <!-- fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,10 +23,11 @@
     <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
-  
+
   </head>
   <body>
     <!-- cabeçalho -->
+    <script src="js/persistence.js"></script>
     <div class="container-fluid">
       <div class="row nav-row">
         <div class="col-6 nav1">
@@ -46,7 +47,7 @@
       </div>
     </div>
 
-    <div class="container-login">
+    <div class="container-login d-none" id="c-cadastro">
       <div class="row justify-content-center">
         <div class="col-sm-6 col-lg-4 col-10 border col-login-container">
           <form class="form-signin">
@@ -54,23 +55,23 @@
               <img class="mb-4 " src="img/logo/logo-resumido.png" alt="" width="72" height="72">
             </div>
             <h1 class="h3 mb-3 font-weight-normal text-center">Cadastro</h1>
-            <label for="inputNome" class="sr-only">Nome</label>
-            <input type="text" id="inputNomeCadastrar" class="form-control  input-login" placeholder="Nome" required="true" autofocus="">
-            <label for="inputCPFCNPJ" class="sr-only">CPF ou CNPJ</label>
-            <input type="text" id="inputCPFCNPJCadastrar" class="form-control  input-login" placeholder="CPF ou CPNJ" required="true" autofocus="">
-            <label for="inputEmail" class="sr-only">Email</label>
-            <input type="email" id="inputEmailCadastrar" class="form-control  input-login" placeholder="Email" required="" autofocus="">
-            <label for="inputPassword" class="sr-only">Senha</label>
-            <input type="password" id="inputPasswordCadastrar" class="form-control  input-login" placeholder="Senha" required="">
+            <label for="inputNomeCadUser" class="sr-only">Nome</label>
+            <input type="text" id="inputNomeCadUser" class="form-control  input-login" placeholder="Nome" required="true" autofocus="">
+            <label for="inputCpfCnpjCadUser" class="sr-only">CPF ou CNPJ</label>
+            <input type="text" id="inputCpfCnpjCadUser" class="form-control  input-login" placeholder="CPF ou CPNJ" required="true" autofocus="">
+            <label for="inputEmailCadUser" class="sr-only">Email</label>
+            <input type="email" id="inputEmailCadUser" class="form-control  input-login" placeholder="Email" required="" autofocus="">
+            <label for="inputSenhaCadUser" class="sr-only">Senha</label>
+            <input type="password" id="inputSenhaCadUser" class="form-control  input-login" placeholder="Senha" required="">
             <div class="login-centralizado mt-5">
-              <button class="btn btn-lg btn-danger btn-block login-centralizado " type="submit">Cadastrar</button>
+              <button class="btn btn-lg btn-danger btn-block login-centralizado " type="submit" id="btCadUser">Cadastrar</button>
             </div>
           </form>
         </div>
       </div>
     </div>
 
-    <div class="container-login">
+    <div class="container-login" id="c-login">
       <div class="row justify-content-center">
         <div class="col-sm-6 col-lg-4 col-10 border col-login-container">
           <form class="form-signin">
@@ -78,21 +79,21 @@
               <img class="mb-4 " src="img/logo/logo-resumido.png" alt="" width="72" height="72">
             </div>
             <h1 class="h3 mb-3 font-weight-normal text-center">Login</h1>
-            <label for="inputEmail" class="sr-only">Email</label>
-            <input type="email" id="inputEmailLogar" class="form-control input-login" placeholder="Email" required="" autofocus="">
-            <label for="inputPassword" class="sr-only">Senha</label>
-            <input type="password" id="inputPasswordLogar" class="form-control input-login" placeholder="Senha" required="">
+            <label for="inputEmailLoginUser" class="sr-only">Email</label>
+            <input type="email" id="inputEmailLoginUser" class="form-control input-login" placeholder="Email" required="" autofocus="">
+            <label for="inputSenhaLoginUser" class="sr-only">Senha</label>
+            <input type="password" id="inputSenhaLoginUser" class="form-control input-login" placeholder="Senha" required="">
             <div class="login-centralizado mt-5">
-              <button class="btn btn-lg btn-danger btn-block login-centralizado" type="submit">Login</button>
+              <button class="btn btn-lg btn-danger btn-block login-centralizado" type="submit" id="btLogin">Login</button>
             </div>
             <div class="login-centralizado mt-3">
-              <a>Cadastre-se</a>
+              <a id="bt-red-cad">Cadastre-se</a>
             </div>
           </form>
         </div>
       </div>
     </div>
-    
+
     <!-- rodapé -->
     <div class="container-fluid  container-rodape p-2">
       <div class="row row-rodape">
@@ -113,7 +114,9 @@
 
       </div>
     </div>
-
+    <script defer src="js/oroboros.js"></script>
+    <script defer src="js/trigger.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
   </body>
 </html>
