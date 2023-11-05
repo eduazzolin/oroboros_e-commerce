@@ -93,26 +93,26 @@ if (document.head.id === '01') {
         const texto = document.getElementById('pesquisa-produtos').value;
         let query = {
             ordem: "",
-            ordemtipo: "",
+            direcao: "",
             categoria: "",
             texto: ""
         };
         switch (ordernacao) {
             case '1':
                 query.ordem = "preco";
-                query.ordemtipo = "desc";
+                query.direcao = "desc";
                 break;
             case '2':
                 query.ordem = "preco";
-                query.ordemtipo = "asc";
+                query.direcao = "asc";
                 break;
             case '3':
                 query.ordem = "data";
-                query.ordemtipo = "desc";
+                query.direcao = "desc";
                 break;
             case '4':
                 query.ordem = "data";
-                query.ordemtipo = "asc";
+                query.direcao = "asc";
                 break;
         }
         if (categorias.length > 0) {
@@ -134,16 +134,16 @@ if (document.head.id === '01') {
         pagina.classList.add('active');
         const query = montarQueryHome();
         query.pagina = page;
+        await popularTelaInicialComProdutos(query);
     }
 
-
-    const popularTelaInicialComProdutos = async () => {
-
-        const eLoading = document.getElementById('index-loading');
-
+    const popularPaginacao = async (query) => {
         /* paginação */
-        let qtdProdutos = await getProdutosCount();
+        let qtdProdutos = await getProdutosCount(query);
         const paginacaoContainer = document.getElementById('home-page-cont');
+        paginacaoContainer.innerHTML = '';
+        let pageHtml = `<li class="page-item active" id="pi_1"><a class="page-link" href="#">1</a></li>`
+        paginacaoContainer.insertAdjacentHTML('beforeend', pageHtml)
         while (qtdProdutos > 9) {
             let page = 2;
             let pageHtml = `<li class="page-item" id="pi_${page}"><a class="page-link" href="#">${page++}</a></li>`
@@ -154,12 +154,27 @@ if (document.head.id === '01') {
         for (let element of pagelinks) {
             element.addEventListener('click', (event) => {
                 event.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth' // Isso tornará a rolagem suave
+                });
                 paginar(element.innerHTML);
             });
         }
+    }
+    popularPaginacao();
 
+    const popularTelaInicialComProdutos = async (query) => {
 
-        let produtos = await getProdutosAtivos();
+        const rowListaProdutos = document.getElementById("row-lista-produtos");
+        const eLoading = document.getElementById('index-loading');
+        rowListaProdutos.classList.add('d-none');
+        eLoading.classList.remove('d-none');
+
+        if (query.pagina == null) {
+            query.pagina = 1;
+        }
+        let produtos = await getProdutosAtivos(query);
         for (const produto of produtos) {
             const imgs = await getImagensProdutoById(produto.id);
             const artista = await getArtistaById(produto.artista_id);
@@ -171,7 +186,7 @@ if (document.head.id === '01') {
             }
         }
         eLoading.classList.add('d-none');
-        let rowListaProdutos = document.getElementById("row-lista-produtos");
+        rowListaProdutos.innerHTML = '';
         rowListaProdutos.classList.remove('d-none');
         produtos.forEach(produto => {
 
@@ -191,8 +206,9 @@ if (document.head.id === '01') {
             rowListaProdutos.insertAdjacentHTML('beforeend', blocoProdutoHtml);
         });
     }
-    popularTelaInicialComProdutos();
+    popularTelaInicialComProdutos(montarQueryHome());
 
+    /* ícone do usuário */
     document.getElementById('user-icon').addEventListener('click', async (event) => {
         event.preventDefault();
         if (await checkLoginFrontEnd()) {
@@ -206,6 +222,8 @@ if (document.head.id === '01') {
         }
     });
 
+
+    /* botões de categorias */
     function getCategoriasSelecionadas() {
         const categoriasSelecionadas = [];
         const botoesCategorias = document.getElementsByClassName("home-bt-categoria");
@@ -217,38 +235,47 @@ if (document.head.id === '01') {
         return categoriasSelecionadas;
     }
 
-    // function montarQueryHome() {
-    //     const ordernacao = document.getElementById('home-select-ordenacao').value;
-    //     const categorias = getCategoriasSelecionadas();
-    //     const texto = document.getElementById('pesquisa-produtos').value;
-    //     let url = '/?';
-    //     switch (ordernacao) {
-    //         case '1':
-    //             url += 'o=preco&ot=desc&';
-    //             break;
-    //         case '2':
-    //             url += 'o=preco&ot=asc&';
-    //             break;
-    //         case '3':
-    //             url += 'o=data&ot=desc&';
-    //             break;
-    //         case '4':
-    //             url += 'o=data&ot=asc&';
-    //             break;
-    //     }
-    //     if (categorias.length > 0) {
-    //         url += 'c=' + categorias.join(',') + '&';
-    //     }
-    //     if (texto != null && texto.trim() !== '') {
-    //         url += 't=' + encodeURIComponent(texto.trim()) + '&';
-    //     }
-    //     console.log(url);
-    //     return url;
-    // }
+    const btCategorias = document.getElementsByClassName('home-bt-categoria');
+    for (let btCategoria of btCategorias) {
+        btCategoria.addEventListener('click', (event) => {
+            for (let bt of btCategorias) {
+                if (bt !== btCategoria) {
+                    bt.classList.remove('active');
+                    bt.setAttribute('aria-pressed', 'false');
+                }
+            }
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // Isso tornará a rolagem suave
+            });
+            event.preventDefault();
+            popularPaginacao(montarQueryHome());
+            popularTelaInicialComProdutos(montarQueryHome());
+        });
+    }
 
-    document.getElementById('bt-pintura').addEventListener('click', (event) => {
+    /* ordenação */
+    const selectOrdenacao = document.getElementById('home-select-ordenacao');
+    selectOrdenacao.addEventListener('change', (event) => {
         event.preventDefault();
-        montarQueryHome();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Isso tornará a rolagem suave
+        });
+        popularPaginacao(montarQueryHome());
+        popularTelaInicialComProdutos(montarQueryHome());
+    });
+
+    /* pesquisa */
+    const btPesquisa = document.getElementById('search-addon');
+    btPesquisa.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Isso tornará a rolagem suave
+        });
+        popularPaginacao(montarQueryHome());
+        popularTelaInicialComProdutos(montarQueryHome());
     });
 
 }

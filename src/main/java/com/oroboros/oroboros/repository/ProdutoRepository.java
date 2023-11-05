@@ -17,12 +17,13 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
    Long countByAtivo(Boolean ativo);
 
-   @Query("select p from Produto p where p.ativo = true and p.categoria.id = :categoria and p.nome like %:texto% order by :ordem, :ordemTipo")
-   public List<Produto> findByQuery(@Param("ordem") String ordem,
-                                    @Param("ordemTipo") String ordemTipo,
-                                    @Param("categoria") String categoria,
-                                    @Param("texto") String texto,
-                                    @Param("pagina") String pagina);
+   @Query("select p from Produto p where p.ativo = true and (:categoria is null or p.categoria.id = :categoria) and (:texto is null or p.nome like %:texto%)")
+   List<Produto> findByQuery(@Param("categoria") Long categoria,
+                                    @Param("texto") String texto);
+
+   @Query("select count(p) from Produto p where p.ativo = true and (:categoria is null or p.categoria.id = :categoria) and (:texto is null or p.nome like %:texto%)")
+   Long countByQuery(@Param("categoria") Long categoria,
+                                    @Param("texto") String texto);
 
 
 }

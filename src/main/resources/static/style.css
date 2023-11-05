@@ -291,6 +291,15 @@ h3 {
     margin: 0;
     padding: 0;
 }
+#search-addon:hover{
+    cursor: pointer;
+    color: #d51c1c;
+}
+#bt-pesquisa:hover{
+    cursor: pointer;
+    color: #d51c1c;
+}
+
 
 .button-admin {
     --font-color: #323232;

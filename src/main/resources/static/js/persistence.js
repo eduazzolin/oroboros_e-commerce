@@ -1,4 +1,3 @@
-
 const getProdutos = async (id, categoria, pagina, ordem, texto) => {
     const url = 'http://127.0.0.1:8080/produto'
     const response = await fetch(url);
@@ -9,24 +8,54 @@ const getProdutos = async (id, categoria, pagina, ordem, texto) => {
     return produtos;
 }
 
-const getProdutosAtivos = async () => {
+const getProdutosAtivos = async (query) => {
+    if (query == null) {
+        query = {}
+    }
     const url = 'http://127.0.0.1:8080/produto/ativos'
-    const response = await fetch(url);
+    let response;
     let produtos = [];
-    if (response.ok) {
-        produtos = await response.json();
+    try {
+        response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(query),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.ok) {
+            produtos = await response.json();
+        }
+        return produtos;
+    } catch (error) {
+        return produtos;
     }
-    return produtos;
+
 }
-const getProdutosCount = async () => {
+const getProdutosCount = async (query) => {
+    if (query == null) {
+        query = {}
+    }
     const url = 'http://127.0.0.1:8080/produto/count';
-    const response = await fetch(url);
     let count = 0;
-    if (response.ok) {
-        count = await response.json();
+    let response;
+    try {
+        response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(query),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.ok) {
+            count = await response.json();
+        }
+        return count;
+    } catch (error) {
+        return count;
     }
-    return count;
 }
+
 const getTodasCategorias = async () => {
     const url = 'http://127.0.0.1:8080/categoria/listar'
     const response = await fetch(url);
