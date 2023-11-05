@@ -32,6 +32,16 @@ public class OroborosController {
       mv.setViewName("prod.html");
       return mv;
    }
+   @RequestMapping("/r")
+   public ModelAndView redirect(HttpServletRequest request, @RequestParam String c) {
+      if (uc.checkAdmin(request)){
+         ModelAndView mv = new ModelAndView();
+         mv.setViewName("admin?c="+c);
+         return mv;
+      } else {
+         return userpage();
+      }
+   }
 
    @RequestMapping("/userpage")
    public ModelAndView userpage() {

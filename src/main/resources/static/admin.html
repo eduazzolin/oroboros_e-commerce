@@ -1,265 +1,330 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>oroboros adm</title>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>oroboros adm</title>
 
-    <!-- fontes -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <!-- fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 
-    <!-- bootstrap e css-->
-    <link rel="stylesheet" href="./assets/css/custom_bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
+  <!-- bootstrap e css-->
+  <link rel="stylesheet" href="./assets/css/custom_bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css">
 
-    <!-- favicon -->
-    <link rel="apple-touch-icon" sizes="120x120" href="img/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
-    <link rel="manifest" href="img/favicon/site.webmanifest" />
-    <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c" />
-    <meta name="theme-color" content="#ffffff" />
-  
-  </head>
-  <body>
-    <script src="js/persistence.js"></script>
+  <!-- favicon -->
+  <link rel="apple-touch-icon" sizes="120x120" href="img/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+  <link rel="manifest" href="img/favicon/site.webmanifest"/>
+  <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c"/>
+  <meta name="theme-color" content="#ffffff"/>
 
-    <!-- cabeçalho -->
-    <div class="container-fluid">
-      <div class="row nav-row">
-        <div class="col-6 nav1">
-          <a href="index.html">
-            <img src="img/logo/logo-escuro.png" height="30" alt="" />
-          </a>
+</head>
+<body>
+<script src="js/persistence.js"></script>
+
+<!-- cabeçalho -->
+<div class="container-fluid">
+  <div class="row nav-row">
+    <div class="col-6 nav1">
+      <a href="index.html">
+        <img src="img/logo/logo-escuro.png" height="30" alt=""/>
+      </a>
+    </div>
+    <div class="col-6 nav1">
+      <div class="container text-left">
+        <div class="row justify-content-end">
+          <div class="col nav-icons">
+            <i class="bi bi-person"></i>
+          </div>
         </div>
-        <div class="col-6 nav1">
-          <div class="container text-left">
-            <div class="row justify-content-end">
-              <div class="col nav-icons">
-                <i class="bi bi-person"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container container-opcoes my-5">
+  <div class="row">
+    <div class="col-12 col-xl-3 d-xl-block d-flex text-xl-end text-center justify-content-center">
+      <div>
+        <button class="button-admin botao-importado-pressinado" id="botao-adm-1" onclick="admSelecaoMenu(this.id)">
+          🎨 Cadastrar produto
+        </button>
+      </div>
+      <div>
+        <button class="button-admin" id="botao-adm-2"
+                onclick="admSelecaoMenu(this.id); admPopularTabelaEditarProdutos()">
+          🖼️ Gerenciar produtos
+        </button>
+      </div>
+      <div>
+        <button class="button-admin" id="botao-adm-3"
+                onclick="admSelecaoMenu(this.id); admPopularTabelaEditarArtistas()">
+          🧑‍🎨 Gerenciar artistas
+        </button>
+      </div>
+      <div>
+        <button class="button-admin" id="botao-adm-4" onclick="admSelecaoMenu(this.id); admPopularTabelaEditarVendas()">
+          🤝 Gerenciar vendas
+        </button>
+      </div>
+    </div>
+
+    <div class="col-xl-9 col-12" id="col-direita-adm">
+      <div class="row">
+        <img id="edu" alt="">
+      </div>
+      <!-- container de cadastrar produtos -->
+      <div class="container container-admin" id="botao-adm-1-cont">
+        <div class="row">
+          <div class="col-lg-6 col-12 mb-3 px-lg-4 col-selecionar-artista">
+            <h1>Selecionar artista</h1>
+            <select class="form-select" onchange="admAbrirSelecaoArtista()" aria-label="Default select example"
+                    id="adm-seletor-artista-cadastrar-produto">
+              <option value="" selected>Selecione um artista</option>
+            </select>
+            <div class="d-none" id="artista-selecionado-cadastrar-produto">
+
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-12 px-lg-4 col-cadastrar-produto">
+            <h1>Cadastrar produto</h1>
+            <form class="form-cadastrar-produto ">
+              <label for="input-imagem-produto" class="form-label">Imagens do produto:</label>
+              <input class="form-control input-login" type="file" id="input-imagem-produto" accept=".png"
+                     multiple="true">
+
+              <label for="inputNomeCadastrarProduto" class="sr-only">Nome</label>
+              <input type="text" id="inputNomeCadastrarProduto" class="form-control  input-login" placeholder="Nome"
+                     required="true">
+
+              <label for="inputDescricaoCadastrarProduto" class="sr-only">Descrição</label>
+              <textarea class="form-control input-login" id="inputDescricaoCadastrarProduto" rows="4"
+                        placeholder="Descrição"></textarea>
+
+              <label for="inputPrecoCadastrarProduto" class="sr-only">Preço</label>
+              <input type="number" id="inputPrecoCadastrarProduto" class="form-control  input-login"
+                     placeholder="R$ 0,00" required="">
+
+              <label for="inputCategoriaCadastrarProduto" class="sr-only">Categoria</label>
+              <select class="form-select input-login" id="inputCategoriaCadastrarProduto"
+                      aria-label="Default select example">
+              </select>
+
+              <div class="form-check form-switch ">
+                <input class="form-check-input" type="checkbox" role="switch" id="inputAtivoCadastrarProduto" checked>
+                <label class="form-check-label" for="inputAtivoCadastrarProduto">Ativar produto</label>
+              </div>
+              <div class="text-end mt-5">
+                <button class="btn btn-lg btn-danger btn-block login-centralizado " type="submit"
+                        id="bt-cadastrar-produto">Cadastrar
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="col-12">
+          </div>
+        </div>
+      </div>
+
+
+      <!-- container de gerenciar produtos -->
+      <div class="container container-admin d-none" id="botao-adm-2-cont">
+        <div class="row">
+          <div class="col-12">
+            <h1>Gerenciar produtos</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-group rounded input-login">
+            <input type="search" class="form-control rounded border-dark" id="pesquisa-produtos" placeholder="Pesquisar"
+                   aria-label="Search" aria-describedby="search-addon"/>
+            <span class="input-group-text border-0" id="search-addon1">
+                            <i class="bi bi-search text-dark"></i>
+                            </span>
+          </div>
+        </div>
+
+        <div class="row row-tabela-gerenciar-produtos">
+          <div class="container" id="cont-tabela-gerenciar-prod">
+          </div>
+        </div>
+
+        <div class="row  border p-3 rounded mt-3  d-none" id="row-produto-selecionado-editar">
+          <form class="form-cadastrar-produto ">
+            <label for="img-produto-selecionado-editar" class="form-label">Editar imagens:</label>
+            <input class="form-control input-login" type="file" id="img-produto-selecionado-editar" accept=".png"
+                   multiple="true">
+
+            <label for="nome-produto-selecionado-editar" class="sr-only">Nome</label>
+            <input type="text" id="nome-produto-selecionado-editar" class="form-control  input-login" placeholder="Nome"
+                   required="true">
+
+            <label for="descricao-produto-selecionado-editar" class="sr-only">Descrição</label>
+            <textarea class="form-control input-login" id="descricao-produto-selecionado-editar" rows="4"
+                      placeholder="Descrição"></textarea>
+
+            <label for="preco-produto-selecionado-editar" class="sr-only">Preço</label>
+            <input type="number" id="preco-produto-selecionado-editar" class="form-control  input-login"
+                   placeholder="R$ 0,00" required="">
+
+            <label for="categoria-produto-selecionado-editar" class="sr-only">Categoria</label>
+            <select class="form-select input-login" id="categoria-produto-selecionado-editar"
+                    aria-label="Default select example">
+            </select>
+
+            <div class="form-check form-switch ">
+              <input class="form-check-input" type="checkbox" role="switch" id="ativo-produto-selecionado-editar"
+                     checked>
+              <label class="form-check-label" for="ativo-produto-selecionado-editar">Ativar produto</label>
+            </div>
+            <div class="login-centralizado mt-5">
+              <button id="bt-remover-produto" class="btn btn-lg btn-danger btn-block login-centralizado ms-2">Remover
+              </button>
+              <button id="bt-salvar-edicao-produto" class="btn btn-lg btn-danger btn-block login-centralizado "
+                      type="submit">Salvar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+      <!-- container de gerenciar artistas -->
+      <div class="container container-admin d-none" id="botao-adm-3-cont">
+        <div class="row">
+          <div class="col-12">
+            <h1>Gerenciar Artistas</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 d-none" id="con-cadastrar-artistas">
+            <div class="container border rounded p-4">
+              <div class="row">
+                <form class="form-cadastrar-artista ">
+                  <label for="img-artista-cadastrar" class="form-label">Foto:</label>
+                  <input class="form-control input-login" type="file" id="img-artista-cadastrar" accept=".png">
+
+                  <label for="nome-artista-cadastrar" class="sr-only">Nome</label>
+                  <input type="text" id="nome-artista-cadastrar" class="form-control  input-login" placeholder="Nome"
+                         required="true">
+
+                  <label for="descricao-artista-cadastrar" class="sr-only">Descrição</label>
+                  <textarea class="form-control input-login" id="descricao-artista-cadastrar" rows="4"
+                            placeholder="Descrição"></textarea>
+
+                  <label for="cpf-cnpj-artista-cadastrar" class="sr-only">CPF/CNPJ</label>
+                  <input type="text" id="cpf-cnpj-artista-cadastrar" class="form-control  input-login"
+                         placeholder="CPF/CNPJ" required="">
+                  <div class="login-centralizado mt-5">
+                    <button class="btn btn-lg btn-danger btn-block login-centralizado"
+                            onclick="admSairCadastrarArtista()">Cancelar
+                    </button>
+                    <button class="btn btn-lg btn-danger btn-block login-centralizado " type="submit"
+                            id="bt-cadastrar-artista-salvar">Salvar
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-12" id="con-editar-artistas">
+            <div class="container">
+              <div class="row">
+                <div>
+                  <button class="button-admin" onclick="admExibirCadastrarArtista()" id="botao-cadastrar-artista">
+                    🧑‍🎨➕ Cadastrar artista
+                  </button>
+                </div>
+                <div class="input-group rounded input-login">
+                  <input type="search" class="form-control rounded border-dark" id="pesquisa-artistas"
+                         placeholder="Pesquisar" aria-label="Search" aria-describedby="search-addon"/>
+                  <span class="input-group-text border-0" id="search-addon">
+                                        <i class="bi bi-search text-dark"></i>
+                                        </span>
+                </div>
+              </div>
+              <div class="row row-tabela-gerenciar-artistas ">
+                <div class="container" id="cont-tabela-gerenciar-artista">
+                </div>
+              </div>
+              <div class="row mt-4 border rounded p-4 d-none" id="row-artista-selecionado-editar">
+                <div>
+                  <img src="img/artist/art-000001.png" width="200px" id="img-artista-selecionado-editar"
+                       class="img-fluid input-login rounded">
+                </div>
+                <form class="form-editar-artista ">
+                  <label for="input-imagem-artista-editar" class="form-label">Editar foto:</label>
+                  <input class="form-control input-login" type="file" id="input-imagem-artista-editar" accept=".png">
+
+                  <label for="nome-artista-selecionado-editar" class="sr-only">Nome</label>
+                  <input type="text" id="nome-artista-selecionado-editar" class="form-control  input-login"
+                         placeholder="Nome" required="true">
+
+                  <label for="descricao-artista-selecionado-editar" class="sr-only">Descrição</label>
+                  <textarea class="form-control input-login" id="descricao-artista-selecionado-editar" rows="4"
+                            placeholder="Descrição"></textarea>
+
+                  <label for="cpf-cnpj-artista-selecionado-editar" class="sr-only">CPF/CNPJ</label>
+                  <input type="text" id="cpf-cnpj-artista-selecionado-editar" class="form-control  input-login"
+                         placeholder="CPF/CNPJ" required="">
+                  <div class="login-centralizado mt-5">
+                    <button class="btn btn-lg btn-danger btn-block login-centralizado " id="bt-salvar-edicao-artista"
+                            type="submit">Salvar
+                    </button>
+                    <button class="btn btn-lg btn-danger btn-block login-centralizado ms-2" id="bt-remover-artista"
+                            type="submit">Remover
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="container container-opcoes my-5">
+
+      <!-- container de gerenciar vendas -->
+      <div class="container container-admin d-none" id="botao-adm-4-cont">
         <div class="row">
-            <div class="col-12 col-xl-3 d-xl-block d-flex text-xl-end text-center justify-content-center">
-                <div>
-                    <button class="button-admin botao-importado-pressinado" id="botao-adm-1" onclick="admSelecaoMenu(this.id)">
-                        🎨 Cadastrar produto
-                      </button>
-                </div>
-                <div>
-                    <button class="button-admin"  id="botao-adm-2" onclick="admSelecaoMenu(this.id); admPopularTabelaEditarProdutos()" >
-                        🖼️ Gerenciar produtos
-                      </button>
-                </div>
-                <div>
-                    <button class="button-admin"   id="botao-adm-3" onclick="admSelecaoMenu(this.id); admPopularTabelaEditarArtistas()"> 
-                        🧑‍🎨 Gerenciar artistas
-                      </button>
-                </div>
-            </div>
-
-            <div class="col-xl-9 col-12" id="col-direita-adm">
-                <div class="row">
-                    <img id="edu" alt="">
-                </div>
-                <!-- container de cadastrar produtos -->
-                <div class="container container-admin" id = "botao-adm-1-cont">
-                    <div class="row">
-                        <div class="col-lg-6 col-12 mb-3 px-lg-4 col-selecionar-artista">
-                            <h1>Selecionar artista</h1>
-                            <select class="form-select" onchange="admAbrirSelecaoArtista()" aria-label="Default select example" id="adm-seletor-artista-cadastrar-produto">
-                                <option value="" selected>Selecione um artista</option>
-                            </select>
-                            <div class="d-none" id = "artista-selecionado-cadastrar-produto">
-                               
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 col-12 px-lg-4 col-cadastrar-produto">
-                            <h1>Cadastrar produto</h1>
-                            <form class="form-cadastrar-produto ">
-                                <label for="input-imagem-produto" class="form-label">Imagens do produto:</label>
-                                <input class="form-control input-login" type="file" id="input-imagem-produto" accept=".png" multiple="true">
-
-                                <label for="inputNomeCadastrarProduto" class="sr-only">Nome</label>
-                                <input type="text" id="inputNomeCadastrarProduto" class="form-control  input-login" placeholder="Nome" required="true">
-
-                                <label for="inputDescricaoCadastrarProduto" class="sr-only">Descrição</label>
-                                <textarea class="form-control input-login" id="inputDescricaoCadastrarProduto" rows="4" placeholder="Descrição"></textarea>
-
-                                <label for="inputPrecoCadastrarProduto" class="sr-only">Preço</label>
-                                <input type="number" id="inputPrecoCadastrarProduto" class="form-control  input-login" placeholder="R$ 0,00" required="" >
-                                
-                                <label for="inputCategoriaCadastrarProduto" class="sr-only">Categoria</label>
-                                <select class="form-select input-login" id="inputCategoriaCadastrarProduto" aria-label="Default select example">
-                                </select>
-
-                                <div class="form-check form-switch ">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="inputAtivoCadastrarProduto" checked>
-                                    <label class="form-check-label" for="inputAtivoCadastrarProduto">Ativar produto</label>
-                                </div>
-                                <div class="text-end mt-5">
-                                    <button class="btn btn-lg btn-danger btn-block login-centralizado " type="submit" id="bt-cadastrar-produto">Cadastrar</button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-12">
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- container de gerenciar produtos -->
-                <div class="container container-admin d-none" id = "botao-adm-2-cont">
-                    <div class="row">
-                        <div class="col-12">
-                            <h1>Gerenciar produtos</h1>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-group rounded input-login">
-                            <input type="search" class="form-control rounded border-dark" id="pesquisa-produtos" placeholder="Pesquisar" aria-label="Search" aria-describedby="search-addon" />
-                            <span class="input-group-text border-0" id="search-addon1">
-                            <i class="bi bi-search text-dark"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="row row-tabela-gerenciar-produtos">
-                        <div class="container" id="cont-tabela-gerenciar-prod">
-                        </div>
-                    </div>
-
-                    <div class="row  border p-3 rounded mt-3  d-none" id="row-produto-selecionado-editar">
-                        <form class="form-cadastrar-produto ">
-                            <label for="img-produto-selecionado-editar" class="form-label">Editar imagens:</label>
-                            <input class="form-control input-login" type="file" id="img-produto-selecionado-editar" accept=".png" multiple="true">
-
-                            <label for="nome-produto-selecionado-editar" class="sr-only">Nome</label>
-                            <input type="text" id="nome-produto-selecionado-editar" class="form-control  input-login" placeholder="Nome" required="true">
-
-                            <label for="descricao-produto-selecionado-editar" class="sr-only">Descrição</label>
-                            <textarea class="form-control input-login" id="descricao-produto-selecionado-editar" rows="4" placeholder="Descrição"></textarea>
-
-                            <label for="preco-produto-selecionado-editar" class="sr-only">Preço</label>
-                            <input type="number" id="preco-produto-selecionado-editar" class="form-control  input-login" placeholder="R$ 0,00" required="" >
-                            
-                            <label for="categoria-produto-selecionado-editar" class="sr-only">Categoria</label>
-                            <select class="form-select input-login" id="categoria-produto-selecionado-editar" aria-label="Default select example">
-                            </select>
-
-                            <div class="form-check form-switch ">
-                                <input class="form-check-input" type="checkbox" role="switch" id="ativo-produto-selecionado-editar" checked>
-                                <label class="form-check-label" for="ativo-produto-selecionado-editar">Ativar produto</label>
-                            </div>
-                            <div class="login-centralizado mt-5">
-                                <button id="bt-remover-produto" class="btn btn-lg btn-danger btn-block login-centralizado ms-2" >Remover</button>
-                                <button id="bt-salvar-edicao-produto" class="btn btn-lg btn-danger btn-block login-centralizado " type="submit">Salvar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-
-                <!-- container de gerenciar artistas -->
-                <div class="container container-admin d-none" id = "botao-adm-3-cont">
-                    <div class="row">
-                        <div class="col-12">
-                            <h1>Gerenciar Artistas</h1>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 d-none" id="con-cadastrar-artistas">
-                            <div class="container border rounded p-4">
-                                <div class="row">
-                                    <form class="form-cadastrar-artista ">
-                                        <label for="img-artista-cadastrar" class="form-label">Foto:</label>
-                                        <input class="form-control input-login" type="file" id="img-artista-cadastrar" accept=".png">
-
-                                        <label for="nome-artista-cadastrar" class="sr-only">Nome</label>
-                                        <input type="text" id="nome-artista-cadastrar" class="form-control  input-login" placeholder="Nome" required="true" >
-
-                                        <label for="descricao-artista-cadastrar" class="sr-only">Descrição</label>
-                                        <textarea class="form-control input-login" id="descricao-artista-cadastrar" rows="4" placeholder="Descrição"></textarea>
-
-                                        <label for="cpf-cnpj-artista-cadastrar" class="sr-only">CPF/CNPJ</label>
-                                        <input type="text" id="cpf-cnpj-artista-cadastrar" class="form-control  input-login" placeholder="CPF/CNPJ" required="" >
-                                        <div class="login-centralizado mt-5">
-                                            <button class="btn btn-lg btn-danger btn-block login-centralizado" onclick="admSairCadastrarArtista()" >Cancelar</button>
-                                            <button class="btn btn-lg btn-danger btn-block login-centralizado " type="submit" id="bt-cadastrar-artista-salvar">Salvar</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            
-                        </div>
-
-                        <div class="col-12" id="con-editar-artistas">
-                            <div class="container">
-                                <div class="row">
-                                    <div>
-                                        <button class="button-admin" onclick="admExibirCadastrarArtista()" id="botao-cadastrar-artista">
-                                            🧑‍🎨➕ Cadastrar artista
-                                        </button>
-                                    </div>
-                                    <div class="input-group rounded input-login">
-                                        <input type="search" class="form-control rounded border-dark" id="pesquisa-artistas" placeholder="Pesquisar" aria-label="Search" aria-describedby="search-addon" />
-                                        <span class="input-group-text border-0" id="search-addon">
-                                        <i class="bi bi-search text-dark"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="row row-tabela-gerenciar-artistas ">
-                                    <div class="container" id="cont-tabela-gerenciar-artista">
-                                    </div>
-                                </div>
-                                <div class="row mt-4 border rounded p-4 d-none" id="row-artista-selecionado-editar">
-                                    <div>
-                                        <img src="img/artist/art-000001.png" width="200px" id="img-artista-selecionado-editar" class="img-fluid input-login rounded">
-                                    </div>
-                                    <form class="form-editar-artista ">
-                                        <label for="input-imagem-artista-editar" class="form-label">Editar foto:</label>
-                                        <input class="form-control input-login" type="file" id="input-imagem-artista-editar" accept=".png">
-
-                                        <label for="nome-artista-selecionado-editar" class="sr-only">Nome</label>
-                                        <input type="text" id="nome-artista-selecionado-editar" class="form-control  input-login" placeholder="Nome" required="true">
-
-                                        <label for="descricao-artista-selecionado-editar" class="sr-only">Descrição</label>
-                                        <textarea class="form-control input-login" id="descricao-artista-selecionado-editar" rows="4" placeholder="Descrição"></textarea>
-
-                                        <label for="cpf-cnpj-artista-selecionado-editar" class="sr-only">CPF/CNPJ</label>
-                                        <input type="text" id="cpf-cnpj-artista-selecionado-editar" class="form-control  input-login" placeholder="CPF/CNPJ" required="" >
-                                        <div class="login-centralizado mt-5">
-                                            <button class="btn btn-lg btn-danger btn-block login-centralizado " id="bt-salvar-edicao-artista" type="submit">Salvar</button>
-                                            <button class="btn btn-lg btn-danger btn-block login-centralizado ms-2" id="bt-remover-artista" type="submit">Remover</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-            </div>
+          <div class="col-12">
+            <h1>Gerenciar vendas</h1>
+          </div>
         </div>
+
+        <div class="row  border p-3 rounded mt-3 d-none " id="row-venda-selecionada-editar">
+
+
+
+
+        </div>
+
+        <div class="row row-tabela-gerenciar-produtos">
+          <div class="container" id="cont-tabela-gerenciar-vendas">
+          </div>
+        </div>
+
+      </div>
+
+
     </div>
+  </div>
+</div>
 
 
-
-    <script defer src="js/oroboros.js"></script>
-    <script defer src="js/trigger.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  </body>
+<script defer src="js/oroboros.js"></script>
+<script defer src="js/trigger.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
 </html>

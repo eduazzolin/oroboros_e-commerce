@@ -1,3 +1,6 @@
+
+
+
 /* coisas da página adm */
 if (document.title == 'oroboros adm') {
     document.getElementById('bt-cadastrar-artista-salvar').addEventListener('click', (event) => {
@@ -55,7 +58,12 @@ if (document.title == 'oroboros adm') {
             eComboBoxEditar.appendChild(optionEditar);
         }
     }
+        let idCompraParametro = new URLSearchParams(window.location.search).get('c');
+    if (idCompraParametro != null) {
+        admSelecaoMenu('botao-adm-4');
+        admExibirEdicaoVenda(idCompraParametro);
 
+    }
     admPopularComboBoxArtistas();
     admPopularComboBoxCategorias();
 }
@@ -82,6 +90,9 @@ if (document.title === 'oroboros login') {
 
     });
 }
+
+
+
 
 
 /* coisas da página inicial */
@@ -281,6 +292,12 @@ if (document.head.id === '01') {
 }
 
 
+
+
+
+
+
+
 /* coisas da página de produto */
 if (document.head.id === '02') {
     let idProdutoParametro = new URLSearchParams(window.location.search).get('id');
@@ -315,7 +332,7 @@ if (document.head.id === '02') {
               R$ ${produto.preco.toFixed(2)}
             </h1>
             <div class="produto-desc-botoes">
-              <button type="button" class="btn btn-outline-danger produto-desc-comprar">Comprar</button>
+              <button type="button" id="bt-comprar" class="btn btn-outline-danger produto-desc-comprar">Comprar</button>
             </div>
           </div>
         `;
@@ -384,6 +401,19 @@ if (document.head.id === '02') {
 
 
         prodloading.classList.add('d-none');
+
+        /* botão de comprar */
+        const btComprar = document.getElementById('bt-comprar');
+        btComprar.addEventListener('click', async (event) => {
+            event.preventDefault();
+            if (await checkLoginFrontEnd()) {
+                await comprarProduto(produto);
+            } else {
+                window.location.href = '/login';
+            }
+        });
+
+
         containerCarrossel.insertAdjacentHTML('beforeend', blocoCarrosselHtml);
 
     }

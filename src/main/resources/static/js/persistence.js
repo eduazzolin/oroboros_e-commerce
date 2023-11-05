@@ -8,6 +8,22 @@ const getProdutos = async (id, categoria, pagina, ordem, texto) => {
     return produtos;
 }
 
+const putProduto = async (produto) => {
+    const url = 'http://127.0.0.1:8080/produto/' + produto.id;
+    const response = await fetch(url, {
+        method: 'PUT',
+        body: JSON.stringify(produto),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (response.ok) {
+        alert('Produto atualizado com sucesso!');
+    } else {
+        alert('Erro ao atualizar produto!');
+    }
+}
+
 const getProdutosAtivos = async (query) => {
     if (query == null) {
         query = {}
@@ -74,8 +90,24 @@ const getTodosArtistas = async () => {
     }
     return artistas;
 }
+const getTodasVendas = async () => {
+    const url = 'http://127.0.0.1:8080/venda/listar'
+    const response = await fetch(url);
+    let vendas = [];
+    if (response.ok) {
+        vendas = await response.json();
+    }
+    return vendas;
+}
 const getArtistaById = async (id) => {
     const url = 'http://127.0.0.1:8080/artista/' + id;
+    const response = await fetch(url);
+    if (response.ok) {
+        return await response.json();
+    }
+}
+const getVendaById = async (id) => {
+    const url = 'http://127.0.0.1:8080/venda/' + id;
     const response = await fetch(url);
     if (response.ok) {
         return await response.json();
@@ -159,6 +191,23 @@ const admSalvarArtistaBanco = async (artista, imgArtista) => {
 
 }
 
+
+const admPutVenda = async (venda) => {
+    const url = 'http://127.0.0.1:8080/venda/put';
+    const response = await fetch(url, {
+        method: 'PUT',
+        body: JSON.stringify(venda),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (response.ok) {
+        alert('Artista atualizado com sucesso!');
+    } else {
+        alert('Erro ao atualizar artista!');
+    }
+}
+
 const admCadastrarProdutoPersistence = async (produto, images) => {
     const url = 'http://127.0.0.1:8080/produto/salvar';
     produto.data_cadastro = new Date();
@@ -185,6 +234,7 @@ const admCadastrarProdutoPersistence = async (produto, images) => {
         return "Erro ao cadastrar produto!"
     }
 }
+
 
 const admSalvarProdutoPersistence = async (produto, images) => {
     const url = 'http://127.0.0.1:8080/produto/' + produto.id;
@@ -332,4 +382,37 @@ const checkRoleFrontEnd = async () => {
     const response = await fetch(url);
     const role = await response.json();
     return role;
+}
+
+const comprarProduto = async (produto) => {
+    const url = 'http://127.0.0.1:8080/venda/novaVenda';
+    const response = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(produto),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (response.ok) {
+        // TODO MANDR PRO ZAP
+        console.log(response);
+        const vendaCadastrada = await response.json();
+
+        // window.location.href = 'http://
+        const telefone = '5521999999999';
+
+        const nomeProduto = encodeURI(vendaCadastrada.produto.nome);
+        const artista = await getArtistaById(vendaCadastrada.produto.artista_id);
+        const nomeArtista = encodeURI(artista.nome);
+        const valorVenda = encodeURI(vendaCadastrada.valor);
+        const urlRedirecionamento = encodeURI('http://127.0.0.1:8080/r?c=' + vendaCadastrada.id);
+        const mensagem = `Ol%C3%A1,%20gostaria%20de%20comprar%20o%20item:%0A-------------------------------%0AProduto:%20${nomeProduto}%0AArtista:%20${nomeArtista}%0AValor:%20R$%20${valorVenda}%0AC%C3%B3digo:${urlRedirecionamento}%20%0A-------------------------------`
+        const urlZap = `https://api.whatsapp.com/send?phone=5523333333333&text=${mensagem}`;
+        alert('Compra realizada com sucesso!');
+        console.log(urlZap);
+
+
+    } else {
+        alert('Erro ao realizar compra!');
+    }
 }

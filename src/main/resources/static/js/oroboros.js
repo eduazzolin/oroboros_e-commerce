@@ -116,6 +116,45 @@ const admSalvarEdicaoArtista = async (id) => {
     location.reload();
 }
 
+const admSalvarEdicaoVenda = async (id) => {
+
+    try {
+        const evalor = document.getElementById('adm-venda-preco-editar');
+        const eStatus = document.getElementById('adm-venda-status-editar');
+        const ePagamento = document.getElementById('adm-venda-pagamento-editar');
+        const eAnotacao = document.getElementById('adm-venda-anotacao-editar');
+
+        const venda = await getVendaById(id);
+        venda.valor = evalor.value;
+        if (eStatus.value !== 0) {
+            venda.status = eStatus.value;
+        }
+        if (ePagamento.value !== 0) {
+            venda.forma_pagamento = ePagamento.value;
+        }
+        venda.comentario = eAnotacao.value;
+
+        if(venda.status !== 'Aguardando pagamento'){
+            venda.produto.ativo = false;
+            // produto.active = false;
+            await putProduto(venda.produto)
+        }
+        const reponse = await admPutVenda(venda);
+        if (reponse.ok) {
+            alert('Venda editada com sucesso!');
+        } else {
+            alert('Erro ao editar venda!');
+        }
+
+    } catch (error) {
+        console.log(error);
+        return;
+    }
+
+    location.reload();
+}
+
+
 const admSalvarEdicaoProduto = async (id) => {
 
 
@@ -236,7 +275,7 @@ const admAbrirSelecaoArtista = async () => {
             `;
     cArtistaSelecionado.innerHTML = conteudoHtml;
 
-    if (eArtistaSelecionado != '') {
+    if (eArtistaSelecionado !== '') {
         cArtistaSelecionado.classList.remove('d-none');
     } else {
         cArtistaSelecionado.classList.add('d-none');
@@ -306,6 +345,116 @@ const admPopularTabelaEditarArtistas = async () => {
         divRow.appendChild(divNome);
         divRow.appendChild(divEditar);
         cTabela.appendChild(divRow);
+    });
+}
+
+const admExibirEdicaoVenda = async (id) => {
+    const venda = await getVendaById(id);
+    const artistaDaVenda = await getArtistaById(venda.produto.artista_id);
+    const eRowVendaSelecionado = document.getElementById('row-venda-selecionada-editar');
+    const imgProduto = await getImagensProdutoById(venda.produto.id);
+    const btSalvar = document.getElementById('bt-salvar-edicao-artista');
+
+    let htmlEdicaoVenda = `
+    <div class="col-lg-4 col-12 mt-lg-1 mt-3" id="coluna-adm-venda-comprador">
+            <label for="div-adm-comprador" class="sr-only">Comprador</label>
+            <div class="border rounded p-1" id="div-adm-comprador">
+              <div id="adm-comprador-nome"><strong>Nome: </strong>${venda.comprador.nome}</div>
+              <div id="adm-comprador-id"><strong>Id: </strong>${venda.comprador.id}</div>
+              <div id="adm-comprador-doc"><strong>CPF/CNPJ: </strong>${venda.comprador.cpf_cnpj}</div>
+              <div id="adm-comprador-data_cad"><strong>Data cadastro: </strong>${venda.comprador.dt_cadastro}</div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-12 mt-lg-1 mt-3" id="coluna-adm-venda-produto">
+            <label for="div-adm-venda-produto" class="sr-only">Produto</label>
+            <div class="border rounded p-1" id="div-adm-venda-produto">
+              <img id="adm-venda-produto-img" src="data:image/png;base64,${imgProduto[0].dados}" alt='' height="150px"
+                   class="img-fluid mb-1 rounded"></img>
+              <div id="adm-venda-produto-nome"><strong>Nome: </strong>${venda.produto.nome}</div>
+              <div id="adm-venda-produto-id"><strong>Id: </strong>${venda.produto.id}</div>
+              <div id="adm-venda-produto-preco"><strong>Preço: </strong>R$ ${parseFloat(venda.valor).toFixed(2)}</div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-12 mt-lg-1 mt-3" id="coluna-adm-venda-artista">
+            <label for="div-adm-venda-artista" class="sr-only">Artista</label>
+            <div class="border rounded p-1" id="div-adm-venda-artista">
+              <img id="adm-venda-artista-img" src="data:image/png;base64,${artistaDaVenda.imagem}" alt='' height="150px"
+                   class="img-fluid mb-1 rounded"></img>
+              <div id="adm-venda-artista-nome"><strong>Nome: </strong>${artistaDaVenda.nome}</div>
+              <div id="adm-venda-artista-id"><strong>Id: </strong>${artistaDaVenda.id}</div>
+              <div id="adm-venda-artista-doc"><strong>CPF/CNPJ: </strong>${artistaDaVenda.cpf_cnpj}</div>
+            </div>
+          </div>
+          
+          <form class="form-editar-venda">
+
+            <label for="adm-venda-preco-editar" class="sr-only">Preço</label>
+            <input type="number" id="adm-venda-preco-editar" class="form-control  input-login"
+                   placeholder="R$ 0,00" required="" value="${parseFloat(venda.valor).toFixed(2)}">
+
+            <label for="adm-venda-status-editar" class="sr-only">Status [atual: ${venda.status}]</label>
+            <select class="form-select input-login" id="adm-venda-status-editar" aria-label="Default select example">
+              <option value="0" selected>Selecione um status</option>
+              <option value="Cancelado">Cancelado</option>
+              <option value="Devolvido">Devolvido</option>
+              <option value="Aguardando pagamento">Aguardando pagamento</option>
+              <option value="Pago">Pago</option>
+              <option value="Entregue">Entregue</option>
+            </select>
+
+            <label for="adm-venda-pagamento-editar" class="sr-only">Forma de pagamento [atual: ${venda.forma_pagamento}]</label>
+            <select class="form-select input-login" id="adm-venda-pagamento-editar" aria-label="Default select example">
+              <option value="0" selected>Selecione uma forma de pagamento</option>
+              <option value="Cartão de crédito">Cartão de crédito</option>
+              <option value="Cartão de débito">Cartão de débito</option>
+              <option value="Boleto">Boleto</option>
+              <option value="Pix">Pix</option>
+              <option value="Outro">Outro</option>
+            </select>
+
+            <label for="adm-venda-anotacao-editar" class="sr-only">Anotação</label>
+                  <textarea class="form-control input-login" id="adm-venda-anotacao-editar" rows="4"
+                            placeholder="Anotações">${venda.comentario}</textarea>
+
+            <div class="login-centralizado mt-5">
+              <button id="bt-salvar-edicao-venda" _id="${venda.id}" class="btn btn-lg btn-danger btn-block login-centralizado "
+                      type="submit">Salvar
+              </button>
+            </div>
+          </form>
+    `;
+
+    eRowVendaSelecionado.innerHTML = htmlEdicaoVenda;
+    if (eRowVendaSelecionado.classList.contains('d-none')) {
+        eRowVendaSelecionado.classList.remove('d-none');
+    }
+
+    document.getElementById('bt-salvar-edicao-venda').addEventListener('click', (event) => {
+        event.preventDefault();
+        const botaoSalvar = event.target;
+        admSalvarEdicaoVenda(botaoSalvar.getAttribute('_id'));
+    });
+
+}
+
+
+const admPopularTabelaEditarVendas = async () => {
+    const cTabela = document.getElementById('cont-tabela-gerenciar-vendas');
+    cTabela.innerHTML = '';
+    const todasVendas = await getTodasVendas();
+    todasVendas.forEach((v) => {
+        let linha = `
+            <div class="row">
+              <div class="col-2 border">${v.id}</div>
+              <div class="col-3 border">${v.dt_venda}</div>
+              <div class="col-4 border">${v.comprador.nome}</div>
+              <div class="col-2 border">${v.status}</div>
+              <div class="col-1 border"><a _id="${v.id}" href="javascript:void(0);" onClick="admExibirEdicaoVenda(${v.id})">editar</a></div>
+            </div>
+        `;
+        cTabela.insertAdjacentHTML('beforeend', linha);
     });
 }
 
