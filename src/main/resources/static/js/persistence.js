@@ -371,18 +371,53 @@ async function stringToHash(inputString) {
     return hashHex;
 }
 
+
+const getDadosLimitadosUsuarioLogado = async () => {
+    const url = 'http://127.0.0.1:8080/usuario/u';
+    const response = await fetch(url);
+    if (response.ok) {
+        return await response.json();
+    }
+}
+
 const checkLoginFrontEnd = async () => {
     const url = 'http://127.0.0.1:8080/usuario/check';
     const response = await fetch(url);
     return response.ok;
 }
-
-const checkRoleFrontEnd = async () => {
+const checkAdminFrontEnd = async () => {
     const url = 'http://127.0.0.1:8080/usuario/checkRole';
     const response = await fetch(url);
     const role = await response.json();
     return role;
 }
+const getComprasUsuarioLogado = async () => {
+    const url = 'http://127.0.0.1:8080/venda/minhasCompras';
+    const response = await fetch(url);
+    if (response.ok) {
+        return await response.json();
+    }
+}
+
+const putUsuario = async (usuario) => {
+    const url = 'http://127.0.0.1:8080/usuario/edit';
+    if (usuario.senha != null && usuario.senha !== '') {
+        usuario.senha = await stringToHash(usuario.senha);
+    }
+    const response = await fetch(url, {
+        method: 'PUT',
+        body: JSON.stringify(usuario),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (response.ok) {
+        alert('Usuário atualizado com sucesso!');
+    } else {
+        alert('Erro ao atualizar usuário!');
+    }
+}
+
 
 const comprarProduto = async (produto) => {
     const url = 'http://127.0.0.1:8080/venda/novaVenda';
@@ -394,11 +429,9 @@ const comprarProduto = async (produto) => {
         }
     });
     if (response.ok) {
-        // TODO MANDR PRO ZAP
         console.log(response);
         const vendaCadastrada = await response.json();
 
-        // window.location.href = 'http://
         const telefone = '5521999999999';
 
         const nomeProduto = encodeURI(vendaCadastrada.produto.nome);
@@ -406,10 +439,9 @@ const comprarProduto = async (produto) => {
         const nomeArtista = encodeURI(artista.nome);
         const valorVenda = encodeURI(vendaCadastrada.valor);
         const urlRedirecionamento = encodeURI('http://127.0.0.1:8080/r?c=' + vendaCadastrada.id);
-        const mensagem = `Ol%C3%A1,%20gostaria%20de%20comprar%20o%20item:%0A-------------------------------%0AProduto:%20${nomeProduto}%0AArtista:%20${nomeArtista}%0AValor:%20R$%20${valorVenda}%0AC%C3%B3digo:${urlRedirecionamento}%20%0A-------------------------------`
+        const mensagem = `Ol%C3%A1,%20gostaria%20de%20comprar%20o%20item:%0A-------------------------------%0AProduto:%20${nomeProduto}%0AArtista:%20${nomeArtista}%0AValor:%20R$%20${valorVenda}%0AC%C3%B3digo:%20${urlRedirecionamento}%20%0A-------------------------------`
         const urlZap = `https://api.whatsapp.com/send?phone=5523333333333&text=${mensagem}`;
-        alert('Compra realizada com sucesso!');
-        console.log(urlZap);
+        window.location.href = urlZap;
 
 
     } else {

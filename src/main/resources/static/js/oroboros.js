@@ -56,10 +56,10 @@ const cadastrarUsuario = async () => {
     if (response.ok) {
         alert('Usuário cadastrado com sucesso!');
         usuarioLogado = await response.json();
-        // TODO - salvar usuarioLogado na sessão e redirecionar
     } else {
         alert('Erro ao cadastrar usuário!');
     }
+    //todo mandar pra sessão!
     location.reload();
 }
 
@@ -458,4 +458,19 @@ const admPopularTabelaEditarVendas = async () => {
     });
 }
 
-/* funções utils */
+const editarUsuario = async () => {
+    const eNome = document.getElementById("up-inputNomeEditar");
+    const eEmail = document.getElementById("up-inputEmailEditar");
+    const eCpfCnpj = document.getElementById("up-inputCPFCNPJEditar");
+    const eSenha = document.getElementById("up-inputPasswordEditar");
+
+    const usuario = {
+        nome: eNome.value,
+        email: eEmail.value,
+        cpf_cnpj: eCpfCnpj.value,
+        senha: eSenha.value
+    }
+    await putUsuario(usuario);
+}
+
+

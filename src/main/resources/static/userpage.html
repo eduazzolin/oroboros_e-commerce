@@ -1,133 +1,136 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>oroboros</title>
+<head id="03">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>oroboros</title>
 
-    <!-- fontes -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <!-- fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 
-    <!-- bootstrap e css-->
-    <link rel="stylesheet" href="./assets/css/custom_bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
+  <!-- bootstrap e css-->
+  <link rel="stylesheet" href="./assets/css/custom_bootstrap.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css">
 
-    <!-- favicon -->
-    <link rel="apple-touch-icon" sizes="120x120" href="img/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
-    <link rel="manifest" href="img/favicon/site.webmanifest" />
-    <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c" />
-    <meta name="theme-color" content="#ffffff" />
-  
-  </head>
-  <body>
-    <!-- cabeçalho -->
-    <div class="container-fluid">
-      <div class="row nav-row">
-        <div class="col-6 nav1">
-          <a href="index.html">
-            <img src="img/logo/logo-escuro.png" height="30" alt="" />
-          </a>
-        </div>
-        <div class="col-6 nav1">
-          <div class="container text-left">
-            <div class="row justify-content-end">
-              <div class="col nav-icons">
-                <i class="bi bi-person"></i>
-              </div>
-            </div>
+  <!-- favicon -->
+  <link rel="apple-touch-icon" sizes="120x120" href="img/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+  <link rel="manifest" href="img/favicon/site.webmanifest"/>
+  <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c"/>
+  <meta name="theme-color" content="#ffffff"/>
+
+</head>
+<body>
+<script src="js/persistence.js"></script>
+<!-- cabeçalho -->
+<div class="container-fluid">
+  <div class="row nav-row">
+    <div class="col-6 nav1">
+      <a href="index.html">
+        <img src="img/logo/logo-escuro.png" height="30" alt=""/>
+      </a>
+    </div>
+    <div class="col-6 nav1">
+      <div class="container text-left">
+        <div class="row justify-content-end">
+          <div class="col nav-icons">
+            <i class="bi bi-person"></i>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- banner -->
-    <div class="container-fluid text-center" id="banner-cont">
-      <div class="row">
-        <div class="col-12 position-relative" id="banner">
-          <img class="img-fluid" src="img/banners/banner5.png" alt="oroboros" />
-          <div class="position-absolute top-0">
-            <p></p>
-          </div>
-        </div>
+<!-- banner -->
+<div class="container-fluid text-center" id="banner-cont">
+  <div class="row">
+    <div class="col-12 position-relative" id="banner">
+      <img class="img-fluid" src="img/banners/banner5.png" alt="oroboros"/>
+      <div class="position-absolute top-0">
+        <p></p>
       </div>
     </div>
+  </div>
+</div>
 
 
+<div class="container container-dados-pessoais my-5">
+  <div class="row">
+    <div class="col-12">
+      <h1>Dados pessoais</h1>
+    </div>
+  </div>
+  <div class="row row-dados-pessoais ms-2">
+    <div class="col-sm-6 col-12">
+      <label for="up-inputNomeEditar">Nome</label>
+      <input type="text" id="up-inputNomeEditar"
+             class="form-control form-editar-perfil" placeholder="Nome"
+             required="">
+      <label for="up-inputCPFCNPJEditar">Documento</label>
+      <input type="text" id="up-inputCPFCNPJEditar"
+             class="form-control form-editar-perfil"
+             placeholder="CPF ou CPNJ"
+             required="">
+    </div>
+    <div class="col-sm-6 col-12">
+      <label for="up-inputEmailEditar">Email</label>
+      <input type="email" id="up-inputEmailEditar"
+             class="form-control form-editar-perfil" placeholder="Email"
+             required="">
+      <label for="up-inputPasswordEditar">Senha</label>
+      <input type="password" id="up-inputPasswordEditar"
+             class="form-control form-editar-perfil" placeholder="Senha"
+             required="">
+    </div>
+    <div class="col-12 text-end">
+      <button id="bt-salvar-edicao-usuario" class="btn btn-lg btn-danger btn-block login-centralizado disabled botao-salvar-alteracoes" type="submit">
+        Salvar alterações
+      </button>
+    </div>
+  </div>
+</div>
 
-    <div class="container container-dados-pessoais my-5">
-        <div class="row">
-            <div class="col-12">
-                 <h1>Dados pessoais</h1>
-            </div>
-        </div>
-        <div class="row row-dados-pessoais ms-2">
-            <div class="col-sm-6 col-12">
-                <input type="text" id="inputNomeEditar" class="form-control form-editar-perfil" placeholder="Nome" required="true" >
-                <input type="text" id="inputCPFCNPJEditar" class="form-control form-editar-perfil" placeholder="CPF ou CPNJ" required="true" >
-            </div>
-            <div class="col-sm-6 col-12">
-                <input type="email" id="inputEmailEditar" class="form-control form-editar-perfil" placeholder="Email" required="" >
-                <input type="password" id="inputPasswordEditar" class="form-control form-editar-perfil" placeholder="Senha" required="">
-            </div>
-            <div class="col-12 text-end">
-                <button class="btn btn-lg btn-danger btn-block login-centralizado disabled botao-salvar-alteracoes" type="submit">Salvar alterações</button>
-            </div>
-        </div>
+<div class="container container-ultimas-compras mb-5" id="up-compras-cont">
+  <div class="row">
+    <div class="col-12">
+      <h1>Últimas compras</h1>
+    </div>
+  </div>
+</div>
+
+
+<!-- rodapé -->
+<div class="container-fluid  container-rodape p-2">
+  <div class="row row-rodape">
+
+    <div class="col-sm-6 col-12 rodape-esquerda d-block">
+      <a href="index.html">
+        <img src="img/logo/logo-escuro.png" height="25" alt=""/>
+      </a>
+      <div class="copyright">Copyright © 2023 www.atelieroroboros.com.br, TODOS OS DIREITOS RESERVADOS.</div>
     </div>
 
-    <div class="container container-ultimas-compras mb-5">
-        <div class="row">
-            <div class="col-12">
-                 <h1>Últimas compras</h1>
-            </div>
-        </div>
-        <div class="row row-ultimas-compras ms-2 my-4">
-            <div class="col-2 col-imagem-ultima-compra">
-                <img src="img/prod/pint-1-0.jpg" alt=""  class="img-fluid">
-            </div>
-            <div class="col-10 col-descricao-ultima-compra">
-                <h2>Pedido #351</h2>
-                <p><strong>Produto: </strong> Gato com as patas na tela </p>
-                <p><strong>Artista: </strong> Maria Da Silva Santos</p>
-                <p><strong>Valor: </strong> R$ 100,00</p>
-                <p><strong>Data: </strong> 01/01/2021</p>
-                <p><strong>Status: </strong> Concluída</p>
-                <a href="mailto:">Contato</a>
-            </div>
-        </div>
+    <div class="col-sm-6 col-12 d-block rodape-direita  d-sm-flex ">
+      <a href="">whatsapp</a>
+      <a href="">instagram</a>
+      <a href="">localização</a>
+      <a href="sobre.html">sobre nós</a>
     </div>
 
+  </div>
+</div>
 
-
-
-
-    <!-- rodapé -->
-    <div class="container-fluid  container-rodape p-2">
-      <div class="row row-rodape">
-
-        <div class="col-sm-6 col-12 rodape-esquerda d-block">
-          <a href="index.html">
-            <img src="img/logo/logo-escuro.png" height="25" alt="" />
-          </a>
-          <div class="copyright">Copyright © 2023 www.atelieroroboros.com.br, TODOS OS DIREITOS RESERVADOS. </div>
-        </div>
-
-        <div class="col-sm-6 col-12 d-block rodape-direita  d-sm-flex ">
-          <a href="">whatsapp</a>
-          <a href="">instagram</a>
-          <a href="">localização</a>
-          <a href="sobre.html">sobre nós</a>
-        </div>
-
-      </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  </body>
+<script defer src="js/oroboros.js"></script>
+<script defer src="js/trigger.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
 </html>

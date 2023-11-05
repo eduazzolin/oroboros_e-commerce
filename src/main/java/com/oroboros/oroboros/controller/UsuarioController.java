@@ -1,5 +1,6 @@
 package com.oroboros.oroboros.controller;
 
+import com.oroboros.oroboros.model.Artista;
 import com.oroboros.oroboros.model.Usuario;
 import com.oroboros.oroboros.repository.UsuarioRepository;
 import com.oroboros.oroboros.util.TokenUtils;
@@ -54,19 +55,55 @@ public class UsuarioController {
    }
 
    @GetMapping("/u")
-   public String usuarioLogado(HttpServletRequest request) {
-      if (request.getSession().getAttribute("usuarioLogado") == null) {
+   public Usuario usuarioLogado(HttpServletRequest request) {
+      if (request.getSession().getAttribute("usuarioLogado") == null || request.getSession().getAttribute("token") == null) {
          return null;
       }
-      if (request.getSession().getAttribute("token") == null) {
+      Usuario u = ur.findByIdAndToken(Long.parseLong(request.getSession().getAttribute("usuarioLogado").toString()), request.getSession().getAttribute("token").toString());
+      if (u == null) {
          return null;
+      } else {
+         if (u.getDt_exp_token().isBefore(LocalDateTime.now())) {
+            return null;
+         } else {
+            u.setToken(null);
+            u.setSenha(null);
+            return u;
+         }
       }
-      return request.getSession().getAttribute("usuarioLogado").toString()+":"+request.getSession().getAttribute("token").toString();
    }
+
+   @PutMapping("/edit")
+   public ResponseEntity<String> putUser(HttpServletRequest request, @RequestBody Usuario u) {
+      if (request.getSession().getAttribute("usuarioLogado") == null || request.getSession().getAttribute("token") == null) {
+         return ResponseEntity.status(401).body("Não autorizado");
+      }
+      Usuario user = ur.findByIdAndToken(Long.parseLong(request.getSession().getAttribute("usuarioLogado").toString()), request.getSession().getAttribute("token").toString());
+      if (user == null || user.getDt_exp_token().isBefore(LocalDateTime.now())) {
+         return ResponseEntity.status(401).body("Não autorizado");
+      }
+      if (u.getNome() != null) {
+         user.setNome(u.getNome());
+      }
+      if (u.getEmail() != null) {
+         user.setEmail(u.getEmail());
+      }
+      if (u.getSenha() != null && !u.getSenha().isBlank()) {
+         user.setSenha(u.getSenha());
+      }
+      if (u.getCpf_cnpj() != null){
+         user.setCpf_cnpj(u.getCpf_cnpj());
+      }
+      ur.save(user);
+      return ResponseEntity.ok("Usuário atualizado");
+   }
+
+   ;
+
 
    @GetMapping("/check")
    public ResponseEntity<String> check(HttpServletRequest request) {
-      if (request.getSession().getAttribute("usuarioLogado") == null) {
+      if (request.getSession().getAttribute("usuarioLogado") == null || request.getSession().getAttribute("token") == null) {
          return ResponseEntity.status(401).body("Não autorizado");
       }
       Long id = Long.parseLong(request.getSession().getAttribute("usuarioLogado").toString());

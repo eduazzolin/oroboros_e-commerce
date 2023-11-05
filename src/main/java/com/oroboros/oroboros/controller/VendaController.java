@@ -30,9 +30,10 @@ public class VendaController {
       vendas.sort((v1, v2) -> v2.getDt_venda().compareTo(v1.getDt_venda()));
       return vendas;
    }
+
    @GetMapping("/{id}")
    public Venda getVendaById(@PathVariable Long id) {
-     return vr.findById(id).orElseThrow(() -> new EntidadeException("Venda", id));
+      return vr.findById(id).orElseThrow(() -> new EntidadeException("Venda", id));
    }
 
    @PutMapping("/put")
@@ -63,4 +64,28 @@ public class VendaController {
 
       return ResponseEntity.ok(vr.save(v));
    }
+
+   @GetMapping("/minhasCompras")
+   public List<Venda> minhasCompras(HttpServletRequest request) {
+      if (request.getSession().getAttribute("usuarioLogado") == null || request.getSession().getAttribute("token") == null) {
+         return null;
+      }
+      Usuario u = ur.findByIdAndToken(Long.parseLong(request.getSession().getAttribute("usuarioLogado").toString()), request.getSession().getAttribute("token").toString());
+      if (u == null) {
+         return null;
+      } else {
+         if (u.getDt_exp_token().isBefore(LocalDateTime.now())) {
+            return null;
+         } else {
+            List<Venda> vendas = vr.findByComprador(u);
+            vendas.sort((v1, v2) -> v2.getDt_venda().compareTo(v1.getDt_venda()));
+            for (Venda v : vendas) {
+               v.setComprador(null);
+            }
+            return vendas;
+         }
+      }
+   }
+
+
 }
