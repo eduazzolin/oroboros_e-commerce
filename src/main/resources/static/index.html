@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
+  <head id="01">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>oroboros</title>
@@ -66,10 +66,10 @@
 
         <!-- categorias -->
         <div class="col-lg-2  mb-3 d-block corpo-row categoria-col-container text-center text-lg-end">
-            <button type="button" class="btn btn-outline-danger my-1 categoria" id="pintura" data-bs-toggle="button" aria-pressed="false" onclick="popularTelaInicialComProdutos()">#pintura</button>
-            <button type="button" class="btn btn-outline-danger my-1 categoria" id="arte_digital" data-bs-toggle="button" aria-pressed="false" onclick="popularTelaInicialComProdutos()">#arte-digital</button>
-            <button type="button" class="btn btn-outline-danger my-1 categoria" id="escultura" data-bs-toggle="button" aria-pressed="false" onclick="popularTelaInicialComProdutos()">#escultura</button>
-            <button type="button" class="btn btn-outline-danger my-1 categoria" id="fotografia" data-bs-toggle="button" aria-pressed="false" onclick="popularTelaInicialComProdutos()">#fotografia</button>
+            <button type="button" class="btn btn-outline-danger my-1 home-bt-categoria" id="bt-pintura" _id="1" data-bs-toggle="button">#pintura</button>
+            <button type="button" class="btn btn-outline-danger my-1 home-bt-categoria" id="bt-arte_digital" _id="3" data-bs-toggle="button" >#arte-digital</button>
+            <button type="button" class="btn btn-outline-danger my-1 home-bt-categoria" id="bt-escultura" _id="2" data-bs-toggle="button" >#escultura</button>
+            <button type="button" class="btn btn-outline-danger my-1 home-bt-categoria" id="bt-fotografia"  _id="4" data-bs-toggle="button" >#fotografia</button>
         </div>
 
         <!-- produtos -->
@@ -91,7 +91,7 @@
 
               <!-- ordenação -->
               <div class="col-6 seletor-container">
-                <select class="form-select border-dark text-dark" aria-label="Default select example">
+                <select class="form-select border-dark text-dark" aria-label="Default select example" id="home-select-ordenacao">
                   <option selected>Ordenar por</option>
                   <option value="1">Preço: maior > menor</option>
                   <option value="2">Preço: menor > maior</option>
@@ -123,12 +123,8 @@
               <div class="col-12 pages-div">
                 <div class="pages-content">
                   <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center ">
-                      <li class="page-item "><a class="page-link" href="#">Anterior</a></li>
-                      <li class="page-item"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item"><a class="page-link" href="#">Próxima</a></li>
+                    <ul class="pagination justify-content-center " id="home-page-cont">
+                      <li class="page-item active" id="pi_1"><a class="page-link" href="#">1</a></li>
                     </ul>
                   </nav>
                 </div>

@@ -80,7 +80,6 @@ a {
 }
 
 .pages-div {
-    /* border: 1px solid black; */
     padding: 1rem;
 }
 
@@ -163,9 +162,20 @@ a:hover {
 }
 
 .page-link:focus {
-    box-shadow: 0 0 0 0.2rem rgba(246, 75, 32, 0.25);
+    box-shadow: 0 0 0 0;
     color: #d51c1c;
     background-color: #ffffff;
+}
+.page-link{
+    border-color: #d51c1c;
+    color: #d51c1c;
+    background-color: #ffffff;
+}
+
+.page-item.active .page-link {
+    background-color: #d51c1c;
+    border-color: #d51c1c;
+    color: #ffffff;
 }
 
 .col-produto-imagem {

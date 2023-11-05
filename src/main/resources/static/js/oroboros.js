@@ -308,3 +308,5 @@ const admPopularTabelaEditarArtistas = async () => {
         cTabela.appendChild(divRow);
     });
 }
+
+/* funções utils */

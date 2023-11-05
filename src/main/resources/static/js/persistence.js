@@ -1,13 +1,3 @@
-const getCategoriasSelecionadas = () => {
-    const categoriasSelecionadas = [];
-    const botoesCategorias = document.getElementsByClassName("categoria");
-    for (let categoria of botoesCategorias) {
-        if (categoria.ariaPressed == "true") {
-            categoriasSelecionadas.push(categoria.id);
-        }
-    }
-    return categoriasSelecionadas;
-}
 
 const getProdutos = async (id, categoria, pagina, ordem, texto) => {
     const url = 'http://127.0.0.1:8080/produto'
@@ -27,6 +17,15 @@ const getProdutosAtivos = async () => {
         produtos = await response.json();
     }
     return produtos;
+}
+const getProdutosCount = async () => {
+    const url = 'http://127.0.0.1:8080/produto/count';
+    const response = await fetch(url);
+    let count = 0;
+    if (response.ok) {
+        count = await response.json();
+    }
+    return count;
 }
 const getTodasCategorias = async () => {
     const url = 'http://127.0.0.1:8080/categoria/listar'
@@ -49,11 +48,9 @@ const getTodosArtistas = async () => {
 const getArtistaById = async (id) => {
     const url = 'http://127.0.0.1:8080/artista/' + id;
     const response = await fetch(url);
-    let artista = null;
     if (response.ok) {
-        artista = await response.json();
+        return await response.json();
     }
-    return artista;
 }
 const getImagensProdutoById = async (id) => {
     const url = 'http://127.0.0.1:8080/imgprod/prodid/' + id;
@@ -76,11 +73,9 @@ const getCategoriaById = async (id) => {
 const getProdutoById = async (id) => {
     const url = 'http://127.0.0.1:8080/produto/' + id;
     const response = await fetch(url);
-    let produto = null;
     if (response.ok) {
-        produto = await response.json();
+        return await response.json();
     }
-    return produto;
 }
 const admRemoverArtista = async (id) => {
     const url = 'http://127.0.0.1:8080/artista/remover/' + id;

@@ -38,12 +38,7 @@ public class ArtistaController {
 
     @GetMapping("/{id}")
     public Artista getArtista(@PathVariable Long id) {
-        Artista p = null;
-        Optional<Artista> artistaOptional = pr.findById(id);
-        if (artistaOptional.isPresent()) {
-            p = artistaOptional.get();
-        }
-        return p;
+       return pr.findById(id).orElseThrow(() -> new EntidadeException("Artista", id));
     }
 
     @GetMapping("/img/{id}")
