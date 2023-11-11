@@ -7,7 +7,9 @@ body {
     padding: 1rem;
     padding-left: 2rem;
 }
-
+#bt-logout:hover{
+    cursor: pointer;
+}
 .nav-icons {
     font-size: 1.5rem;
     text-align: end;
@@ -37,7 +39,9 @@ a {
     text-decoration: none;
     color: #272624;
 }
-
+.corpo-row{
+    min-height: calc(100vh - 350px);
+}
 .rotate-image {
     transform: rotate(90deg); /* Rotate the image by 45 degrees */
 }
@@ -86,7 +90,13 @@ a {
     color: #212529;
     opacity: 1;
 }
-
+.bt-fim-form{
+    align-items: center;
+    justify-content: end;
+}
+.info-fim-form{
+    color: #d51c1c;
+}
 .form-control:focus {
     box-shadow: 0 0 0 0.2rem rgba(246, 75, 32, 0.1);
     border-color: #d51c1c;

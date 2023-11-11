@@ -1,19 +1,12 @@
-
-const putProduto = async (produto) => {
-    const url = 'http://127.0.0.1:8080/produto/' + produto.id;
-    const response = await fetch(url, {
-        method: 'PUT',
-        body: JSON.stringify(produto),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-    if (response.ok) {
-        alert('Produto atualizado com sucesso!');
-    } else {
-        alert('Erro ao atualizar produto!');
-    }
+async function stringToHash(inputString) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(inputString);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+    return hashHex;
 }
+
 const getProdutosAtivos = async (query) => {
     if (query == null) {
         query = {}
@@ -136,73 +129,32 @@ const getProdutoById = async (id) => {
         return await response.json();
     }
 }
-const deleteArtista = async (id) => {
-    const url = 'http://127.0.0.1:8080/artista/remover/' + id;
-    const response = await fetch(url, {
-        method: 'PUT'
-    });
+const getDadosLimitadosUsuarioLogado = async () => {
+    const url = 'http://127.0.0.1:8080/usuario/u';
+    const response = await fetch(url);
     if (response.ok) {
-        alert('Artista removido com sucesso!');
-    } else {
-        alert('Erro ao remover artista!');
+        return await response.json();
     }
-    location.reload();
 }
-const deleteProduto = async (id) => {
-    const url = 'http://127.0.0.1:8080/produto/remover/' + id;
-    const response = await fetch(url, {
-        method: 'PUT'
-    });
-    if (response.ok) {
-        alert('Produto removido com sucesso!');
-    } else {
-        alert('Erro ao remover produto!');
-    }
-    location.reload();
+const getCheckLoginFrontEnd = async () => {
+    const url = 'http://127.0.0.1:8080/usuario/check';
+    const response = await fetch(url);
+    return response.ok;
 }
-const putArtista = async (artista, imgArtista) => {
-    const url = 'http://127.0.0.1:8080/artista/' + artista.id;
-    let response = null;
-    if (imgArtista == null) {
-        response = await fetch(url, {
-            method: 'PUT',
-            body: JSON.stringify(artista),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-    } else {
-        const formData = new FormData();
-        formData.append('image', imgArtista);
-        formData.append('id', artista.id);
-        const urlImg = 'http://127.0.0.1:8080/artista/upload';
-        response = await fetch(urlImg, {
-            method: 'PUT',
-            body: formData
-        });
-    }
+const getCheckAdminFrontEnd = async () => {
+    const url = 'http://127.0.0.1:8080/usuario/checkRole';
+    const response = await fetch(url);
+    const role = await response.json();
+    return role;
+}
+const getComprasUsuarioLogado = async () => {
+    const url = 'http://127.0.0.1:8080/venda/minhasCompras';
+    const response = await fetch(url);
     if (response.ok) {
-        alert('Artista atualizado com sucesso!');
-    } else {
-        alert('Erro ao atualizar artista!');
+        return await response.json();
     }
+}
 
-}
-const putVenda = async (venda) => {
-    const url = 'http://127.0.0.1:8080/venda/put';
-    const response = await fetch(url, {
-        method: 'PUT',
-        body: JSON.stringify(venda),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-    if (response.ok) {
-        alert('Artista atualizado com sucesso!');
-    } else {
-        alert('Erro ao atualizar artista!');
-    }
-}
 const postProdutoPersistence = async (produto, images) => {
     const url = 'http://127.0.0.1:8080/produto/salvar';
     produto.data_cadastro = new Date();
@@ -229,50 +181,6 @@ const postProdutoPersistence = async (produto, images) => {
         return "Erro ao cadastrar produto!"
     }
 }
-const putProdutoPutImg = async (produto, images) => {
-    const url = 'http://127.0.0.1:8080/produto/' + produto.id;
-    produto.categoria = await getCategoriaById(produto.categoria);
-    try {
-        response = await fetch(url, {
-            method: 'PUT',
-            body: JSON.stringify(produto),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        if (response.ok) {
-            await deleteImagensProduto(produto.id);
-            const data = await response.json();
-            if (images instanceof FileList) {
-                for (let image of images) {
-                    const responseImg = await putImagemProduto(image, data.id);
-                    if (!responseImg.ok) {
-                        return "Erro ao cadastrar produto!"
-                    }
-                }
-            } else {
-                for (let image of images) {
-                    const imgProd = {
-                        dados: image.dados,
-                    }
-                    const responseImg = await postImagemProduto(imgProd, produto.id);
-                    if (!responseImg.ok) {
-                        return "Erro ao cadastrar produto!"
-                    }
-                }
-            }
-            return "Produto cadastrado com sucesso!"
-        }
-    } catch (error) {
-        return "Erro ao cadastrar produto!"
-    }
-}
-const deleteImagensProduto = async (id) => {
-    const url = 'http://127.0.0.1:8080/imgprod/deletebyprod/' + id;
-    const response = await fetch(url, {
-        method: 'DELETE'
-    });
-}
 const postImagemProduto = async (image, id) => {
     const url = 'http://127.0.0.1:8080/imgprod/upload/' + id;
     try {
@@ -287,17 +195,6 @@ const postImagemProduto = async (image, id) => {
         return "Erro ao cadastrar produto!"
     }
     return response;
-}
-const putImagemProduto = async (image, id) => {
-    const formData = new FormData();
-    formData.append('image', image);
-    formData.append('id', id);
-    const urlImg = 'http://127.0.0.1:8080/imgprod/upload';
-    return responseImg = await fetch(urlImg, {
-        method: 'PUT',
-        body: formData
-    });
-
 }
 const postArtista = async (artista, imgArtista) => {
     const url = 'http://127.0.0.1:8080/artista/salvar';
@@ -364,57 +261,6 @@ const postLogout = async () => {
         alert('Erro ao realizar logout!');
     }
 }
-async function stringToHash(inputString) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(inputString);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-    return hashHex;
-}
-const getDadosLimitadosUsuarioLogado = async () => {
-    const url = 'http://127.0.0.1:8080/usuario/u';
-    const response = await fetch(url);
-    if (response.ok) {
-        return await response.json();
-    }
-}
-const getCheckLoginFrontEnd = async () => {
-    const url = 'http://127.0.0.1:8080/usuario/check';
-    const response = await fetch(url);
-    return response.ok;
-}
-const getCheckAdminFrontEnd = async () => {
-    const url = 'http://127.0.0.1:8080/usuario/checkRole';
-    const response = await fetch(url);
-    const role = await response.json();
-    return role;
-}
-const getComprasUsuarioLogado = async () => {
-    const url = 'http://127.0.0.1:8080/venda/minhasCompras';
-    const response = await fetch(url);
-    if (response.ok) {
-        return await response.json();
-    }
-}
-const putUsuario = async (usuario) => {
-    const url = 'http://127.0.0.1:8080/usuario/edit';
-    if (usuario.senha != null && usuario.senha !== '') {
-        usuario.senha = await stringToHash(usuario.senha);
-    }
-    const response = await fetch(url, {
-        method: 'PUT',
-        body: JSON.stringify(usuario),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-    if (response.ok) {
-        alert('Usuário atualizado com sucesso!');
-    } else {
-        alert('Erro ao atualizar usuário!');
-    }
-}
 const postVenda = async (produto) => {
     const url = 'http://127.0.0.1:8080/venda/novaVenda';
     const response = await fetch(url, {
@@ -443,4 +289,157 @@ const postVenda = async (produto) => {
     } else {
         alert('Erro ao realizar compra!');
     }
+}
+
+const putArtista = async (artista, imgArtista) => {
+    const url = 'http://127.0.0.1:8080/artista/' + artista.id;
+    let response = null;
+    if (imgArtista == null) {
+        response = await fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(artista),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    } else {
+        const formData = new FormData();
+        formData.append('image', imgArtista);
+        formData.append('id', artista.id);
+        const urlImg = 'http://127.0.0.1:8080/artista/upload';
+        response = await fetch(urlImg, {
+            method: 'PUT',
+            body: formData
+        });
+    }
+    if (response.ok) {
+        alert('Artista atualizado com sucesso!');
+    } else {
+        alert('Erro ao atualizar artista!');
+    }
+
+}
+const putProduto = async (produto) => {
+    const url = 'http://127.0.0.1:8080/produto/' + produto.id;
+    const response = await fetch(url, {
+        method: 'PUT',
+        body: JSON.stringify(produto),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (response.ok) {
+        alert('Produto atualizado com sucesso!');
+    } else {
+        alert('Erro ao atualizar produto!');
+    }
+}
+const putVenda = async (venda) => {
+    const url = 'http://127.0.0.1:8080/venda/put';
+    const response = await fetch(url, {
+        method: 'PUT',
+        body: JSON.stringify(venda),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    return response;
+}
+const putProdutoPutImg = async (produto, images) => {
+    const url = 'http://127.0.0.1:8080/produto/' + produto.id;
+    produto.categoria = await getCategoriaById(produto.categoria);
+    try {
+        response = await fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(produto),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.ok) {
+            await deleteImagensProduto(produto.id);
+            const data = await response.json();
+            if (images instanceof FileList) {
+                for (let image of images) {
+                    const responseImg = await putImagemProduto(image, data.id);
+                    if (!responseImg.ok) {
+                        return "Erro ao cadastrar produto!"
+                    }
+                }
+            } else {
+                for (let image of images) {
+                    const imgProd = {
+                        dados: image.dados,
+                    }
+                    const responseImg = await postImagemProduto(imgProd, produto.id);
+                    if (!responseImg.ok) {
+                        return "Erro ao cadastrar produto!"
+                    }
+                }
+            }
+            return "Produto cadastrado com sucesso!"
+        }
+    } catch (error) {
+        return "Erro ao cadastrar produto!"
+    }
+}
+const putImagemProduto = async (image, id) => {
+    const formData = new FormData();
+    formData.append('image', image);
+    formData.append('id', id);
+    const urlImg = 'http://127.0.0.1:8080/imgprod/upload';
+    return responseImg = await fetch(urlImg, {
+        method: 'PUT',
+        body: formData
+    });
+
+}
+const putUsuario = async (usuario) => {
+    const url = 'http://127.0.0.1:8080/usuario/edit';
+    if (usuario.senha != null && usuario.senha !== '') {
+        usuario.senha = await stringToHash(usuario.senha);
+    }
+    const response = await fetch(url, {
+        method: 'PUT',
+        body: JSON.stringify(usuario),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (response.ok) {
+        alert('Usuário atualizado com sucesso!');
+    } else {
+        alert('Erro ao atualizar usuário!');
+    }
+}
+
+const deleteArtista = async (id) => {
+    const url = 'http://127.0.0.1:8080/artista/remover/' + id;
+    const response = await fetch(url, {
+        method: 'PUT'
+    });
+    if (response.ok) {
+        alert('Artista removido com sucesso!');
+    } else {
+        alert('Erro ao remover artista!');
+    }
+    location.reload();
+}
+const deleteProduto = async (id) => {
+    const url = 'http://127.0.0.1:8080/produto/remover/' + id;
+    const response = await fetch(url, {
+        method: 'PUT'
+    });
+    if (response.ok) {
+        alert('Produto removido com sucesso!');
+    } else {
+        alert('Erro ao remover produto!');
+    }
+    location.reload();
+}
+const deleteImagensProduto = async (id) => {
+    const url = 'http://127.0.0.1:8080/imgprod/deletebyprod/' + id;
+    const response = await fetch(url, {
+        method: 'DELETE'
+    });
 }

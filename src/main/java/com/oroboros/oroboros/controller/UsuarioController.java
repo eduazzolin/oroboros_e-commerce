@@ -19,13 +19,13 @@ public class UsuarioController {
    private UsuarioRepository ur;
 
    @PostMapping("/login")
-   public Usuario login(@RequestBody Usuario u, HttpServletRequest request, @RequestHeader("User-Agent") String userAgent) {
+   public ResponseEntity<String> login(@RequestBody Usuario u, HttpServletRequest request, @RequestHeader("User-Agent") String userAgent) {
       String tokenData = u.getEmail() + ":" + u.getSenha() + ":" + userAgent + ":" + request.getRemoteAddr();
       String token = null;
       try {
          token = TokenUtils.generateToken(tokenData);
       } catch (Exception e) {
-         return null;
+         return ResponseEntity.status(500).body("Erro interno");
       }
       u = ur.findByEmailAndSenha(u.getEmail(), u.getSenha());
       if (u != null) {
@@ -34,12 +34,14 @@ public class UsuarioController {
          ur.save(u);
          request.getSession().setAttribute("usuarioLogado", u.getId());
          request.getSession().setAttribute("token", token);
+         return ResponseEntity.ok("Login realizado");
+      } else {
+         return ResponseEntity.status(401).body("Email ou senha incorretos!");
       }
-      return u;
    }
 
    @PostMapping("/cadastrar")
-   public Usuario cadastro(@RequestBody Usuario u, HttpServletRequest request, @RequestHeader("User-Agent") String userAgent) {
+   public ResponseEntity<String> cadastro(@RequestBody Usuario u, HttpServletRequest request, @RequestHeader("User-Agent") String userAgent) {
       String tokenData = u.getEmail() + ":" + u.getSenha() + ":" + userAgent + ":" + request.getRemoteAddr();
       String token = null;
       try {
@@ -51,7 +53,12 @@ public class UsuarioController {
       u.setDt_exp_token(TokenUtils.generateExpirationDate());
       u.setDt_cadastro(LocalDateTime.now());
       u.setRole("USER");
-      return ur.save(u);
+      try {
+         u = ur.save(u);
+      } catch (Exception e) {
+         return ResponseEntity.status(500).body("Erro interno");
+      }
+      return ResponseEntity.ok("Cadastro realizado");
    }
 
    @GetMapping("/u")

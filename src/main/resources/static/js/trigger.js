@@ -1,3 +1,20 @@
+const colocarCabecalho = async () => {
+    const cCabecalho = document.getElementById('cont-icones-cabecalho');
+    let cHTML = '';
+    if (await getCheckLoginFrontEnd()) {
+        cHTML += `<a onclick="postLogout()" class="bi bi-box-arrow-right me-2" id="bt-logout"></a>`;
+        if (await getCheckAdminFrontEnd()) {
+            cHTML += `<a href="/admin" class="bi bi-wrench-adjustable-circle-fill" id="user-icon"></a>`;
+        } else {
+            cHTML += `<a href="/userpage" class="bi bi-person" id="user-icon"></a>`;
+        }
+    } else {
+        cHTML += `<a href="/login" class="bi bi-person" id="user-icon"></a>`;
+    }
+    cCabecalho.insertAdjacentHTML('beforeend', cHTML);
+}
+colocarCabecalho()
+
 /*
  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -24,10 +41,6 @@
 /* coisas da página adm */
 if (document.title == 'oroboros adm') {
 
-    document.getElementById('bt-logout').addEventListener('click', (event) => {
-        event.preventDefault();
-        postLogout();
-    });
     document.getElementById('bt-cadastrar-artista-salvar').addEventListener('click', (event) => {
         event.preventDefault();
         admCadastrarArtista();
@@ -109,7 +122,7 @@ if (document.title === 'oroboros login') {
     document.getElementById('btLogin').addEventListener('click', (event) => {
         event.preventDefault();
         fazerLogin();
-        window.location.href = '/';
+
     });
     document.getElementById('bt-red-cad').addEventListener('click', (event) => {
         event.preventDefault();
@@ -266,21 +279,6 @@ if (document.head.id === '01') {
         });
     }
     popularTelaInicialComProdutos(montarQueryHome());
-
-    /* ícone do usuário */
-    document.getElementById('user-icon').addEventListener('click', async (event) => {
-        event.preventDefault();
-        if (await getCheckLoginFrontEnd()) {
-            if (await getCheckAdminFrontEnd()) {
-                window.location.href = '/admin';
-            } else {
-                window.location.href = '/userpage';
-            }
-        } else {
-            window.location.href = '/login';
-        }
-    });
-
 
     /* botões de categorias */
     function getCategoriasSelecionadas() {
@@ -519,10 +517,6 @@ if (document.head.id === '03') {
     eEmail.addEventListener('change', ativarBotaoEditar);
     eSenha.addEventListener('change', ativarBotaoEditar);
     eDoc.addEventListener('change', ativarBotaoEditar);
-    document.getElementById('bt-logout').addEventListener('click', (event) => {
-        event.preventDefault();
-        postLogout();
-    });
 
     const popularTelaUsuario = async () => {
         if (await getCheckLoginFrontEnd()) {
@@ -572,6 +566,5 @@ if (document.head.id === '03') {
         }
     }
     popularTelaUsuario();
-
 
 }

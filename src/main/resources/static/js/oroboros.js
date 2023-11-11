@@ -1,7 +1,49 @@
-let usuarioLogado = null;
+function dataFormatada(data) {
+    var dia = data.getDate().toString(),
+        diaF = (dia.length == 1) ? '0' + dia : dia,
+        mes = (data.getMonth() + 1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+        mesF = (mes.length == 1) ? '0' + mes : mes,
+        anoF = data.getFullYear(),
+        horaF = (data.getHours().toString().length == 1) ? '0' + data.getHours() : data.getHours(),
+        minF = (data.getMinutes().toString().length == 1) ? '0' + data.getMinutes() : data.getMinutes(),
+        segF = (data.getSeconds().toString().length == 1) ? '0' + data.getSeconds() : data.getSeconds();
+    return diaF + "/" + mesF + "/" + anoF + ' ' + horaF + ':' + minF + ':' + segF;
+}
+
+
+function validarTelaCadastroProduto(nomeProduto, descricaoProduto, precoProduto, imgProduto, categoriaProdutoId, artistaProdutoId) {
+    const formInfo = document.getElementById('info-fim-form-cad-prod');
+    if (nomeProduto.value == '' || nomeProduto.length > 255) {
+        formInfo.innerText = 'Nome do produto inválido!';
+        return false;
+    }
+    if (descricaoProduto.value == '' || descricaoProduto.length > 500) {
+        formInfo.innerText = 'Descrição do produto inválida!';
+        return false;
+    }
+    if (precoProduto.value == '' || precoProduto.value < 0) {
+        formInfo.innerText = 'Preço do produto inválido!';
+        return false;
+    }
+    if (imgProduto.files[0] == null) {
+        formInfo.innerText = 'Insira uma imagem do produto!';
+        return false;
+    }
+    if (categoriaProdutoId == '') {
+        formInfo.innerText = 'Selecione uma categoria!';
+        return false;
+    }
+    if (artistaProdutoId == '') {
+        formInfo.innerText = 'Selecione um artista!';
+        return false;
+    }
+    formInfo.innerText = '';
+    return true;
+}
 
 /* Funções de CADASTRO */
 const admCadastrarProduto = async () => {
+
     const imgProduto = document.getElementById('input-imagem-produto');
     const nomeProduto = document.getElementById('inputNomeCadastrarProduto');
     const descricaoProduto = document.getElementById('inputDescricaoCadastrarProduto');
@@ -10,16 +52,41 @@ const admCadastrarProduto = async () => {
     const categoriaProdutoId = document.getElementById('inputCategoriaCadastrarProduto').value;
     const artistaProdutoId = document.getElementById('adm-seletor-artista-cadastrar-produto').value;
 
-    const produto = {
-        nome: nomeProduto.value,
-        descricao: descricaoProduto.value,
-        preco: precoProduto.value,
-        categoria: categoriaProdutoId,
-        artista_id: artistaProdutoId,
-        ativo: ativoProduto
+    /* validações */
+    if (validarTelaCadastroProduto(nomeProduto, descricaoProduto, precoProduto, imgProduto, categoriaProdutoId, artistaProdutoId)) {
+        const produto = {
+            nome: nomeProduto.value,
+            descricao: descricaoProduto.value,
+            preco: precoProduto.value,
+            categoria: categoriaProdutoId,
+            artista_id: artistaProdutoId,
+            ativo: ativoProduto
+        }
+        alert(await postProdutoPersistence(produto, imgProduto.files));
+        location.reload();
     }
-    alert(await postProdutoPersistence(produto, imgProduto.files));
-    location.reload();
+}
+
+function validarTelaCadastroArtista(eNomeArtista, eDescricaoArtista, eCpfCnpjArtista, eImgArtista) {
+    const formInfo = document.getElementById('info-fim-form-cad-art');
+    if (eNomeArtista.value == '' || eNomeArtista.value.length > 255) {
+        formInfo.innerText = 'Nome do artista inválido!';
+        return false;
+    }
+    if (eDescricaoArtista.value == '' || eDescricaoArtista.value.length > 400) {
+        formInfo.innerText = 'Descrição do artista inválida!';
+        return false;
+    }
+    if (eCpfCnpjArtista.value == '' || eCpfCnpjArtista.value.length > 14 || eCpfCnpjArtista.value.length < 11 || isNaN(eCpfCnpjArtista.value)) {
+        formInfo.innerText = 'CPF/CNPJ do artista inválido! Insira somente números.';
+        return false;
+    }
+    if (eImgArtista.files[0] == null) {
+        formInfo.innerText = 'Insira uma imagem do artista!';
+        return false;
+    }
+    formInfo.innerText = '';
+    return true;
 }
 
 const admCadastrarArtista = async (id) => {
@@ -29,14 +96,40 @@ const admCadastrarArtista = async (id) => {
     const eImgArtista = document.getElementById('img-artista-cadastrar');
 
 
-    const artista = {
-        nome: eNomeArtista.value,
-        descricao: eDescricaoArtista.value,
-        cpf_cnpj: eCpfCnpjArtista.value,
+    if (validarTelaCadastroArtista(eNomeArtista, eDescricaoArtista, eCpfCnpjArtista, eImgArtista)) {
+        const artista = {
+            nome: eNomeArtista.value,
+            descricao: eDescricaoArtista.value,
+            cpf_cnpj: eCpfCnpjArtista.value,
+        }
+        const imgArtista = eImgArtista.files[0];
+        alert(await postArtista(artista, imgArtista));
+        location.reload();
     }
-    const imgArtista = eImgArtista.files[0];
-    alert(await postArtista(artista, imgArtista));
-    location.reload();
+
+
+}
+
+function validarTelaCadastroUsuario(eNome, eEmail, eCpfCnpj, eSenha) {
+    const infoForm = document.getElementById('info-form-cad');
+    if (eNome.value == '' || eNome.value.length > 255) {
+        infoForm.innerText = 'Nome inválido!';
+        return false;
+    }
+    if (eEmail.value == '' || eEmail.value.length > 255) {
+        infoForm.innerText = 'Email inválido!';
+        return false;
+    }
+    if (eCpfCnpj.value == '' || eCpfCnpj.value.length > 14 || eCpfCnpj.value.length < 11 || isNaN(eCpfCnpj.value)) {
+        infoForm.innerText = 'CPF/CNPJ inválido! Insira somente números.';
+        return false;
+    }
+    if (eSenha.value == '' || eSenha.value.length > 255) {
+        infoForm.innerText = 'Senha inválida!';
+        return false;
+    }
+    infoForm.innerText = '';
+    return true;
 }
 
 const cadastrarUsuario = async () => {
@@ -44,45 +137,66 @@ const cadastrarUsuario = async () => {
     const eEmail = document.getElementById("inputEmailCadUser");
     const eCpfCnpj = document.getElementById("inputCpfCnpjCadUser");
     const eSenha = document.getElementById("inputSenhaCadUser");
+    const infoForm = document.getElementById('info-form-cad');
 
-    const usuario = {
-        nome: eNome.value,
-        email: eEmail.value,
-        cpf_cnpj: eCpfCnpj.value,
-        senha: eSenha.value
-    }
+    if (validarTelaCadastroUsuario(eNome, eEmail, eCpfCnpj, eSenha)) {
+        const usuario = {
+            nome: eNome.value,
+            email: eEmail.value,
+            cpf_cnpj: eCpfCnpj.value,
+            senha: eSenha.value
+        }
 
-    const response = await postUsuario(usuario);
-    if (response.ok) {
-        alert('Usuário cadastrado com sucesso!');
-        usuarioLogado = await response.json();
-    } else {
-        alert('Erro ao cadastrar usuário!');
+        const response = await postUsuario(usuario);
+
+        if (response.ok) {
+            alert('Bem vindo!');
+            window.location.href = '/';
+        } else {
+            infoForm.innerText = await response.text();
+        }
     }
-    //todo mandar pra sessão!
-    location.reload();
 }
 
 const fazerLogin = async () => {
     const eEmail = document.getElementById("inputEmailLoginUser");
     const eSenha = document.getElementById("inputSenhaLoginUser");
+    const infoForm = document.getElementById("info-form-login")
 
-    const usuario = {
-        email: eEmail.value,
-        senha: eSenha.value
-    }
-    const response = await postLogin(usuario);
-    if (response.ok) {
-        try {
-            usuarioLogado = await response.json();
-        } catch (error) {
-            alert('Email ou senha incorretos!');
-        }
-
+    if (eEmail.value == '' || eSenha.value == '') {
+        infoForm.innerText = 'Preencha todos os campos!';
     } else {
-        alert('Erro ao fazer login!');
+        const usuario = {
+            email: eEmail.value,
+            senha: eSenha.value
+        }
+        const response = await postLogin(usuario);
+        if (response.ok) {
+            window.location.href = '/';
+        } else {
+            infoForm.innerText = await response.text();
+        }
     }
-    location.reload();
+
+
+}
+
+function validarTelaEdicaoArtista(eNomeArtistaSelecionado, eDescricaoArtistaSelecionado, eCpfCnpjArtistaSelecionado) {
+    infoForm = document.getElementById('info-fim-form-edit-art');
+    if (eNomeArtistaSelecionado.value == '' || eNomeArtistaSelecionado.value.length > 255) {
+        infoForm.innerText = 'Nome do artista inválido!';
+        return false;
+    }
+    if (eDescricaoArtistaSelecionado.value == '' || eDescricaoArtistaSelecionado.value.length > 400) {
+        infoForm.innerText = 'Descrição do artista inválida!';
+        return false;
+    }
+    if (eCpfCnpjArtistaSelecionado.value == '' || eCpfCnpjArtistaSelecionado.value.length > 14 || eCpfCnpjArtistaSelecionado.value.length < 11 || isNaN(eCpfCnpjArtistaSelecionado.value)) {
+        infoForm.innerText = 'CPF/CNPJ do artista inválido! Insira somente números.';
+        return false;
+    }
+    infoForm.innerText = '';
+    return true;
 }
 
 /* Funções de EDIÇÃO */
@@ -93,48 +207,64 @@ const admSalvarEdicaoArtista = async (id) => {
     const eImgArtistaSelecionado = document.getElementById('img-artista-selecionado-editar');
     const eInputImagemArtistaEditar = document.getElementById('input-imagem-artista-editar');
 
-    if (eInputImagemArtistaEditar.files[0] == null) {
-        const blobImagem = eImgArtistaSelecionado.src.split(',')[1];
-        const artista = {
-            id: id,
-            nome: eNomeArtistaSelecionado.value,
-            descricao: eDescricaoArtistaSelecionado.value,
-            cpf_cnpj: eCpfCnpjArtistaSelecionado.value,
-            imagem: blobImagem
+    if (validarTelaEdicaoArtista(eNomeArtistaSelecionado, eDescricaoArtistaSelecionado, eCpfCnpjArtistaSelecionado)) {
+        if (eInputImagemArtistaEditar.files[0] == null) {
+            const blobImagem = eImgArtistaSelecionado.src.split(',')[1];
+            const artista = {
+                id: id,
+                nome: eNomeArtistaSelecionado.value,
+                descricao: eDescricaoArtistaSelecionado.value,
+                cpf_cnpj: eCpfCnpjArtistaSelecionado.value,
+                imagem: blobImagem
+            }
+            await putArtista(artista);
+        } else {
+            const artista = {
+                id: id,
+                nome: eNomeArtistaSelecionado.value,
+                descricao: eDescricaoArtistaSelecionado.value,
+                cpf_cnpj: eCpfCnpjArtistaSelecionado.value,
+            }
+            const imgArtista = eInputImagemArtistaEditar.files[0];
+            await putArtista(artista, imgArtista);
         }
-        await putArtista(artista);
-    } else {
-        const artista = {
-            id: id,
-            nome: eNomeArtistaSelecionado.value,
-            descricao: eDescricaoArtistaSelecionado.value,
-            cpf_cnpj: eCpfCnpjArtistaSelecionado.value,
-        }
-        const imgArtista = eInputImagemArtistaEditar.files[0];
-        await putArtista(artista, imgArtista);
+        location.reload();
     }
-    location.reload();
+}
+
+function validarTelaEdicaoVenda(evalor, eAnotacao) {
+    const infoForm = document.getElementById('info-fim-form-edit-venda');
+    if (evalor.value == '' || evalor.value < 0) {
+        infoForm.innerText = 'Valor inválido!';
+        return false;
+    }
+    if (eAnotacao.value.length > 1000) {
+        infoForm.innerText = 'Anotação inválida!';
+        return false;
+    }
+    infoForm.innerText = '';
+    return true;
 }
 
 const admSalvarEdicaoVenda = async (id) => {
 
-    try {
-        const evalor = document.getElementById('adm-venda-preco-editar');
-        const eStatus = document.getElementById('adm-venda-status-editar');
-        const ePagamento = document.getElementById('adm-venda-pagamento-editar');
-        const eAnotacao = document.getElementById('adm-venda-anotacao-editar');
+    const evalor = document.getElementById('adm-venda-preco-editar');
+    const eStatus = document.getElementById('adm-venda-status-editar');
+    const ePagamento = document.getElementById('adm-venda-pagamento-editar');
+    const eAnotacao = document.getElementById('adm-venda-anotacao-editar');
 
+    if (validarTelaEdicaoVenda(evalor, eAnotacao)) {
         const venda = await getVendaById(id);
         venda.valor = evalor.value;
-        if (eStatus.value !== 0) {
+        if (eStatus.value != 0) {
             venda.status = eStatus.value;
         }
-        if (ePagamento.value !== 0) {
+        if (ePagamento.value != 0) {
             venda.forma_pagamento = ePagamento.value;
         }
         venda.comentario = eAnotacao.value;
 
-        if(venda.status !== 'Aguardando pagamento'){
+        if (venda.status != 'Aguardando pagamento') {
             venda.produto.ativo = false;
             // produto.active = false;
             await putProduto(venda.produto)
@@ -145,15 +275,33 @@ const admSalvarEdicaoVenda = async (id) => {
         } else {
             alert('Erro ao editar venda!');
         }
-
-    } catch (error) {
-        console.log(error);
-        return;
+        location.reload();
     }
 
-    location.reload();
 }
 
+
+function validarTelaEdicaoProduto(eNomeProdutoSelecionado, eDescricaoAProdutoSelecionado, ePrecoProdutoSelecionado, eCategoriaProdutoSelecionado) {
+    const infoForm = document.getElementById('info-fim-form-edit-prod');
+    if (eNomeProdutoSelecionado.value == '' || eNomeProdutoSelecionado.value.length > 255) {
+        infoForm.innerText = 'Nome do produto inválido!';
+        return false;
+    }
+    if (eDescricaoAProdutoSelecionado.value == '' || eDescricaoAProdutoSelecionado.value.length > 500) {
+        infoForm.innerText = 'Descrição do produto inválida!';
+        return false;
+    }
+    if (ePrecoProdutoSelecionado.value == '' || ePrecoProdutoSelecionado.value < 0) {
+        infoForm.innerText = 'Preço do produto inválido!';
+        return false;
+    }
+    if (eCategoriaProdutoSelecionado == '') {
+        infoForm.innerText = 'Selecione uma categoria!';
+        return false;
+    }
+    infoForm.innerText = '';
+    return true;
+}
 
 const admSalvarEdicaoProduto = async (id) => {
 
@@ -168,23 +316,26 @@ const admSalvarEdicaoProduto = async (id) => {
     const produtoOriginal = await getProdutoById(id);
     const imagensOriginais = await getImagensProdutoById(id);
 
-    const produto = {
-        id: id,
-        nome: eNomeProdutoSelecionado.value,
-        descricao: eDescricaoAProdutoSelecionado.value,
-        preco: ePrecoProdutoSelecionado.value,
-        categoria: eCategoriaProdutoSelecionado,
-        artista_id: produtoOriginal.artista_id,
-        ativo: eAtivoProdutoSelecionado,
-        data_cadastro: produtoOriginal.data_cadastro
+    if (validarTelaEdicaoProduto(eNomeProdutoSelecionado, eDescricaoAProdutoSelecionado, ePrecoProdutoSelecionado, eCategoriaProdutoSelecionado)) {
+        const produto = {
+            id: id,
+            nome: eNomeProdutoSelecionado.value,
+            descricao: eDescricaoAProdutoSelecionado.value,
+            preco: ePrecoProdutoSelecionado.value,
+            categoria: eCategoriaProdutoSelecionado,
+            artista_id: produtoOriginal.artista_id,
+            ativo: eAtivoProdutoSelecionado,
+            data_cadastro: produtoOriginal.data_cadastro
+        }
+
+        if (eImgProdutoSelecionado.files[0] == null) {
+            alert(await putProdutoPutImg(produto, imagensOriginais));
+        } else {
+            alert(await putProdutoPutImg(produto, eImgProdutoSelecionado.files));
+        }
+        location.reload();
     }
 
-    if (eImgProdutoSelecionado.files[0] == null) {
-        alert(await putProdutoPutImg(produto, imagensOriginais));
-    } else {
-        alert(await putProdutoPutImg(produto, eImgProdutoSelecionado.files));
-    }
-    location.reload();
 }
 
 
@@ -301,17 +452,24 @@ const admSairCadastrarArtista = () => {
 
 const admPopularTabelaEditarProdutos = async () => {
     const cTabela = document.getElementById('cont-tabela-gerenciar-prod');
-    cTabela.innerHTML = '';
+    cTabela.innerHTML = '' +
+        '<div class="row">' +
+        '<div class="col-2 border"><strong>Id</strong></div>' +
+        '<div class="col-5 border"><strong>Nome</strong></div>' +
+        '<div class="col-3 border"><strong>Artista</strong></div>' +
+        '<div class="col-2 border"><strong>Editar</strong></div>' +
+        '</div>';
     const produtosAtivos = await getTodosProdutos();
-    produtosAtivos.forEach((p) => {
+    for (const p of produtosAtivos) {
+        const artista = await getArtistaById(p.artista_id);
         const divId = document.createElement('div');
         divId.innerText = p.id;
         divId.classList.add('col-2', 'border');
         const divNome = document.createElement('div')
         divNome.innerText = p.nome;
-        divNome.classList.add('col-4', 'border');
+        divNome.classList.add('col-5', 'border');
         const divArtista = document.createElement('div');
-        divArtista.innerText = p.artista_id;
+        divArtista.innerText = artista.nome;
         divArtista.classList.add('col-3', 'border');
         const divEditar = document.createElement('div');
         divEditar.innerHTML = '<a id=\'' + p.id + '\' href="javascript:void(0);" onclick="admExibirEdicaoProduto(this.id)">editar</a>';
@@ -323,11 +481,16 @@ const admPopularTabelaEditarProdutos = async () => {
         divRow.appendChild(divArtista);
         divRow.appendChild(divEditar);
         cTabela.appendChild(divRow);
-    });
+    }
 }
 const admPopularTabelaEditarArtistas = async () => {
     const cTabela = document.getElementById('cont-tabela-gerenciar-artista');
-    cTabela.innerHTML = '';
+    cTabela.innerHTML = '' +
+        '<div class="row">' +
+        '<div class="col-2 border"><strong>Id</strong></div>' +
+        '<div class="col-8 border"><strong>Nome</strong></div>' +
+        '<div class="col-2 border"><strong>Editar</strong></div>' +
+        '</div>';
     const todosArtistas = await getTodosArtistas();
     todosArtistas.forEach((a) => {
         const divId = document.createElement('div');
@@ -418,7 +581,8 @@ const admExibirEdicaoVenda = async (id) => {
                   <textarea class="form-control input-login" id="adm-venda-anotacao-editar" rows="4"
                             placeholder="Anotações">${venda.comentario}</textarea>
 
-            <div class="login-centralizado mt-5">
+            <div class="text-end mt-5 d-flex bt-fim-form">
+                    <div class="me-5 info-fim-form" id="info-fim-form-edit-venda"></div>
               <button id="bt-salvar-edicao-venda" _id="${venda.id}" class="btn btn-lg btn-danger btn-block login-centralizado "
                       type="submit">Salvar
               </button>
@@ -442,20 +606,49 @@ const admExibirEdicaoVenda = async (id) => {
 
 const admPopularTabelaEditarVendas = async () => {
     const cTabela = document.getElementById('cont-tabela-gerenciar-vendas');
-    cTabela.innerHTML = '';
+    cTabela.innerHTML = '' +
+        '<div class="row">' +
+        '<div class="col-2 border"><strong>Id</strong></div>' +
+        '<div class="col-3 border"><strong>Data</strong></div>' +
+        '<div class="col-3 border"><strong>Comprador</strong></div>' +
+        '<div class="col-3 border"><strong>Status</strong></div>' +
+        '<div class="col-1 border"><strong>Editar</strong></div>' +
+        '</div>';
     const todasVendas = await getTodasVendas();
     todasVendas.forEach((v) => {
         let linha = `
             <div class="row">
               <div class="col-2 border">${v.id}</div>
-              <div class="col-3 border">${v.dt_venda}</div>
-              <div class="col-4 border">${v.comprador.nome}</div>
-              <div class="col-2 border">${v.status}</div>
+              <div class="col-3 border">${dataFormatada(new Date(v.dt_venda))}</div>
+              <div class="col-3 border">${v.comprador.nome}</div>
+              <div class="col-3 border">${v.status}</div>
               <div class="col-1 border"><a _id="${v.id}" href="javascript:void(0);" onClick="admExibirEdicaoVenda(${v.id})">editar</a></div>
             </div>
         `;
         cTabela.insertAdjacentHTML('beforeend', linha);
     });
+}
+
+function validarTelaEdicaoUsuario(eNome, eEmail, eCpfCnpj, eSenha) {
+    const infoForm = document.getElementById('info-form-edit-user');
+    if (eNome.value == '' || eNome.value.length > 255) {
+        infoForm.innerText = 'Nome inválido!';
+        return false;
+    }
+    if (eEmail.value == '' || eEmail.value.length > 255) {
+        infoForm.innerText = 'Email inválido!';
+        return false;
+    }
+    if (eCpfCnpj.value == '' || eCpfCnpj.value.length > 14 || eCpfCnpj.value.length < 11 || isNaN(eCpfCnpj.value)) {
+        infoForm.innerText = 'CPF/CNPJ inválido! Insira somente números.';
+        return false;
+    }
+    if (eSenha.value.length > 255) {
+        infoForm.innerText = 'Senha inválida!';
+        return false;
+    }
+    infoForm.innerText = '';
+    return true;
 }
 
 const editarUsuario = async () => {
@@ -464,13 +657,15 @@ const editarUsuario = async () => {
     const eCpfCnpj = document.getElementById("up-inputCPFCNPJEditar");
     const eSenha = document.getElementById("up-inputPasswordEditar");
 
-    const usuario = {
-        nome: eNome.value,
-        email: eEmail.value,
-        cpf_cnpj: eCpfCnpj.value,
-        senha: eSenha.value
+    if (validarTelaEdicaoUsuario(eNome, eEmail, eCpfCnpj, eSenha)){
+        const usuario = {
+            nome: eNome.value,
+            email: eEmail.value,
+            cpf_cnpj: eCpfCnpj.value,
+            senha: eSenha.value
+        }
+        await putUsuario(usuario);
     }
-    await putUsuario(usuario);
 }
 
 
