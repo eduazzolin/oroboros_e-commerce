@@ -5,7 +5,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.oroboros.oroboros.util.QueryProduto;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,9 +28,11 @@ public class ProdutoController {
 
    @Autowired
    private ProdutoRepository pr;
+   @Autowired
+   UsuarioController uc = new UsuarioController();
 
    @PostMapping("/ativos")
-   public List<Produto> getProdutosAtivos(@RequestBody QueryProduto query) {
+   public List<Produto> getProdutosAtivos(@RequestBody QueryProduto query, HttpServletRequest request) {
       Long categoria = query.categoria();
       String texto = query.texto();
       String ordem = query.ordem();
@@ -90,32 +94,48 @@ public class ProdutoController {
    }
 
    @PostMapping("/salvar")
-   public Produto salvar(@RequestBody Produto p) {
-      return pr.save(p);
+   public Produto salvar(@RequestBody Produto p, HttpServletRequest request) {
+      if (uc.checkAdmin(request)) {
+         return pr.save(p);
+      } else {
+         return null;
+      }
    }
 
    @GetMapping("/listar")
-   public List<Produto> listarProdutos() {
-      return pr.findByRemoved(false);
+   public List<Produto> listarProdutos(HttpServletRequest request) {
+      if (!uc.checkAdmin(request)) {
+         return null;
+      } else {
+         return pr.findByRemoved(false);
+      }
    }
 
    @PutMapping("/{id}")
-   public ResponseEntity<?> atualiza(@PathVariable Long id, @RequestBody Produto a) {
-      Produto produtoAtual = pr.findById(id).orElseThrow(() -> new EntidadeException("Produto", id));
-      if (produtoAtual.getId() != null) {
-         a.setId(id);
-         produtoAtual = pr.save(a);
+   public ResponseEntity<?> atualiza(@PathVariable Long id, @RequestBody Produto a, HttpServletRequest request) {
+      if (!uc.checkAdmin(request)) {
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Acesso negado!");
+      } else {
+         Produto produtoAtual = pr.findById(id).orElseThrow(() -> new EntidadeException("Produto", id));
+         if (produtoAtual.getId() != null) {
+            a.setId(id);
+            produtoAtual = pr.save(a);
+         }
+         return ResponseEntity.ok(produtoAtual);
       }
-      return ResponseEntity.ok(produtoAtual);
    }
 
    @PutMapping("/remover/{id}")
-   public ResponseEntity<?> remocaoLogica(@PathVariable Long id) {
-      Produto p = pr.findById(id).orElseThrow(() -> new EntidadeException("Produto", id));
-      p.setRemoved(true);
-      p.setAtivo(false);
-      p = pr.save(p);
-      return ResponseEntity.ok(p);
+   public ResponseEntity<?> remocaoLogica(@PathVariable Long id, HttpServletRequest request) {
+      if (!uc.checkAdmin(request)) {
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Acesso negado!");
+      } else {
+         Produto p = pr.findById(id).orElseThrow(() -> new EntidadeException("Produto", id));
+         p.setRemoved(true);
+         p.setAtivo(false);
+         p = pr.save(p);
+         return ResponseEntity.ok(p);
+      }
    }
 
 

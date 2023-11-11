@@ -302,7 +302,7 @@ const admSairCadastrarArtista = () => {
 const admPopularTabelaEditarProdutos = async () => {
     const cTabela = document.getElementById('cont-tabela-gerenciar-prod');
     cTabela.innerHTML = '';
-    const produtosAtivos = await getProdutosAtivos();
+    const produtosAtivos = await getTodosProdutos();
     produtosAtivos.forEach((p) => {
         const divId = document.createElement('div');
         divId.innerText = p.id;

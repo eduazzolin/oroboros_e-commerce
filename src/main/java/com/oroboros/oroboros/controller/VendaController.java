@@ -23,22 +23,36 @@ public class VendaController {
 
    @Autowired
    private UsuarioRepository ur;
+   @Autowired
+   UsuarioController uc = new UsuarioController();
 
    @GetMapping("/listar")
-   public List<Venda> getVendas() {
-      List<Venda> vendas = vr.findAll();
-      vendas.sort((v1, v2) -> v2.getDt_venda().compareTo(v1.getDt_venda()));
-      return vendas;
+   public List<Venda> getVendas(HttpServletRequest request) {
+      if (!uc.checkAdmin(request)) {
+         return null;
+      } else {
+         List<Venda> vendas = vr.findAll();
+         vendas.sort((v1, v2) -> v2.getDt_venda().compareTo(v1.getDt_venda()));
+         return vendas;
+      }
    }
 
    @GetMapping("/{id}")
-   public Venda getVendaById(@PathVariable Long id) {
-      return vr.findById(id).orElseThrow(() -> new EntidadeException("Venda", id));
+   public Venda getVendaById(@PathVariable Long id, HttpServletRequest request) {
+      if (!uc.checkAdmin(request)) {
+         return null;
+      } else {
+         return vr.findById(id).orElseThrow(() -> new EntidadeException("Venda", id));
+      }
    }
 
    @PutMapping("/put")
-   public ResponseEntity<?> putVenda(@RequestBody Venda v) {
-      return ResponseEntity.ok(vr.save(v));
+   public ResponseEntity<?> putVenda(@RequestBody Venda v, HttpServletRequest request) {
+      if (!uc.checkAdmin(request)) {
+         return ResponseEntity.status(401).body("Não autorizado");
+      } else {
+         return ResponseEntity.ok(vr.save(v));
+      }
    }
 
    @PostMapping("/novaVenda")

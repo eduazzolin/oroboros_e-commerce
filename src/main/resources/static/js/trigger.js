@@ -23,6 +23,11 @@
 
 /* coisas da página adm */
 if (document.title == 'oroboros adm') {
+
+    document.getElementById('bt-logout').addEventListener('click', (event) => {
+        event.preventDefault();
+        postLogout();
+    });
     document.getElementById('bt-cadastrar-artista-salvar').addEventListener('click', (event) => {
         event.preventDefault();
         admCadastrarArtista();
@@ -84,6 +89,12 @@ if (document.title == 'oroboros adm') {
         admExibirEdicaoVenda(idCompraParametro);
 
     }
+    const liberarPagina = async () => {
+        if (!await checkAdminFrontEnd()) {
+            window.location.href = '/login';
+        }
+    }
+    liberarPagina();
     admPopularComboBoxArtistas();
     admPopularComboBoxCategorias();
 }
@@ -494,6 +505,7 @@ if (document.head.id === '02') {
  */
 if (document.head.id === '03') {
 
+
     const ativarBotaoEditar = () => {
         document.getElementById('bt-salvar-edicao-usuario').classList.remove('disabled');
     }
@@ -507,8 +519,12 @@ if (document.head.id === '03') {
     eEmail.addEventListener('change', ativarBotaoEditar);
     eSenha.addEventListener('change', ativarBotaoEditar);
     eDoc.addEventListener('change', ativarBotaoEditar);
+    document.getElementById('bt-logout').addEventListener('click', (event) => {
+        event.preventDefault();
+        postLogout();
+    });
 
-    const popularTelaLogin = async () => {
+    const popularTelaUsuario = async () => {
         if (await checkLoginFrontEnd()) {
             if (await checkAdminFrontEnd()) {
                 window.location.href = '/admin';
@@ -551,9 +567,11 @@ if (document.head.id === '03') {
                 eCompras.insertAdjacentHTML('beforeend', htmlCompras);
             }
 
+        } else {
+            window.location.href = '/login';
         }
     }
-    popularTelaLogin();
+    popularTelaUsuario();
 
 
 }

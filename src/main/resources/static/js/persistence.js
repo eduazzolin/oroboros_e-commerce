@@ -99,6 +99,15 @@ const getTodasVendas = async () => {
     }
     return vendas;
 }
+const getTodosProdutos = async () => {
+    const url = 'http://127.0.0.1:8080/produto/listar'
+    const response = await fetch(url);
+    let produtos = [];
+    if (response.ok) {
+        produtos = await response.json();
+    }
+    return produtos;
+}
 const getArtistaById = async (id) => {
     const url = 'http://127.0.0.1:8080/artista/' + id;
     const response = await fetch(url);
@@ -106,6 +115,7 @@ const getArtistaById = async (id) => {
         return await response.json();
     }
 }
+
 const getVendaById = async (id) => {
     const url = 'http://127.0.0.1:8080/venda/' + id;
     const response = await fetch(url);
@@ -122,6 +132,7 @@ const getImagensProdutoById = async (id) => {
     }
     return imagens;
 }
+
 const getCategoriaById = async (id) => {
     const url = 'http://127.0.0.1:8080/categoria/' + id;
     const response = await fetch(url);
@@ -360,7 +371,20 @@ const fazerLoginPersistence = async (usuario) => {
         }
     });
 }
-
+const postLogout = async () => {
+    const url = 'http://127.0.0.1:8080/usuario/logout';
+    const response = await fetch(url, {
+        method: 'POST'
+    });
+    if (response.ok) {
+        // remover token e usuario da sessão
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuarioLogado');
+        window.location.href = '/';
+    } else {
+        alert('Erro ao realizar logout!');
+    }
+}
 
 async function stringToHash(inputString) {
     const encoder = new TextEncoder();

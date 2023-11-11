@@ -32,22 +32,28 @@ public class OroborosController {
       mv.setViewName("prod.html");
       return mv;
    }
+
    @RequestMapping("/r")
    public ModelAndView redirect(HttpServletRequest request, @RequestParam String c) {
-      if (uc.checkAdmin(request)){
+      if (uc.checkAdmin(request)) {
          ModelAndView mv = new ModelAndView();
-         mv.setViewName("admin?c="+c);
+         mv.setViewName("admin?c=" + c);
          return mv;
       } else {
-         return userpage();
+         return userpage(request);
       }
    }
 
+
    @RequestMapping("/userpage")
-   public ModelAndView userpage() {
-      ModelAndView mv = new ModelAndView();
-      mv.setViewName("userpage.html");
-      return mv;
+   public ModelAndView userpage(HttpServletRequest request) {
+      if (uc.check(request).getBody() == "Autorizado") {
+         ModelAndView mv = new ModelAndView();
+         mv.setViewName("userpage.html");
+         return mv;
+      } else {
+         return login();
+      }
    }
 
    @RequestMapping("/login")
@@ -59,7 +65,7 @@ public class OroborosController {
 
    @RequestMapping("/admin")
    public ModelAndView admin(HttpServletRequest request) {
-      if (uc.checkAdmin(request)){
+      if (uc.checkAdmin(request)) {
          ModelAndView mv = new ModelAndView();
          mv.setViewName("admin.html");
          return mv;
@@ -68,10 +74,6 @@ public class OroborosController {
       }
    }
 
-   public ModelAndView adminPage() {
-      ModelAndView mv = new ModelAndView();
-      mv.setViewName("admin.html");
-      return mv;
-   }
+
 
 }
