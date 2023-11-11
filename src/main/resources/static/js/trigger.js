@@ -46,12 +46,12 @@ if (document.title == 'oroboros adm') {
     document.getElementById('bt-remover-artista').addEventListener('click', (event) => {
         event.preventDefault();
         const botaoRemover = event.target;
-        admRemoverArtista(botaoRemover.getAttribute('_id'));
+        deleteArtista(botaoRemover.getAttribute('_id'));
     });
     document.getElementById('bt-remover-produto').addEventListener('click', (event) => {
         event.preventDefault();
         const botaoRemover = event.target;
-        admRemoverProduto(botaoRemover.getAttribute('_id'));
+        deleteProduto(botaoRemover.getAttribute('_id'));
     });
     document.getElementById('bt-cadastrar-produto').addEventListener('click', (event) => {
         event.preventDefault();
@@ -90,7 +90,7 @@ if (document.title == 'oroboros adm') {
 
     }
     const liberarPagina = async () => {
-        if (!await checkAdminFrontEnd()) {
+        if (!await getCheckAdminFrontEnd()) {
             window.location.href = '/login';
         }
     }
@@ -270,8 +270,8 @@ if (document.head.id === '01') {
     /* ícone do usuário */
     document.getElementById('user-icon').addEventListener('click', async (event) => {
         event.preventDefault();
-        if (await checkLoginFrontEnd()) {
-            if (await checkAdminFrontEnd()) {
+        if (await getCheckLoginFrontEnd()) {
+            if (await getCheckAdminFrontEnd()) {
                 window.location.href = '/admin';
             } else {
                 window.location.href = '/userpage';
@@ -467,8 +467,8 @@ if (document.head.id === '02') {
         const btComprar = document.getElementById('bt-comprar');
         btComprar.addEventListener('click', async (event) => {
             event.preventDefault();
-            if (await checkLoginFrontEnd()) {
-                await comprarProduto(produto);
+            if (await getCheckLoginFrontEnd()) {
+                await postVenda(produto);
             } else {
                 window.location.href = '/login';
             }
@@ -525,8 +525,8 @@ if (document.head.id === '03') {
     });
 
     const popularTelaUsuario = async () => {
-        if (await checkLoginFrontEnd()) {
-            if (await checkAdminFrontEnd()) {
+        if (await getCheckLoginFrontEnd()) {
+            if (await getCheckAdminFrontEnd()) {
                 window.location.href = '/admin';
             }
             const dadosUsuario = await getDadosLimitadosUsuarioLogado();

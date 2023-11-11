@@ -18,7 +18,7 @@ const admCadastrarProduto = async () => {
         artista_id: artistaProdutoId,
         ativo: ativoProduto
     }
-    alert(await admCadastrarProdutoPersistence(produto, imgProduto.files));
+    alert(await postProdutoPersistence(produto, imgProduto.files));
     location.reload();
 }
 
@@ -35,7 +35,7 @@ const admCadastrarArtista = async (id) => {
         cpf_cnpj: eCpfCnpjArtista.value,
     }
     const imgArtista = eImgArtista.files[0];
-    alert(await admCadastrarArtistaBanco(artista, imgArtista));
+    alert(await postArtista(artista, imgArtista));
     location.reload();
 }
 
@@ -52,7 +52,7 @@ const cadastrarUsuario = async () => {
         senha: eSenha.value
     }
 
-    const response = await cadastrarUsuarioPersistence(usuario);
+    const response = await postUsuario(usuario);
     if (response.ok) {
         alert('Usuário cadastrado com sucesso!');
         usuarioLogado = await response.json();
@@ -71,7 +71,7 @@ const fazerLogin = async () => {
         email: eEmail.value,
         senha: eSenha.value
     }
-    const response = await fazerLoginPersistence(usuario);
+    const response = await postLogin(usuario);
     if (response.ok) {
         try {
             usuarioLogado = await response.json();
@@ -102,7 +102,7 @@ const admSalvarEdicaoArtista = async (id) => {
             cpf_cnpj: eCpfCnpjArtistaSelecionado.value,
             imagem: blobImagem
         }
-        await admSalvarArtistaBanco(artista);
+        await putArtista(artista);
     } else {
         const artista = {
             id: id,
@@ -111,7 +111,7 @@ const admSalvarEdicaoArtista = async (id) => {
             cpf_cnpj: eCpfCnpjArtistaSelecionado.value,
         }
         const imgArtista = eInputImagemArtistaEditar.files[0];
-        await admSalvarArtistaBanco(artista, imgArtista);
+        await putArtista(artista, imgArtista);
     }
     location.reload();
 }
@@ -139,7 +139,7 @@ const admSalvarEdicaoVenda = async (id) => {
             // produto.active = false;
             await putProduto(venda.produto)
         }
-        const reponse = await admPutVenda(venda);
+        const reponse = await putVenda(venda);
         if (reponse.ok) {
             alert('Venda editada com sucesso!');
         } else {
@@ -180,9 +180,9 @@ const admSalvarEdicaoProduto = async (id) => {
     }
 
     if (eImgProdutoSelecionado.files[0] == null) {
-        alert(await admSalvarProdutoPersistence(produto, imagensOriginais));
+        alert(await putProdutoPutImg(produto, imagensOriginais));
     } else {
-        alert(await admSalvarProdutoPersistence(produto, eImgProdutoSelecionado.files));
+        alert(await putProdutoPutImg(produto, eImgProdutoSelecionado.files));
     }
     location.reload();
 }

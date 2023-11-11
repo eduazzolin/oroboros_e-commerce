@@ -1,12 +1,3 @@
-const getProdutos = async (id, categoria, pagina, ordem, texto) => {
-    const url = 'http://127.0.0.1:8080/produto'
-    const response = await fetch(url);
-    let produtos = [];
-    if (response.ok) {
-        produtos = await response.json();
-    }
-    return produtos;
-}
 
 const putProduto = async (produto) => {
     const url = 'http://127.0.0.1:8080/produto/' + produto.id;
@@ -23,7 +14,6 @@ const putProduto = async (produto) => {
         alert('Erro ao atualizar produto!');
     }
 }
-
 const getProdutosAtivos = async (query) => {
     if (query == null) {
         query = {}
@@ -71,7 +61,6 @@ const getProdutosCount = async (query) => {
         return count;
     }
 }
-
 const getTodasCategorias = async () => {
     const url = 'http://127.0.0.1:8080/categoria/listar'
     const response = await fetch(url);
@@ -115,7 +104,6 @@ const getArtistaById = async (id) => {
         return await response.json();
     }
 }
-
 const getVendaById = async (id) => {
     const url = 'http://127.0.0.1:8080/venda/' + id;
     const response = await fetch(url);
@@ -132,7 +120,6 @@ const getImagensProdutoById = async (id) => {
     }
     return imagens;
 }
-
 const getCategoriaById = async (id) => {
     const url = 'http://127.0.0.1:8080/categoria/' + id;
     const response = await fetch(url);
@@ -149,7 +136,7 @@ const getProdutoById = async (id) => {
         return await response.json();
     }
 }
-const admRemoverArtista = async (id) => {
+const deleteArtista = async (id) => {
     const url = 'http://127.0.0.1:8080/artista/remover/' + id;
     const response = await fetch(url, {
         method: 'PUT'
@@ -161,7 +148,7 @@ const admRemoverArtista = async (id) => {
     }
     location.reload();
 }
-const admRemoverProduto = async (id) => {
+const deleteProduto = async (id) => {
     const url = 'http://127.0.0.1:8080/produto/remover/' + id;
     const response = await fetch(url, {
         method: 'PUT'
@@ -173,7 +160,7 @@ const admRemoverProduto = async (id) => {
     }
     location.reload();
 }
-const admSalvarArtistaBanco = async (artista, imgArtista) => {
+const putArtista = async (artista, imgArtista) => {
     const url = 'http://127.0.0.1:8080/artista/' + artista.id;
     let response = null;
     if (imgArtista == null) {
@@ -201,9 +188,7 @@ const admSalvarArtistaBanco = async (artista, imgArtista) => {
     }
 
 }
-
-
-const admPutVenda = async (venda) => {
+const putVenda = async (venda) => {
     const url = 'http://127.0.0.1:8080/venda/put';
     const response = await fetch(url, {
         method: 'PUT',
@@ -218,8 +203,7 @@ const admPutVenda = async (venda) => {
         alert('Erro ao atualizar artista!');
     }
 }
-
-const admCadastrarProdutoPersistence = async (produto, images) => {
+const postProdutoPersistence = async (produto, images) => {
     const url = 'http://127.0.0.1:8080/produto/salvar';
     produto.data_cadastro = new Date();
     produto.categoria = await getCategoriaById(produto.categoria);
@@ -234,7 +218,7 @@ const admCadastrarProdutoPersistence = async (produto, images) => {
         if (response.ok) {
             const data = await response.json();
             for (let image of images) {
-                const responseImg = await uploadImagemProduto(image, data.id);
+                const responseImg = await putImagemProduto(image, data.id);
                 if (!responseImg.ok) {
                     return "Erro ao cadastrar produto!"
                 }
@@ -245,9 +229,7 @@ const admCadastrarProdutoPersistence = async (produto, images) => {
         return "Erro ao cadastrar produto!"
     }
 }
-
-
-const admSalvarProdutoPersistence = async (produto, images) => {
+const putProdutoPutImg = async (produto, images) => {
     const url = 'http://127.0.0.1:8080/produto/' + produto.id;
     produto.categoria = await getCategoriaById(produto.categoria);
     try {
@@ -263,7 +245,7 @@ const admSalvarProdutoPersistence = async (produto, images) => {
             const data = await response.json();
             if (images instanceof FileList) {
                 for (let image of images) {
-                    const responseImg = await uploadImagemProduto(image, data.id);
+                    const responseImg = await putImagemProduto(image, data.id);
                     if (!responseImg.ok) {
                         return "Erro ao cadastrar produto!"
                     }
@@ -273,7 +255,7 @@ const admSalvarProdutoPersistence = async (produto, images) => {
                     const imgProd = {
                         dados: image.dados,
                     }
-                    const responseImg = await uploadUpdateImagemProduto(imgProd, produto.id);
+                    const responseImg = await postImagemProduto(imgProd, produto.id);
                     if (!responseImg.ok) {
                         return "Erro ao cadastrar produto!"
                     }
@@ -291,7 +273,7 @@ const deleteImagensProduto = async (id) => {
         method: 'DELETE'
     });
 }
-const uploadUpdateImagemProduto = async (image, id) => {
+const postImagemProduto = async (image, id) => {
     const url = 'http://127.0.0.1:8080/imgprod/upload/' + id;
     try {
         response = await fetch(url, {
@@ -306,8 +288,7 @@ const uploadUpdateImagemProduto = async (image, id) => {
     }
     return response;
 }
-
-const uploadImagemProduto = async (image, id) => {
+const putImagemProduto = async (image, id) => {
     const formData = new FormData();
     formData.append('image', image);
     formData.append('id', id);
@@ -318,8 +299,7 @@ const uploadImagemProduto = async (image, id) => {
     });
 
 }
-
-const admCadastrarArtistaBanco = async (artista, imgArtista) => {
+const postArtista = async (artista, imgArtista) => {
     const url = 'http://127.0.0.1:8080/artista/salvar';
     artista.data_cadastro = new Date();
     artistaJson = JSON.stringify(artista);
@@ -348,8 +328,7 @@ const admCadastrarArtistaBanco = async (artista, imgArtista) => {
     }
 
 }
-
-const cadastrarUsuarioPersistence = async (usuario) => {
+const postUsuario = async (usuario) => {
     const url = 'http://127.0.0.1:8080/usuario/cadastrar';
     usuario.senha = await stringToHash(usuario.senha);
     return await fetch(url, {
@@ -360,7 +339,7 @@ const cadastrarUsuarioPersistence = async (usuario) => {
         }
     });
 }
-const fazerLoginPersistence = async (usuario) => {
+const postLogin = async (usuario) => {
     const url = 'http://127.0.0.1:8080/usuario/login';
     usuario.senha = await stringToHash(usuario.senha);
     return await fetch(url, {
@@ -385,7 +364,6 @@ const postLogout = async () => {
         alert('Erro ao realizar logout!');
     }
 }
-
 async function stringToHash(inputString) {
     const encoder = new TextEncoder();
     const data = encoder.encode(inputString);
@@ -394,8 +372,6 @@ async function stringToHash(inputString) {
     const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
     return hashHex;
 }
-
-
 const getDadosLimitadosUsuarioLogado = async () => {
     const url = 'http://127.0.0.1:8080/usuario/u';
     const response = await fetch(url);
@@ -403,13 +379,12 @@ const getDadosLimitadosUsuarioLogado = async () => {
         return await response.json();
     }
 }
-
-const checkLoginFrontEnd = async () => {
+const getCheckLoginFrontEnd = async () => {
     const url = 'http://127.0.0.1:8080/usuario/check';
     const response = await fetch(url);
     return response.ok;
 }
-const checkAdminFrontEnd = async () => {
+const getCheckAdminFrontEnd = async () => {
     const url = 'http://127.0.0.1:8080/usuario/checkRole';
     const response = await fetch(url);
     const role = await response.json();
@@ -422,7 +397,6 @@ const getComprasUsuarioLogado = async () => {
         return await response.json();
     }
 }
-
 const putUsuario = async (usuario) => {
     const url = 'http://127.0.0.1:8080/usuario/edit';
     if (usuario.senha != null && usuario.senha !== '') {
@@ -441,9 +415,7 @@ const putUsuario = async (usuario) => {
         alert('Erro ao atualizar usuário!');
     }
 }
-
-
-const comprarProduto = async (produto) => {
+const postVenda = async (produto) => {
     const url = 'http://127.0.0.1:8080/venda/novaVenda';
     const response = await fetch(url, {
         method: 'POST',
