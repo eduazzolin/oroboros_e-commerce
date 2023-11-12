@@ -48,7 +48,7 @@ a {
 }
 
 .rotate-image {
-    transform: rotate(90deg); /* Rotate the image by 45 degrees */
+    transform: rotate(90deg);
 }
 
 .produto-content {
@@ -67,7 +67,6 @@ a {
     min-height: 30px;
     align-items: end;
     font-size: 10pt;
-    /*color: #272624;*/
 }
 
 #index-loading {
@@ -117,14 +116,12 @@ a {
 
 .sobre-paragrafo {
     text-align: justify;
-    /* line-height: 1.2; */
     font-weight: 300;
 }
 
 .sobre-frase {
     text-align: right;
     font-weight: 600;
-    /* line-height: 1.2; */
 }
 
 .sobre-pics-container {

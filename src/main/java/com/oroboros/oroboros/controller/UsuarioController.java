@@ -69,6 +69,8 @@ public class UsuarioController {
       u.setRole("USER");
       try {
          u = ur.save(u);
+         request.getSession().setAttribute("usuarioLogado", u.getId());
+         request.getSession().setAttribute("token", token);
       } catch (Exception e) {
          return ResponseEntity.status(500).body("Erro interno");
       }

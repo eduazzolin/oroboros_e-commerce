@@ -11,7 +11,7 @@ import java.util.Base64;
 
 public class TokenUtils {
 
-   private final static String appKey = "DIDUKNOWTTIATUNNELUNDEROCEANBLV?";
+   private final static String appKey = "D1DuKN0WTtI4TUNN3LuND3R0CE@NBLV?";
 
    /***
     * Gera uma data de expiração para o token

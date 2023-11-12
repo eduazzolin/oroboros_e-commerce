@@ -282,7 +282,7 @@ const postVenda = async (produto) => {
         const valorVenda = encodeURI(vendaCadastrada.valor);
         const urlRedirecionamento = encodeURI('http://127.0.0.1:8080/r?c=' + vendaCadastrada.id);
         const mensagem = `Ol%C3%A1,%20gostaria%20de%20comprar%20o%20item:%0A-------------------------------%0AProduto:%20${nomeProduto}%0AArtista:%20${nomeArtista}%0AValor:%20R$%20${valorVenda}%0AC%C3%B3digo:%20${urlRedirecionamento}%20%0A-------------------------------`
-        const urlZap = `https://api.whatsapp.com/send?phone=5523333333333&text=${mensagem}`;
+        const urlZap = `https://api.whatsapp.com/send?phone=5555999863193&text=${mensagem}`;
         window.location.href = urlZap;
 
 

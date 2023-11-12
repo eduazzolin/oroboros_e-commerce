@@ -10,7 +10,7 @@ function dataFormatada(data) {
     return diaF + "/" + mesF + "/" + anoF + ' ' + horaF + ':' + minF + ':' + segF;
 }
 
-
+/* Funções de CADASTRO */
 function validarTelaCadastroProduto(nomeProduto, descricaoProduto, precoProduto, imgProduto, categoriaProdutoId, artistaProdutoId) {
     const formInfo = document.getElementById('info-fim-form-cad-prod');
     if (nomeProduto.value == '' || nomeProduto.length > 255) {
@@ -41,7 +41,6 @@ function validarTelaCadastroProduto(nomeProduto, descricaoProduto, precoProduto,
     return true;
 }
 
-/* Funções de CADASTRO */
 const admCadastrarProduto = async () => {
 
     const imgProduto = document.getElementById('input-imagem-produto');
@@ -177,10 +176,11 @@ const fazerLogin = async () => {
             infoForm.innerText = await response.text();
         }
     }
-
-
 }
 
+
+
+/* Funções de EDIÇÃO */
 function validarTelaEdicaoArtista(eNomeArtistaSelecionado, eDescricaoArtistaSelecionado, eCpfCnpjArtistaSelecionado) {
     infoForm = document.getElementById('info-fim-form-edit-art');
     if (eNomeArtistaSelecionado.value == '' || eNomeArtistaSelecionado.value.length > 255) {
@@ -198,8 +198,6 @@ function validarTelaEdicaoArtista(eNomeArtistaSelecionado, eDescricaoArtistaSele
     infoForm.innerText = '';
     return true;
 }
-
-/* Funções de EDIÇÃO */
 const admSalvarEdicaoArtista = async (id) => {
     const eNomeArtistaSelecionado = document.getElementById('nome-artista-selecionado-editar');
     const eDescricaoArtistaSelecionado = document.getElementById('descricao-artista-selecionado-editar');
@@ -247,7 +245,6 @@ function validarTelaEdicaoVenda(evalor, eAnotacao) {
 }
 
 const admSalvarEdicaoVenda = async (id) => {
-
     const evalor = document.getElementById('adm-venda-preco-editar');
     const eStatus = document.getElementById('adm-venda-status-editar');
     const ePagamento = document.getElementById('adm-venda-pagamento-editar');
@@ -304,8 +301,6 @@ function validarTelaEdicaoProduto(eNomeProdutoSelecionado, eDescricaoAProdutoSel
 }
 
 const admSalvarEdicaoProduto = async (id) => {
-
-
     const eImgProdutoSelecionado = document.getElementById('img-produto-selecionado-editar');
     const eNomeProdutoSelecionado = document.getElementById('nome-produto-selecionado-editar');
     const eDescricaoAProdutoSelecionado = document.getElementById('descricao-produto-selecionado-editar');
@@ -338,6 +333,44 @@ const admSalvarEdicaoProduto = async (id) => {
 
 }
 
+function validarTelaEdicaoUsuario(eNome, eEmail, eCpfCnpj, eSenha) {
+    const infoForm = document.getElementById('info-form-edit-user');
+    if (eNome.value == '' || eNome.value.length > 255) {
+        infoForm.innerText = 'Nome inválido!';
+        return false;
+    }
+    if (eEmail.value == '' || eEmail.value.length > 255) {
+        infoForm.innerText = 'Email inválido!';
+        return false;
+    }
+    if (eCpfCnpj.value == '' || eCpfCnpj.value.length > 14 || eCpfCnpj.value.length < 11 || isNaN(eCpfCnpj.value)) {
+        infoForm.innerText = 'CPF/CNPJ inválido! Insira somente números.';
+        return false;
+    }
+    if (eSenha.value.length > 255) {
+        infoForm.innerText = 'Senha inválida!';
+        return false;
+    }
+    infoForm.innerText = '';
+    return true;
+}
+
+const editarUsuario = async () => {
+    const eNome = document.getElementById("up-inputNomeEditar");
+    const eEmail = document.getElementById("up-inputEmailEditar");
+    const eCpfCnpj = document.getElementById("up-inputCPFCNPJEditar");
+    const eSenha = document.getElementById("up-inputPasswordEditar");
+
+    if (validarTelaEdicaoUsuario(eNome, eEmail, eCpfCnpj, eSenha)) {
+        const usuario = {
+            nome: eNome.value,
+            email: eEmail.value,
+            cpf_cnpj: eCpfCnpj.value,
+            senha: eSenha.value
+        }
+        await putUsuario(usuario);
+    }
+}
 
 /* Funções de PÁGINA */
 const admSelecaoMenu = (id) => {
@@ -446,10 +479,6 @@ const admSairCadastrarArtista = () => {
     cEditarArtista.classList.remove('d-none');
 }
 
-
-/* Funções de POPULAÇÃO */
-
-
 const admPopularTabelaEditarProdutos = async () => {
     const cTabela = document.getElementById('cont-tabela-gerenciar-prod');
     cTabela.innerHTML = '' +
@@ -525,7 +554,7 @@ const admExibirEdicaoVenda = async (id) => {
               <div id="adm-comprador-nome"><strong>Nome: </strong>${venda.comprador.nome}</div>
               <div id="adm-comprador-id"><strong>Id: </strong>${venda.comprador.id}</div>
               <div id="adm-comprador-doc"><strong>CPF/CNPJ: </strong>${venda.comprador.cpf_cnpj}</div>
-              <div id="adm-comprador-data_cad"><strong>Data cadastro: </strong>${venda.comprador.dt_cadastro}</div>
+              <div id="adm-comprador-data_cad"><strong>Data cadastro: </strong>${dataFormatada(new Date(venda.comprador.dt_cadastro))}</div>
             </div>
           </div>
 
@@ -603,7 +632,6 @@ const admExibirEdicaoVenda = async (id) => {
 
 }
 
-
 const admPopularTabelaEditarVendas = async () => {
     const cTabela = document.getElementById('cont-tabela-gerenciar-vendas');
     cTabela.innerHTML = '' +
@@ -629,43 +657,6 @@ const admPopularTabelaEditarVendas = async () => {
     });
 }
 
-function validarTelaEdicaoUsuario(eNome, eEmail, eCpfCnpj, eSenha) {
-    const infoForm = document.getElementById('info-form-edit-user');
-    if (eNome.value == '' || eNome.value.length > 255) {
-        infoForm.innerText = 'Nome inválido!';
-        return false;
-    }
-    if (eEmail.value == '' || eEmail.value.length > 255) {
-        infoForm.innerText = 'Email inválido!';
-        return false;
-    }
-    if (eCpfCnpj.value == '' || eCpfCnpj.value.length > 14 || eCpfCnpj.value.length < 11 || isNaN(eCpfCnpj.value)) {
-        infoForm.innerText = 'CPF/CNPJ inválido! Insira somente números.';
-        return false;
-    }
-    if (eSenha.value.length > 255) {
-        infoForm.innerText = 'Senha inválida!';
-        return false;
-    }
-    infoForm.innerText = '';
-    return true;
-}
 
-const editarUsuario = async () => {
-    const eNome = document.getElementById("up-inputNomeEditar");
-    const eEmail = document.getElementById("up-inputEmailEditar");
-    const eCpfCnpj = document.getElementById("up-inputCPFCNPJEditar");
-    const eSenha = document.getElementById("up-inputPasswordEditar");
-
-    if (validarTelaEdicaoUsuario(eNome, eEmail, eCpfCnpj, eSenha)){
-        const usuario = {
-            nome: eNome.value,
-            email: eEmail.value,
-            cpf_cnpj: eCpfCnpj.value,
-            senha: eSenha.value
-        }
-        await putUsuario(usuario);
-    }
-}
 
 
