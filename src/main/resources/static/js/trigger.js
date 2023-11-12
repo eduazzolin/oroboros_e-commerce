@@ -4,7 +4,7 @@ const colocarCabecalho = async () => {
     if (await getCheckLoginFrontEnd()) {
         cHTML += `<a onclick="postLogout()" class="bi bi-box-arrow-right me-2" id="bt-logout"></a>`;
         if (await getCheckAdminFrontEnd()) {
-            cHTML += `<a href="/admin" class="bi bi-wrench-adjustable-circle-fill" id="user-icon"></a>`;
+            cHTML += `<a href="/admin" class="bi bi-wrench-adjustable-circle" id="user-icon"></a>`;
         } else {
             cHTML += `<a href="/userpage" class="bi bi-person" id="user-icon"></a>`;
         }

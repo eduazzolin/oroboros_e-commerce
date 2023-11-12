@@ -1,6 +1,5 @@
 package com.oroboros.oroboros.controller;
 
-import com.oroboros.oroboros.model.Artista;
 import com.oroboros.oroboros.model.Usuario;
 import com.oroboros.oroboros.repository.UsuarioRepository;
 import com.oroboros.oroboros.util.TokenUtils;
@@ -18,8 +17,16 @@ public class UsuarioController {
    @Autowired
    private UsuarioRepository ur;
 
+   /***
+    * Verifica os dados da requisição e, caso sejam válidos,
+    * gera um token e salva no banco de dados e na sessão do usuário
+    * @param u dados do usuário
+    * @param request
+    * @param userAgent
+    * @return ResponseEntity<?>
+    */
    @PostMapping("/login")
-   public ResponseEntity<String> login(@RequestBody Usuario u, HttpServletRequest request, @RequestHeader("User-Agent") String userAgent) {
+   public ResponseEntity<String> postLogin(@RequestBody Usuario u, HttpServletRequest request, @RequestHeader("User-Agent") String userAgent) {
       String tokenData = u.getEmail() + ":" + u.getSenha() + ":" + userAgent + ":" + request.getRemoteAddr();
       String token = null;
       try {
@@ -40,8 +47,15 @@ public class UsuarioController {
       }
    }
 
+   /***
+    * Registra um usuário novo no banco de dados
+    * @param u usuario
+    * @param request
+    * @param userAgent
+    * @return ResponseEntity<?>
+    */
    @PostMapping("/cadastrar")
-   public ResponseEntity<String> cadastro(@RequestBody Usuario u, HttpServletRequest request, @RequestHeader("User-Agent") String userAgent) {
+   public ResponseEntity<String> postCadastro(@RequestBody Usuario u, HttpServletRequest request, @RequestHeader("User-Agent") String userAgent) {
       String tokenData = u.getEmail() + ":" + u.getSenha() + ":" + userAgent + ":" + request.getRemoteAddr();
       String token = null;
       try {
@@ -61,8 +75,13 @@ public class UsuarioController {
       return ResponseEntity.ok("Cadastro realizado");
    }
 
+   /***
+    * Retorna o usuário logado sem a senha e o token
+    * @param request
+    * @return Usuario
+    */
    @GetMapping("/u")
-   public Usuario usuarioLogado(HttpServletRequest request) {
+   public Usuario getUsuarioLogado(HttpServletRequest request) {
       if (request.getSession().getAttribute("usuarioLogado") == null || request.getSession().getAttribute("token") == null) {
          return null;
       }
@@ -80,8 +99,14 @@ public class UsuarioController {
       }
    }
 
+   /***
+    * Atualiza os dados do usuário logado
+    * @param request
+    * @param u usuario
+    * @return ResponseEntity<?>
+    */
    @PutMapping("/edit")
-   public ResponseEntity<String> putUser(HttpServletRequest request, @RequestBody Usuario u) {
+   public ResponseEntity<String> putUsuario(HttpServletRequest request, @RequestBody Usuario u) {
       if (request.getSession().getAttribute("usuarioLogado") == null || request.getSession().getAttribute("token") == null) {
          return ResponseEntity.status(401).body("Não autorizado");
       }
@@ -98,18 +123,20 @@ public class UsuarioController {
       if (u.getSenha() != null && !u.getSenha().isBlank()) {
          user.setSenha(u.getSenha());
       }
-      if (u.getCpf_cnpj() != null){
+      if (u.getCpf_cnpj() != null) {
          user.setCpf_cnpj(u.getCpf_cnpj());
       }
       ur.save(user);
       return ResponseEntity.ok("Usuário atualizado");
    }
 
-   ;
-
-
+   /***
+    * Valida se o usuário logado possui token válido
+    * @param request
+    * @return ResponseEntity<?>
+    */
    @GetMapping("/check")
-   public ResponseEntity<String> check(HttpServletRequest request) {
+   public ResponseEntity<String> getCheckUsuario(HttpServletRequest request) {
       if (request.getSession().getAttribute("usuarioLogado") == null || request.getSession().getAttribute("token") == null) {
          return ResponseEntity.status(401).body("Não autorizado");
       }
@@ -127,8 +154,13 @@ public class UsuarioController {
       }
    }
 
+   /***
+    * Remove o token do usuário logado da sessão e do banco de dados
+    * @param request
+    * @return ResponseEntity<?>
+    */
    @PostMapping("/logout")
-   public ResponseEntity<String> logout(HttpServletRequest request) {
+   public ResponseEntity<String> postLogout(HttpServletRequest request) {
       if (request.getSession().getAttribute("usuarioLogado") == null) {
          return ResponseEntity.status(401).body("Não autorizado");
       }
@@ -150,8 +182,13 @@ public class UsuarioController {
       }
    }
 
+   /***
+    * Valida se o usuário logado possui token válido e se é admin
+    * @param request
+    * @return boolean
+    */
    @GetMapping("/checkRole")
-   public boolean checkAdmin(HttpServletRequest request) {
+   public boolean getCheckAdmin(HttpServletRequest request) {
       if (request.getSession().getAttribute("usuarioLogado") == null) {
          return false;
       }

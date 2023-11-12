@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.oroboros.oroboros.model.Artista;
 import com.oroboros.oroboros.model.Categoria;
 import com.oroboros.oroboros.repository.CategoriaRepository;
 
@@ -17,21 +16,30 @@ import com.oroboros.oroboros.repository.CategoriaRepository;
 @RequestMapping("/categoria")
 public class CategoriaController {
 
-    @Autowired
-    private CategoriaRepository r;
+   @Autowired
+   private CategoriaRepository r;
 
-    @GetMapping("/listar")
-    public List<Categoria> listarTodos() {
-        return r.findAll();
-    }
+   /***
+    * Retorna todas as categorias
+    * @return List<Categoria>
+    */
+   @GetMapping("/listar")
+   public List<Categoria> getAllCategoria() {
+      return r.findAll();
+   }
 
+   /***
+    * Retorna uma categoria pelo id
+    * @param id categoria
+    * @return Categoria
+    */
    @GetMapping("/{id}")
-    public Categoria getCategoriaById(@PathVariable Long id) {
-        Categoria c = null;
-        Optional<Categoria> cOptional = r.findById(id);
-        if (cOptional.isPresent()) {
-            c = cOptional.get();
-        }
-        return c;
-    }
+   public Categoria getCategoria(@PathVariable Long id) {
+      Categoria c = null;
+      Optional<Categoria> cOptional = r.findById(id);
+      if (cOptional.isPresent()) {
+         c = cOptional.get();
+      }
+      return c;
+   }
 }

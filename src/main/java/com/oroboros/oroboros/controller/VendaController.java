@@ -26,9 +26,14 @@ public class VendaController {
    @Autowired
    UsuarioController uc = new UsuarioController();
 
+   /***
+    * Retorna todas as vendas
+    * @param request
+    * @return List<Venda>
+    */
    @GetMapping("/listar")
-   public List<Venda> getVendas(HttpServletRequest request) {
-      if (!uc.checkAdmin(request)) {
+   public List<Venda> getAllVendas(HttpServletRequest request) {
+      if (!uc.getCheckAdmin(request)) {
          return null;
       } else {
          List<Venda> vendas = vr.findAll();
@@ -37,24 +42,44 @@ public class VendaController {
       }
    }
 
+   /***
+    * Retorna uma venda pelo id
+    * @param id
+    * @param request
+    * @return Venda
+    */
    @GetMapping("/{id}")
-   public Venda getVendaById(@PathVariable Long id, HttpServletRequest request) {
-      if (!uc.checkAdmin(request)) {
+   public Venda getVenda(@PathVariable Long id, HttpServletRequest request) {
+      if (!uc.getCheckAdmin(request)) {
          return null;
       } else {
          return vr.findById(id).orElseThrow(() -> new EntidadeException("Venda", id));
       }
    }
 
+   /***
+    * Edita os dados de uma venda
+    * @param v venda
+    * @param request
+    * @return ResponseEntity<?>
+    */
    @PutMapping("/put")
    public ResponseEntity<?> putVenda(@RequestBody Venda v, HttpServletRequest request) {
-      if (!uc.checkAdmin(request)) {
+      if (!uc.getCheckAdmin(request)) {
          return ResponseEntity.status(401).body("Não autorizado");
       } else {
          return ResponseEntity.ok(vr.save(v));
       }
    }
 
+   /***
+    * Cadastra uma nova venda no banco para o usuário logado
+    * dt_venda é gerado automaticamente
+    * status é gerado automaticamente como "Aguardando pagamento"
+    * @param p produto
+    * @param request
+    * @return ResponseEntity<?>
+    */
    @PostMapping("/novaVenda")
    public ResponseEntity<?> postVenda(@RequestBody Produto p, HttpServletRequest request) {
 
@@ -79,8 +104,13 @@ public class VendaController {
       return ResponseEntity.ok(vr.save(v));
    }
 
+   /***
+    * Retorna todas as vendas de um usuário
+    * @param request
+    * @return List<Venda>
+    */
    @GetMapping("/minhasCompras")
-   public List<Venda> minhasCompras(HttpServletRequest request) {
+   public List<Venda> getVendasUsuario(HttpServletRequest request) {
       if (request.getSession().getAttribute("usuarioLogado") == null || request.getSession().getAttribute("token") == null) {
          return null;
       }

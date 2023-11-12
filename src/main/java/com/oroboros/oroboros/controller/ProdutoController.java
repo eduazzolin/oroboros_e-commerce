@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oroboros.oroboros.model.Produto;
@@ -31,8 +30,14 @@ public class ProdutoController {
    @Autowired
    UsuarioController uc = new UsuarioController();
 
+   /***
+    * Retorna todos os produtos ativos de acordo com a query
+    * @param query
+    * @param request
+    * @return List<Produto>
+    */
    @PostMapping("/ativos")
-   public List<Produto> getProdutosAtivos(@RequestBody QueryProduto query, HttpServletRequest request) {
+   public List<Produto> getProdutoAtivo(@RequestBody QueryProduto query, HttpServletRequest request) {
       Long categoria = query.categoria();
       String texto = query.texto();
       String ordem = query.ordem();
@@ -81,39 +86,67 @@ public class ProdutoController {
    }
 
 
+   /***
+    * Retorna um produto pelo id
+    * @param id produto
+    * @return Produto
+    */
    @GetMapping("/{id}")
-   public Produto getProdutoById(@PathVariable Long id) {
+   public Produto getProduto(@PathVariable Long id) {
       return pr.findById(id).orElseThrow(() -> new EntidadeException("Produto", id));
    }
 
+   /***
+    * Retorna a quantidade de produtos de acordo com a query
+    * @param query
+    * @return Long
+    */
    @PostMapping("/count")
-   public Long getQuantidadeProdutos(@RequestBody QueryProduto query) {
+   public Long getQuantidadeProduto(@RequestBody QueryProduto query) {
       Long categoria = query.categoria();
       String texto = query.texto();
       return pr.countByQuery(categoria, texto);
    }
 
+   /***
+    * Salva um produto
+    * @param p produto
+    * @param request
+    * @return Produto
+    */
    @PostMapping("/salvar")
-   public Produto salvar(@RequestBody Produto p, HttpServletRequest request) {
-      if (uc.checkAdmin(request)) {
+   public Produto postProduto(@RequestBody Produto p, HttpServletRequest request) {
+      if (uc.getCheckAdmin(request)) {
          return pr.save(p);
       } else {
          return null;
       }
    }
 
+   /***
+    * Retorna todos os produtos
+    * @param request
+    * @return List<Produto>
+    */
    @GetMapping("/listar")
-   public List<Produto> listarProdutos(HttpServletRequest request) {
-      if (!uc.checkAdmin(request)) {
+   public List<Produto> getAllProduto(HttpServletRequest request) {
+      if (!uc.getCheckAdmin(request)) {
          return null;
       } else {
          return pr.findByRemoved(false);
       }
    }
 
+   /***
+    * Atualiza umm produto
+    * @param id produto
+    * @param a produto
+    * @param request
+    * @return ResponseEntity<?>
+    */
    @PutMapping("/{id}")
-   public ResponseEntity<?> atualiza(@PathVariable Long id, @RequestBody Produto a, HttpServletRequest request) {
-      if (!uc.checkAdmin(request)) {
+   public ResponseEntity<?> putProduto(@PathVariable Long id, @RequestBody Produto a, HttpServletRequest request) {
+      if (!uc.getCheckAdmin(request)) {
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Acesso negado!");
       } else {
          Produto produtoAtual = pr.findById(id).orElseThrow(() -> new EntidadeException("Produto", id));
@@ -125,9 +158,15 @@ public class ProdutoController {
       }
    }
 
+   /***
+    * Remove logicamente um produto pelo id
+    * @param id produto
+    * @param request
+    * @return ResponseEntity<?>
+    */
    @PutMapping("/remover/{id}")
-   public ResponseEntity<?> remocaoLogica(@PathVariable Long id, HttpServletRequest request) {
-      if (!uc.checkAdmin(request)) {
+   public ResponseEntity<?> deleteLogicProduto(@PathVariable Long id, HttpServletRequest request) {
+      if (!uc.getCheckAdmin(request)) {
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Acesso negado!");
       } else {
          Produto p = pr.findById(id).orElseThrow(() -> new EntidadeException("Produto", id));

@@ -13,10 +13,21 @@ public class TokenUtils {
 
    private final static String appKey = "DIDUKNOWTTIATUNNELUNDEROCEANBLV?";
 
+   /***
+    * Gera uma data de expiração para o token
+    * A data de expiração é sempre 1 dia após a data atual
+    * @return LocalDateTime
+    */
    public static LocalDateTime generateExpirationDate() {
       return LocalDateTime.now().plusDays(1);
    }
 
+   /***
+    * Gera um token aleatório baseado na string passada como parâmetro
+    * @param data geralmente é Email + ":" + Senha + ":" + Navegador usuário + ":" + IP usuário
+    * @return String
+    * @throws Exception
+    */
    public static String generateToken(String data) throws Exception {
       SecretKey secretKey = new SecretKeySpec(appKey.getBytes(), 0, appKey.length(), "AES");
       Cipher cipher = Cipher.getInstance("AES");
@@ -25,14 +36,5 @@ public class TokenUtils {
       String token = Base64.getEncoder().encodeToString(encryptedBytes);
       return token.length() > 250 ? token.substring(0, 250) : token;
    }
-
-//   public static String decryptToken(String encryptedString) throws Exception {
-//      SecretKey secretKey = new SecretKeySpec(appKey.getBytes(), 0, appKey.length(), "AES");
-//      Cipher cipher = Cipher.getInstance("AES");
-//      cipher.init(Cipher.DECRYPT_MODE, secretKey);
-//      byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedString));
-//      return new String(decryptedBytes);
-//   }
-
 
 }

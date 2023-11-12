@@ -2,7 +2,6 @@ package com.oroboros.oroboros.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.oroboros.oroboros.model.Artista;
-import com.oroboros.oroboros.model.Produto;
 import com.oroboros.oroboros.repository.ArtistaRepository;
 import com.oroboros.oroboros.util.EntidadeException;
 
@@ -34,41 +32,66 @@ public class ArtistaController {
    @Autowired
    UsuarioController uc = new UsuarioController();
 
+   /***
+    * Retorna todos os artistas
+    * @param request
+    * @return List<Artista>
+    */
    @RequestMapping("/listar")
-   public List<Artista> listarTodos(HttpServletRequest request) {
-      if (uc.checkAdmin(request)) {
+   public List<Artista> getAllArtista(HttpServletRequest request) {
+      if (uc.getCheckAdmin(request)) {
          return pr.findByRemoved(false);
       } else {
          return null;
       }
    }
 
+   /***
+    * Retorna um artista pelo id
+    * @param id artista
+    * @return Artista
+    */
    @GetMapping("/{id}")
    public Artista getArtista(@PathVariable Long id) {
       return pr.findById(id).orElseThrow(() -> new EntidadeException("Artista", id));
    }
 
+   /***
+    * Retorna a imagem de um artista pelo id
+    * @param id artista
+    * @return ResponseEntity<?>
+    */
    @GetMapping("/img/{id}")
-   public ResponseEntity<?> downloadImage(@PathVariable Long id) {
+   public ResponseEntity<?> getImagemArtista(@PathVariable Long id) {
       byte[] imageData = this.getArtista(id).getImagem();
-      return ResponseEntity.status(HttpStatus.OK)
-              .contentType(MediaType.valueOf("image/png"))
-              .body(imageData);
+      return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(imageData);
 
    }
 
+   /***
+    * Salva um artista
+    * @param p artista
+    * @param request
+    * @return Artista
+    */
    @PostMapping("/salvar")
-   public Artista salvar(@RequestBody Artista p, HttpServletRequest request) {
-      if (!uc.checkAdmin(request)) {
+   public Artista postArtista(@RequestBody Artista p, HttpServletRequest request) {
+      if (!uc.getCheckAdmin(request)) {
          return null;
       } else {
          return pr.save(p);
       }
    }
 
+   /***
+    * Deleta um artista pelo id
+    * @param id artista
+    * @param request
+    * @return ResponseEntity<?>
+    */
    @DeleteMapping("/{id}")
-   public ResponseEntity<?> excluir(@PathVariable Long id, HttpServletRequest request) {
-      if (uc.checkAdmin(request)) {
+   public ResponseEntity<?> deleteArtista(@PathVariable Long id, HttpServletRequest request) {
+      if (uc.getCheckAdmin(request)) {
          Artista p = pr.findById(id).orElseThrow(() -> new EntidadeException("Artista", id));
          pr.deleteById(id);
          return ResponseEntity.ok(p);
@@ -77,9 +100,16 @@ public class ArtistaController {
       }
    }
 
+   /***
+    * Atualiza um artista pelo id
+    * @param id
+    * @param a artista
+    * @param request
+    * @return ResponseEntity<?>
+    */
    @PutMapping("/{id}")
-   public ResponseEntity<?> atualiza(@PathVariable Long id, @RequestBody Artista a, HttpServletRequest request) {
-      if (!uc.checkAdmin(request)) {
+   public ResponseEntity<?> putArtista(@PathVariable Long id, @RequestBody Artista a, HttpServletRequest request) {
+      if (!uc.getCheckAdmin(request)) {
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Acesso negado!");
       } else {
          Artista artistaAtual = pr.findById(id).orElseThrow(() -> new EntidadeException("Artista", id));
@@ -91,9 +121,15 @@ public class ArtistaController {
       }
    }
 
+   /***
+    * Remove logicamente um artista pelo id
+    * @param id artista
+    * @param request
+    * @return ResponseEntity<?>
+    */
    @PutMapping("/remover/{id}")
-   public ResponseEntity<?> remocaoLogica(@PathVariable Long id, HttpServletRequest request) {
-      if (!uc.checkAdmin(request)) {
+   public ResponseEntity<?> deleteLogicArtista(@PathVariable Long id, HttpServletRequest request) {
+      if (!uc.getCheckAdmin(request)) {
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Acesso negado!");
       } else {
          Artista p = pr.findById(id).orElseThrow(() -> new EntidadeException("Artista", id));
@@ -103,9 +139,16 @@ public class ArtistaController {
       }
    }
 
+   /***
+    * Salva a imagem de um artista pelo id
+    * @param file
+    * @param id artista
+    * @param request
+    * @return ResponseEntity<?>
+    */
    @PutMapping("/upload")
-   public ResponseEntity<?> uploadImageServ(@RequestParam("image") MultipartFile file, @RequestParam("id") Long id, HttpServletRequest request) {
-      if (!uc.checkAdmin(request)) {
+   public ResponseEntity<?> uploadImageArtista(@RequestParam("image") MultipartFile file, @RequestParam("id") Long id, HttpServletRequest request) {
+      if (!uc.getCheckAdmin(request)) {
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Acesso negado!");
       } else {
          Artista a = pr.findById(id).orElseThrow(() -> new EntidadeException("Artista", id));

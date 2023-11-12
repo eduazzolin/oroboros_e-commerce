@@ -37,9 +37,16 @@ public class ImagemProdutoController {
    @Autowired
    UsuarioController uc = new UsuarioController();
 
+   /***
+    * Salva uma imagem de um produto
+    * @param file
+    * @param id produto
+    * @param request
+    * @return ResponseEntity<?>
+    */
    @PutMapping("/upload")
-   public ResponseEntity<?> uploadIMGPROD(@RequestParam("image") MultipartFile file, @RequestParam("id") Long id, HttpServletRequest request) {
-      if (!uc.checkAdmin(request)) {
+   public ResponseEntity<?> putImagemProduto(@RequestParam("image") MultipartFile file, @RequestParam("id") Long id, HttpServletRequest request) {
+      if (!uc.getCheckAdmin(request)) {
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Acesso negado!");
       } else {
          Produto p = pr.findById(id).orElseThrow(() -> new EntidadeException("Produto", id));
@@ -55,9 +62,16 @@ public class ImagemProdutoController {
       }
    }
 
+   /***
+    * Salva uma imagem de um produto
+    * @param id produto
+    * @param a imagem
+    * @param request
+    * @return ResponseEntity<?>
+    */
    @PostMapping("/upload/{id}")
-   public ResponseEntity<?> atualiza(@PathVariable Long id, @RequestBody ImagemProduto a, HttpServletRequest request) {
-      if (!uc.checkAdmin(request)) {
+   public ResponseEntity<?> postImagemProduto(@PathVariable Long id, @RequestBody ImagemProduto a, HttpServletRequest request) {
+      if (!uc.getCheckAdmin(request)) {
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Acesso negado!");
       } else {
          Produto p = pr.findById(id).orElseThrow(() -> new EntidadeException("Produto", id));
@@ -68,15 +82,26 @@ public class ImagemProdutoController {
    }
 
 
+   /***
+    * Retorna todas as imagens de um produto
+    * @param id
+    * @return List<ImagemProduto>
+    */
    @GetMapping("/prodid/{id}")
-   public List<ImagemProduto> getIMGPROD(@PathVariable Long id) {
+   public List<ImagemProduto> getImagemProduto(@PathVariable Long id) {
       Produto p = pr.findById(id).orElseThrow(() -> new EntidadeException("Produto", id));
       return ir.findByProduto(p);
    }
 
+   /***
+    * Remove todas as imagens de um produto
+    * @param id produto
+    * @param request
+    * @return ResponseEntity<?>
+    */
    @DeleteMapping("/deletebyprod/{id}")
-   public ResponseEntity<?> deleteIMGPROD(@PathVariable Long id, HttpServletRequest request) {
-      if (!uc.checkAdmin(request)) {
+   public ResponseEntity<?> deleteImagemProduto(@PathVariable Long id, HttpServletRequest request) {
+      if (!uc.getCheckAdmin(request)) {
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Acesso negado!");
       } else {
          Produto p = pr.findById(id).orElseThrow(() -> new EntidadeException("Produto", id));

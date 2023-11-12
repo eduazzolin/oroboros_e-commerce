@@ -7,15 +7,18 @@ body {
     padding: 1rem;
     padding-left: 2rem;
 }
-#bt-logout:hover{
+
+#bt-logout:hover {
     cursor: pointer;
 }
+
 .nav-icons {
     font-size: 1.5rem;
     text-align: end;
     color: black;
     letter-spacing: 5px;
 }
+
 #banner {
     max-height: 200px;
 }
@@ -39,9 +42,11 @@ a {
     text-decoration: none;
     color: #272624;
 }
-.corpo-row{
+
+.corpo-row {
     min-height: calc(100vh - 350px);
 }
+
 .rotate-image {
     transform: rotate(90deg); /* Rotate the image by 45 degrees */
 }
@@ -90,13 +95,16 @@ a {
     color: #212529;
     opacity: 1;
 }
-.bt-fim-form{
+
+.bt-fim-form {
     align-items: center;
     justify-content: end;
 }
-.info-fim-form{
+
+.info-fim-form {
     color: #d51c1c;
 }
+
 .form-control:focus {
     box-shadow: 0 0 0 0.2rem rgba(246, 75, 32, 0.1);
     border-color: #d51c1c;
@@ -175,7 +183,8 @@ a:hover {
     color: #d51c1c;
     background-color: #ffffff;
 }
-.page-link{
+
+.page-link {
     border-color: #d51c1c;
     color: #d51c1c;
     background-color: #ffffff;
@@ -284,6 +293,10 @@ h3 {
     padding-bottom: 3rem;
 }
 
+#bodylogin {
+    background-color: rgb(239, 239, 239);
+}
+
 .form-editar-perfil {
     margin-bottom: 0.5rem;
 }
@@ -300,11 +313,13 @@ h3 {
     margin: 0;
     padding: 0;
 }
-#search-addon:hover{
+
+#search-addon:hover {
     cursor: pointer;
     color: #d51c1c;
 }
-#bt-pesquisa:hover{
+
+#bt-pesquisa:hover {
     cursor: pointer;
     color: #d51c1c;
 }

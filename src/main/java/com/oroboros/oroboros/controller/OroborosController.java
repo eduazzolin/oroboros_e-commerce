@@ -4,8 +4,6 @@ import com.oroboros.oroboros.repository.UsuarioRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +16,10 @@ public class OroborosController {
    @Autowired
    UsuarioController uc = new UsuarioController();
 
+   /***
+    * Retorna a página inicial
+    * @return ModelAndView
+    */
    @RequestMapping("/")
    public ModelAndView home() {
       ModelAndView mv;
@@ -26,6 +28,10 @@ public class OroborosController {
       return mv;
    }
 
+   /***
+    * Retorna a página de produto
+    * @return ModelAndView
+    */
    @RequestMapping("/prod")
    public ModelAndView prod() {
       ModelAndView mv = new ModelAndView();
@@ -33,9 +39,16 @@ public class OroborosController {
       return mv;
    }
 
+   /***
+    * Se o usuário for admin, direciona diretamente para a pagina de edição da venda,
+    * senão para a página de usuário.
+    * @param request
+    * @param c id da compra
+    * @return ModelAndView
+    */
    @RequestMapping("/r")
    public ModelAndView redirect(HttpServletRequest request, @RequestParam String c) {
-      if (uc.checkAdmin(request)) {
+      if (uc.getCheckAdmin(request)) {
          ModelAndView mv = new ModelAndView();
          mv.setViewName("admin?c=" + c);
          return mv;
@@ -44,10 +57,15 @@ public class OroborosController {
       }
    }
 
-
+   /***
+    * Retorna a página de usuário se estiver logado
+    * senão, a página de login
+    * @param request
+    * @return ModelAndView
+    */
    @RequestMapping("/userpage")
    public ModelAndView userpage(HttpServletRequest request) {
-      if (uc.check(request).getBody() == "Autorizado") {
+      if (uc.getCheckUsuario(request).getBody() == "Autorizado") {
          ModelAndView mv = new ModelAndView();
          mv.setViewName("userpage.html");
          return mv;
@@ -56,6 +74,10 @@ public class OroborosController {
       }
    }
 
+   /***
+    * Retorna a página de login
+    * @return ModelAndView
+    */
    @RequestMapping("/login")
    public ModelAndView login() {
       ModelAndView mv = new ModelAndView();
@@ -63,9 +85,15 @@ public class OroborosController {
       return mv;
    }
 
+   /***
+    * Retorna a página de admin se estiver logado
+    * senão, a página de login
+    * @param request
+    * @return ModelAndView
+    */
    @RequestMapping("/admin")
    public ModelAndView admin(HttpServletRequest request) {
-      if (uc.checkAdmin(request)) {
+      if (uc.getCheckAdmin(request)) {
          ModelAndView mv = new ModelAndView();
          mv.setViewName("admin.html");
          return mv;
@@ -73,7 +101,6 @@ public class OroborosController {
          return login();
       }
    }
-
 
 
 }
